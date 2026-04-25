@@ -1368,58 +1368,67 @@ button {
   filter: brightness(0.95) contrast(1.05);
 }
 /* HERO SUBTITLE ONLY - ANIMATED GLOW */
+/* CENTER HERO TEXT */
 .luxHeroText {
-  left: 8% !important;
-  top: 58% !important;
-  transform: translateY(-50%) !important;
-  text-align: left !important;
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
+/* GOLDEN ANIMATED SUBTITLE */
 .heroSub {
-  margin-top: 0;
-  font-size: clamp(16px, 2vw, 24px);
-  color: #fff;
-  letter-spacing: 4px;
+  font-size: clamp(18px, 2.2vw, 28px);
+  color: var(--gold);
+  letter-spacing: 5px;
   text-transform: uppercase;
   font-weight: 800;
+
+  /* glow */
   text-shadow:
-    0 0 12px rgba(176, 138, 90, 0.65),
-    0 0 28px rgba(176, 138, 90, 0.35),
-    0 8px 24px rgba(0, 0, 0, 0.65);
-  animation: heroSubFadeGlow 1.4s ease forwards, heroSubPulse 3.5s ease-in-out infinite;
+    0 0 10px rgba(176, 138, 90, 0.6),
+    0 0 25px rgba(176, 138, 90, 0.4),
+    0 8px 30px rgba(0, 0, 0, 0.7);
+
+  /* animation */
+  animation: fadeUp 1.2s ease forwards, glowPulse 3s ease-in-out infinite;
 }
 
-@keyframes heroSubFadeGlow {
+/* fade animation */
+@keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translate(-50%, -40%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
   }
 }
 
-@keyframes heroSubPulse {
+/* glow pulse */
+@keyframes glowPulse {
   0%, 100% {
     text-shadow:
-      0 0 10px rgba(176, 138, 90, 0.45),
-      0 0 22px rgba(176, 138, 90, 0.25),
-      0 8px 24px rgba(0, 0, 0, 0.65);
+      0 0 8px rgba(176, 138, 90, 0.5),
+      0 0 18px rgba(176, 138, 90, 0.3),
+      0 8px 30px rgba(0, 0, 0, 0.7);
   }
   50% {
     text-shadow:
-      0 0 18px rgba(176, 138, 90, 0.85),
-      0 0 38px rgba(176, 138, 90, 0.45),
-      0 8px 24px rgba(0, 0, 0, 0.7);
+      0 0 18px rgba(176, 138, 90, 0.9),
+      0 0 40px rgba(176, 138, 90, 0.5),
+      0 8px 30px rgba(0, 0, 0, 0.8);
   }
 }
 
+/* MOBILE */
 @media (max-width: 760px) {
   .luxHeroText {
-    left: 6% !important;
-    right: 6% !important;
-    top: 58% !important;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .heroSub {
