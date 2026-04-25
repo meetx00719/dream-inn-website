@@ -18,3 +18,4 @@ npm run dev
 ## Booking Engine
 
 When your channel manager gives you a booking URL or widget script, replace the booking placeholder links/buttons in the booking section.
+# dream-inn-website
