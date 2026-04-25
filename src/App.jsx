@@ -223,13 +223,8 @@ function App() {
                 <div className="luxHeroOverlay" />
 
                 <div className="luxHeroText">
-                  <h1 className="heroTitle">
-                    Welcome
-                    <span>Dream Inn</span>
-                  </h1>
-
-                  <p className="heroSub">Near LAX & SoFi Stadium</p>
-                </div>
+  <p className="heroSub">Near LAX & SoFi Stadium</p>
+</div>
               </article>
             ))}
           </div>
