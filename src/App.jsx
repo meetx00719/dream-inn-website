@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import "./index.css";
+import hero1 from "./assets/Hero One Dream inn front.png";
+import hero2 from "./assets/Hero two Property inside.png ";
 
 /* ================= HERO SLIDES ================= */
 const heroSlides = [
   {
-    image:
-      "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=2000&q=90",
+    image: hero1,
     title: "Surround Yourself With Refined Comfort",
     subtitle: "Welcome to Dream Inn",
   },
   {
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=90",
+    image: hero2,
     title: "A Calm Boutique Stay in Inglewood",
     subtitle: "Near LAX & SoFi Stadium",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=2000&q=90",
-    title: "Designed for Comfort, Ease, and Value",
-    subtitle: "Book Direct With Dream Inn",
   },
 ];
 
