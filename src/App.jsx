@@ -10,6 +10,7 @@ import single3 from "./assets/single3.jpg";
 import doubleRoom from "./assets/double.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
+import jacuzzi3 from "./assets/jacuzzi3.jpg";
 
 /* ================= HERO SLIDES ================= */
 const heroSlides = [
@@ -72,7 +73,7 @@ const rooms = [
   },
   {
     name: "Jaccuzzi Room",
-    images: [jacuzziRoom, jacuzzi2],
+    images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
       "A premium room experience with a private bath, Jaccuzzi, added relaxation, and a refined atmosphere.",
     amenities: [
