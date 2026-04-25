@@ -7,7 +7,8 @@ import about2 from "./assets/about2.jpg";
 import singleRoom from "./assets/single.jpg";
 import singleTwo from "./assets/singleTwo.jpg";
 import single3 from "./assets/single3.jpg";
-import doubleRoom from "./assets/double.jpg";
+import double1 from "./assets/double1.jpg";
+import double2 from "./assets/double2.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
@@ -51,7 +52,8 @@ const rooms = [
   {
     name: "Double Bed Room",
     images: [
-      doubleRoom,
+      double1,
+      double2
     ],
     details:
       "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
