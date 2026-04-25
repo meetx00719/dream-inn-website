@@ -1314,3 +1314,6 @@ button {
     transform: none !important;
   }
 }
+.aboutImages img {
+  filter: brightness(0.95) contrast(1.05);
+}
