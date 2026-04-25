@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import hero1 from "./assets/hero1.jpg";
 import hero2 from "./assets/hero2.jpg";
+import about1 from "./assets/about1.jpg";
+import about2 from "./assets/about2.jpg";
 
 /* ================= HERO SLIDES ================= */
 const heroSlides = [
@@ -324,16 +326,10 @@ function App() {
             </a>
           </div>
 
-          <div className="aboutImages">
-            <img
-              src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=900&q=90"
-              alt="Hotel room"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=90"
-              alt="Hotel bedroom"
-            />
-          </div>
+         <div className="aboutImages">
+  <img src={about1} alt="Dream Inn hotel" />
+  <img src={about2} alt="Dream Inn room" />
+</div>
         </section>
 
         <section id="rooms" className="roomsLuxury">
