@@ -1212,3 +1212,55 @@ button {
     display: flex;
   }
 }
+/* PREMIUM HERO TEXT */
+.heroTitle {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(52px, 6vw, 110px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  color: #fff;
+  line-height: 1;
+  text-align: center;
+}
+
+.heroTitle span {
+  display: block;
+  font-size: clamp(16px, 2vw, 28px);
+  letter-spacing: 8px;
+  margin-top: 18px;
+  font-weight: 400;
+}
+
+/* CENTER HERO TEXT PERFECTLY */
+.luxHeroText {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  text-align: center;
+}
+
+/* PREMIUM OVERLAY */
+.luxHeroOverlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.25),
+    rgba(0, 0, 0, 0.55)
+  ) !important;
+}
+
+/* FADE ANIMATION */
+.luxHeroText {
+  animation: heroFade 1s ease forwards;
+}
+
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}

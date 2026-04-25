@@ -226,8 +226,11 @@ function App() {
                 <div className="luxHeroOverlay" />
 
                 <div className="luxHeroText">
-                  <span>{slide.subtitle}</span>
-                  <h1>{slide.title}</h1>
+                 
+                  <h1 className="heroTitle">
+  WELCOME
+  <span>TO DREAM INN</span>
+</h1>
                 </div>
               </article>
             ))}
