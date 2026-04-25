@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./index.css";
-import hero1 from "./assets/Hero One Dream inn front.jpg";
-import hero2 from "./assets/Hero two Property inside.jpg ";
+import hero1 from "./assets/hero.jpg";
+import hero2 from "./assests/hero2.jpg ";
 
 /* ================= HERO SLIDES ================= */
 const heroSlides = [
