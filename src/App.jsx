@@ -217,16 +217,20 @@ function App() {
             className="luxHeroTrack"
             style={{ transform: `translateX(-${activeHero * 100}%)` }}
           >
-            {heroSlides.map((slide) => (
-              <article className="luxHeroSlide" key={slide.image}>
-                <img src={slide.image} alt="Dream Inn hotel" />
-                <div className="luxHeroOverlay" />
+            {heroSlides.map((slide, index) => (
+  <article className="luxHeroSlide" key={slide.image}>
+    <img src={slide.image} alt="Dream Inn hotel" />
+    <div className="luxHeroOverlay" />
 
-                <div className="luxHeroText">
-  <p className="heroSub">Near LAX & SoFi Stadium</p>
-</div>
-              </article>
-            ))}
+    {/* SHOW TEXT ONLY ON SECOND IMAGE */}
+    {index === 1 && (
+      <div className="luxHeroText centerHero">
+        <p className="heroSub">Near LAX & SoFi Stadium</p>
+      </div>
+    )}
+  </article>
+))}
+            
           </div>
 
           <div className="heroPager">
