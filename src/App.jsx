@@ -5,6 +5,7 @@ import hero2 from "./assets/hero2.jpg";
 import about1 from "./assets/about1.jpg";
 import about2 from "./assets/about2.jpg";
 import singleRoom from "./assets/single.jpg";
+import singleTwo from "./assets/singleTwo.jpg";
 import doubleRoom from "./assets/double.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 
@@ -25,7 +26,7 @@ const parkingPolicy =
 const rooms = [
   {
     name: "Single Bed Room",
-    images: [singleRoom],
+    images: [singleRoom , singleTwo],
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
     amenities: [
