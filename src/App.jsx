@@ -4,6 +4,9 @@ import hero1 from "./assets/hero1.jpg";
 import hero2 from "./assets/hero2.jpg";
 import about1 from "./assets/about1.jpg";
 import about2 from "./assets/about2.jpg";
+import singleRoom from "./assets/single.jpg";
+import doubleRoom from "./assets/double.jpg";
+import jacuzziRoom from "./assets/jacuzzi.jpg";
 
 /* ================= HERO SLIDES ================= */
 const heroSlides = [
@@ -22,11 +25,7 @@ const parkingPolicy =
 const rooms = [
   {
     name: "Single Bed Room",
-    images: [
-      "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=90",
-      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=90",
-      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=90",
-    ],
+    images: [singleRoom],
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
     amenities: [
@@ -72,11 +71,7 @@ const rooms = [
   },
   {
     name: "Jaccuzzi Room",
-    images: [
-      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=90",
-      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=90",
-      "https://images.unsplash.com/photo-1560448075-bb485b067938?auto=format&fit=crop&w=1200&q=90",
-    ],
+    images: [jacuzziRoom],
     details:
       "A premium room experience with a private bath, Jaccuzzi, added relaxation, and a refined atmosphere.",
     amenities: [
