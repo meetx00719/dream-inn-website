@@ -1212,24 +1212,70 @@ button {
     display: flex;
   }
 }
-/* PREMIUM HERO TEXT */
+/* FINAL LUXURY HERO LEFT STYLE */
 .heroTitle {
   font-family: "Playfair Display", serif;
-  font-size: clamp(52px, 6vw, 110px);
+  font-size: clamp(48px, 5vw, 80px);
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 6px;
   color: #fff;
-  line-height: 1;
-  text-align: center;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-align: left;
+  text-transform: none;
+  text-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 .heroTitle span {
   display: block;
-  font-size: clamp(16px, 2vw, 28px);
-  letter-spacing: 8px;
+  font-size: clamp(22px, 2.4vw, 34px);
+  margin-top: 12px;
+  color: #d9b37a;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.heroSub {
   margin-top: 18px;
-  font-weight: 400;
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.luxHeroText {
+  left: 8% !important;
+  top: 48% !important;
+  transform: translateY(-50%) !important;
+  text-align: left !important;
+  animation: fadeInUp 0.9s ease both;
+}
+
+.luxHeroOverlay {
+  background:
+    radial-gradient(circle at 18% 45%, rgba(176, 138, 90, 0.22), transparent 28%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.08)) !important;
+}
+
+@media (max-width: 760px) {
+  .luxHeroText {
+    left: 6% !important;
+    right: 6% !important;
+    top: 50% !important;
+  }
+
+  .heroTitle {
+    font-size: 40px;
+  }
+
+  .heroTitle span {
+    font-size: 20px;
+  }
+
+  .heroSub {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
 }
 
 /* CENTER HERO TEXT PERFECTLY */
@@ -1277,13 +1323,14 @@ button {
 
   /* INNER GOLD LINE */
   outline: 1px solid var(--gold);
-  outline-offset: -8px;
+  outline-offset: 6px;
 
   /* SHADOW */
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
 
   transition: transform 0.5s ease;
 }
+
 
 /* OVERLAP EFFECT */
 .aboutImages img:first-child {

@@ -9,13 +9,9 @@ import about2 from "./assets/about2.jpg";
 const heroSlides = [
   {
     image: hero1,
-    title: "Surround Yourself With Refined Comfort",
-    subtitle: "Welcome to Dream Inn",
   },
   {
     image: hero2,
-    title: "A Calm Boutique Stay in Inglewood",
-    subtitle: "Near LAX & SoFi Stadium",
   },
 ];
 
@@ -26,16 +22,15 @@ const parkingPolicy =
 const rooms = [
   {
     name: "Single Bed Room",
-   
     images: [
       "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=90",
       "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1200&q=90",
       "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=90",
     ],
-    
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
-    amenities: ["2 Guests",
+    amenities: [
+      "2 Guests",
       "Cali King size bed",
       "Private bathroom",
       "Free Wi-Fi",
@@ -228,11 +223,12 @@ function App() {
                 <div className="luxHeroOverlay" />
 
                 <div className="luxHeroText">
-                 
                   <h1 className="heroTitle">
-  WELCOME
-  <span>TO DREAM INN</span>
-</h1>
+                    Welcome
+                    <span>Dream Inn</span>
+                  </h1>
+
+                  <p className="heroSub">Near LAX & SoFi Stadium</p>
                 </div>
               </article>
             ))}
@@ -326,48 +322,46 @@ function App() {
             </a>
           </div>
 
-         <div className="aboutImages">
-  <img src={about1} alt="Dream Inn hotel" />
-  <img src={about2} alt="Dream Inn room" />
-</div>
+          <div className="aboutImages">
+            <img src={about1} alt="Dream Inn hotel" />
+            <img src={about2} alt="Dream Inn room" />
+          </div>
         </section>
 
         <section id="rooms" className="roomsLuxury">
-  <div className="sectionCenter">
-    <span className="sectionKicker">Rooms</span>
-    <h2>Comfortable Rooms for Every Stay</h2>
-  </div>
+          <div className="sectionCenter">
+            <span className="sectionKicker">Rooms</span>
+            <h2>Comfortable Rooms for Every Stay</h2>
+          </div>
 
-  {/* SCROLL CONTAINER */}
-  <div
-    className="roomGridLuxury"
-    onScroll={(e) => {
-      const container = e.target;
-      const scrollLeft = container.scrollLeft;
-      const width = container.offsetWidth;
-      const index = Math.round(scrollLeft / width);
-      setActiveDot(index);
-    }}
-  >
-    {availableRooms.map((room, index) => (
-      <RoomCard
-        key={room.name}
-        room={room}
-        onSeeMore={() => setSelectedRoom(room)}
-      />
-    ))}
-  </div>
+          <div
+            className="roomGridLuxury"
+            onScroll={(e) => {
+              const container = e.target;
+              const scrollLeft = container.scrollLeft;
+              const width = container.offsetWidth;
+              const index = Math.round(scrollLeft / width);
+              setActiveDot(index);
+            }}
+          >
+            {availableRooms.map((room) => (
+              <RoomCard
+                key={room.name}
+                room={room}
+                onSeeMore={() => setSelectedRoom(room)}
+              />
+            ))}
+          </div>
 
-  {/* DOTS INDICATOR */}
-  <div className="roomDots">
-    {availableRooms.map((_, index) => (
-      <span
-        key={index}
-        className={activeDot === index ? "dot active" : "dot"}
-      />
-    ))}
-  </div>
-</section>
+          <div className="roomDots">
+            {availableRooms.map((_, index) => (
+              <span
+                key={index}
+                className={activeDot === index ? "dot active" : "dot"}
+              />
+            ))}
+          </div>
+        </section>
 
         <section id="amenities" className="amenitiesLuxury">
           <div className="sectionCenter">
@@ -565,7 +559,6 @@ function RoomCard({ room, onSeeMore }) {
 
       <div className="cardInfo">
         <h3>{room.name}</h3>
-        <p className="bedPreview">{room.bedDetails}</p>
         <p>{room.details}</p>
 
         <span className="viewDetails">View Details ↗</span>
@@ -622,7 +615,6 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
 
         <div className="modalBody">
           <h2>{room.name}</h2>
-          <p className="modalBedDetail">{room.bedDetails}</p>
           <p>{room.details}</p>
 
           <div className="modalGrid">
