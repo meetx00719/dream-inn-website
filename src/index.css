@@ -1184,3 +1184,31 @@ button {
     height: 245px;
   }
 }
+/* DOT INDICATOR */
+.roomDots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.roomDots .dot {
+  width: 8px;
+  height: 8px;
+  background: #d5c3a8;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.roomDots .dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: var(--gold);
+}
+
+/* SHOW ONLY ON MOBILE */
+@media (max-width: 760px) {
+  .roomDots {
+    display: flex;
+  }
+}

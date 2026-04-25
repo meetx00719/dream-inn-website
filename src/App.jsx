@@ -127,6 +127,7 @@ function App() {
   const [checkOut, setCheckOut] = useState("");
   const [occupancy, setOccupancy] = useState("1");
   const [openCalendar, setOpenCalendar] = useState(null);
+  const [activeDot, setActiveDot] = useState(0);
 
   const today = formatDate(new Date());
 
@@ -339,21 +340,41 @@ function App() {
         </section>
 
         <section id="rooms" className="roomsLuxury">
-          <div className="sectionCenter">
-            <span className="sectionKicker">Rooms</span>
-            <h2>Comfortable Rooms for Every Stay</h2>
-          </div>
+  <div className="sectionCenter">
+    <span className="sectionKicker">Rooms</span>
+    <h2>Comfortable Rooms for Every Stay</h2>
+  </div>
 
-          <div className="roomGridLuxury">
-            {availableRooms.map((room) => (
-              <RoomCard
-                key={room.name}
-                room={room}
-                onSeeMore={() => setSelectedRoom(room)}
-              />
-            ))}
-          </div>
-        </section>
+  {/* SCROLL CONTAINER */}
+  <div
+    className="roomGridLuxury"
+    onScroll={(e) => {
+      const container = e.target;
+      const scrollLeft = container.scrollLeft;
+      const width = container.offsetWidth;
+      const index = Math.round(scrollLeft / width);
+      setActiveDot(index);
+    }}
+  >
+    {availableRooms.map((room, index) => (
+      <RoomCard
+        key={room.name}
+        room={room}
+        onSeeMore={() => setSelectedRoom(room)}
+      />
+    ))}
+  </div>
+
+  {/* DOTS INDICATOR */}
+  <div className="roomDots">
+    {availableRooms.map((_, index) => (
+      <span
+        key={index}
+        className={activeDot === index ? "dot active" : "dot"}
+      />
+    ))}
+  </div>
+</section>
 
         <section id="amenities" className="amenitiesLuxury">
           <div className="sectionCenter">
