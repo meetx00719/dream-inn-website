@@ -114,6 +114,10 @@ button {
   font-size: 42px;
   color: var(--gold);
   white-space: nowrap;
+
+  /* 👇 ADD THIS */
+  position: relative;
+  z-index: 10001;
 }
 
 .luxLogo span {
@@ -1342,4 +1346,12 @@ button {
 
 .mobileMenu.open {
   display: flex !important;
+}
+@media (max-width: 760px) {
+  .luxLogo {
+    position: absolute;
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
