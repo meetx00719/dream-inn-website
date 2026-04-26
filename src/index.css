@@ -1439,6 +1439,7 @@ button {
   }
 }
 
+
 @media (max-width: 760px) {
   #rooms {
     scroll-margin-top: 80px;
@@ -1465,4 +1466,19 @@ button {
     width: 100%;
     text-align: center;
   }
+}
+.aboutText {
+  font-size: 16px;
+  line-height: 1.9;
+  color: #5a5f69;
+  margin-bottom: 18px;
+  max-width: 560px;
+  letter-spacing: 0.3px;
+}
+
+/* premium spacing */
+.aboutCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }

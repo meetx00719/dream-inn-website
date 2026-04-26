@@ -327,20 +327,13 @@ function App() {
           <div className="aboutCopy">
             <span className="sectionKicker">About Us</span>
             <h2>A Refined Stay Near LAX and SoFi Stadium</h2>
-            <p>
-  Dream Inn Inglewood is a comfortable and affordable hotel near Los Angeles
-  International Airport (LAX) and SoFi Stadium. Located in Inglewood, our motel
-  is ideal for travelers, business guests, and visitors attending events in Los
-  Angeles.
+      <p className="aboutText">
+  Dream Inn Inglewood is a comfortable and affordable hotel near Los Angeles International Airport (LAX) and SoFi Stadium. Located in Inglewood, our motel is ideal for travelers, business guests, and visitors attending events in Los Angeles.
 </p>
 
-            
-<p>
-  We offer clean rooms, free Wi-Fi, cable TV, microwave, refrigerator, and
-  convenient access to LAX, SoFi Stadium, and nearby Los Angeles attractions.
-  Dream Inn is located at 3201 W Imperial Hwy, Inglewood, CA 90303.
+<p className="aboutText">
+  We offer clean rooms, free Wi-Fi, cable TV, microwave, refrigerator, and convenient access to LAX, SoFi Stadium, and nearby Los Angeles attractions. Dream Inn is located at 3201 W Imperial Hwy, Inglewood, CA 90303.
 </p>
-            
             <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
               Explore Rooms
             </a>
