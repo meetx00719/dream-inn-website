@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import "./index.css";
+
 import hero1 from "./assets/hero1.jpg";
 import hero2 from "./assets/hero2.jpg";
 import hero1Mobile from "./assets/hero1-mobile.jpg";
 import hero2Mobile from "./assets/hero2-mobile.jpg";
+
 import about1 from "./assets/about1.jpg";
 import about2 from "./assets/about2.jpg";
+
 import singleRoom from "./assets/single.jpg";
 import singleTwo from "./assets/singleTwo.jpg";
 import single3 from "./assets/single3.jpg";
+
 import double1 from "./assets/double1.jpg";
 import double2 from "./assets/double2.jpg";
 import double3 from "./assets/double3.jpg";
+
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
 
-/* ================= HERO SLIDES ================= */
 const heroSlides = [
   {
     image: hero1,
@@ -31,11 +35,10 @@ const heroSlides = [
 const parkingPolicy =
   "One car per room. Additional vehicles require extra parking fee.";
 
-/* ================= ROOMS ================= */
 const rooms = [
   {
     name: "Single Bed Room",
-    images: [singleRoom , singleTwo, single3],
+    images: [singleRoom, singleTwo, single3],
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
     amenities: [
@@ -56,11 +59,7 @@ const rooms = [
   },
   {
     name: "Double Bed Room",
-    images: [
-      double1,
-      double2,
-      double3, 
-    ],
+    images: [double1, double2, double3],
     details:
       "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
     amenities: [
@@ -80,14 +79,14 @@ const rooms = [
     ],
   },
   {
-    name: "Jaccuzzi Room",
+    name: "Jacuzzi Room",
     images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
-      "A premium room experience with a private bath, Jaccuzzi, added relaxation, and a refined atmosphere.",
+      "A premium room experience with a private bath, Jacuzzi, added relaxation, and a refined atmosphere.",
     amenities: [
       "2 Guests",
       "One Cali King Bed and Sofa",
-      "Jaccuzzi",
+      "Jacuzzi",
       "Private bathroom",
       "Free Wi-Fi",
       "Cable TV",
@@ -98,13 +97,12 @@ const rooms = [
       "Valid ID required at check-in",
       "$100 security deposit required",
       "Non-smoking room",
-      "No children allowed in Jaccuzzi room",
+      "No children allowed in Jacuzzi room",
       parkingPolicy,
     ],
   },
 ];
 
-/* ================= AMENITIES ================= */
 const amenities = [
   "Free Wi-Fi",
   "Cable TV",
@@ -117,8 +115,9 @@ const amenities = [
   "Daily Housekeeping",
   "Secure Key Card Access",
   "Air Conditioning",
-  "Heater"
+  "Heater",
 ];
+
 const navLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About Us" },
@@ -126,6 +125,7 @@ const navLinks = [
   { id: "amenities", label: "Amenities" },
   { id: "location", label: "Contact Us" },
 ];
+
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -150,41 +150,33 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
-const scrollToSection = (event, id) => {
-  event?.preventDefault?.();
 
-  const section = document.getElementById(id);
-  if (!section) return;
+  const scrollToSection = (event, id) => {
+    event?.preventDefault?.();
 
-  const isMobile = window.innerWidth <= 760;
+    const section = document.getElementById(id);
+    if (!section) return;
 
-  const offsets = {
-    home: 0,
-    about: isMobile ? 80 : 100,
-    rooms: isMobile ? 80 : 100,
-    amenities: isMobile ? 80 : 100,
-    location: isMobile ? 80 : 100,
+    const isMobile = window.innerWidth <= 760;
+    const offset = isMobile ? 80 : 100;
+
+    const y =
+      section.getBoundingClientRect().top + window.pageYOffset - offset;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+
+    setMobileMenuOpen(false);
   };
 
-  const y =
-    section.getBoundingClientRect().top +
-    window.pageYOffset -
-    (offsets[id] || 80);
-
-  window.scrollTo({
-    top: y,
-    behavior: "smooth",
-  });
-
-  setMobileMenuOpen(false);
-};
-
   const scrollToRooms = (event) => {
-  event?.preventDefault?.();
+    event?.preventDefault?.();
 
-  const section = document.getElementById("rooms");
+    const section = document.getElementById("rooms");
+    if (!section) return;
 
-  if (section) {
     const y =
       section.getBoundingClientRect().top +
       window.pageYOffset -
@@ -194,8 +186,9 @@ const scrollToSection = (event, id) => {
       top: y,
       behavior: "smooth",
     });
-  }
-};
+
+    setMobileMenuOpen(false);
+  };
 
   const openBookingEngine = () => {
     window.open("https://your-booking-engine-link.com", "_blank");
@@ -235,6 +228,7 @@ const scrollToSection = (event, id) => {
           >
             f
           </a>
+
           <a
             className="instagramIcon"
             href="https://www.instagram.com/"
@@ -247,54 +241,58 @@ const scrollToSection = (event, id) => {
         </div>
       </div>
 
-    <header className="mainHeader">
-  <a href="#home" className="luxLogo">
-    Dream<span>Inn</span>
-  </a>
+      <header className="mainHeader">
+        <a
+          href="#home"
+          className="luxLogo"
+          onClick={(e) => scrollToSection(e, "home")}
+        >
+          Dream<span>Inn</span>
+        </a>
 
-  {/* DESKTOP NAV */}
-  <nav className="desktopNav">
-    {navLinks.map((link) => (
-      <a key={link.id} href={`#${link.id}`}>
-        {link.label}
-      </a>
-    ))}
-  </nav>
+        <nav className="desktopNav">
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(e) => scrollToSection(e, link.id)}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
-  <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-    Explore Rooms
-  </a>
+        <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
+          Explore Rooms
+        </a>
 
-  {/* MOBILE BUTTON */}
-<button
-  type="button"
-  className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-  onClick={(e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setMobileMenuOpen((prev) => !prev);
-  }}
-  aria-label="Open menu"
->
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
+        <button
+          type="button"
+          className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMobileMenuOpen((prev) => !prev);
+          }}
+          aria-label="Open menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
 
-  {/* MOBILE MENU */}
-  {/* MOBILE MENU */}
-<div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-  {navLinks.map((link) => (
-    <a
-      key={link.id}
-      href={`#${link.id}`}
-      onClick={(e) => scrollToSection(e, link.id)}
-    >
-      {link.label}
-    </a>
-  ))}
-</div>
-</header>
+        <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(e) => scrollToSection(e, link.id)}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </header>
 
       <main>
         <section id="home" className="luxHero">
@@ -303,22 +301,21 @@ const scrollToSection = (event, id) => {
             style={{ transform: `translateX(-${activeHero * 100}%)` }}
           >
             {heroSlides.map((slide, index) => (
-  <article className="luxHeroSlide" key={slide.image}>
-   <picture>
-  <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
-  <img src={slide.image} alt="Dream Inn hotel" />
-</picture>
-    <div className="luxHeroOverlay" />
+              <article className="luxHeroSlide" key={slide.image}>
+                <picture>
+                  <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
+                  <img src={slide.image} alt="Dream Inn hotel" />
+                </picture>
 
-    {/* SHOW TEXT ONLY ON SECOND IMAGE */}
-    {index === 1 && (
-  <div className="luxHeroText centerHero">
-    <p className="heroSub">Near LAX & SoFi Stadium</p>
-  </div>
-)}
-  </article>
-))}
-            
+                <div className="luxHeroOverlay" />
+
+                {index === 1 && (
+                  <div className="luxHeroText centerHero">
+                    <p className="heroSub">Near LAX &amp; SoFi Stadium</p>
+                  </div>
+                )}
+              </article>
+            ))}
           </div>
 
           <div className="heroPager">
@@ -385,7 +382,7 @@ const scrollToSection = (event, id) => {
             </div>
 
             <button type="button" className="checkBtn" onClick={openBookingEngine}>
-              Book Now
+              Check Availability
             </button>
           </form>
         </section>
@@ -394,13 +391,21 @@ const scrollToSection = (event, id) => {
           <div className="aboutCopy">
             <span className="sectionKicker">About Us</span>
             <h2>A Refined Stay Near LAX and SoFi Stadium</h2>
-      <p className="aboutText">
-  Dream Inn Inglewood is a comfortable and affordable hotel near Los Angeles International Airport (LAX) and SoFi Stadium. Located in Inglewood, our motel is ideal for travelers, business guests, and visitors attending events in Los Angeles.
-</p>
 
-<p className="aboutText">
-  We offer clean rooms, free Wi-Fi, cable TV, microwave, refrigerator, and convenient access to LAX, SoFi Stadium, and nearby Los Angeles attractions. Dream Inn is located at 3201 W Imperial Hwy, Inglewood, CA 90303.
-</p>
+            <p className="aboutText">
+              Dream Inn Inglewood is a comfortable and affordable hotel near Los
+              Angeles International Airport (LAX) and SoFi Stadium. Located in
+              Inglewood, our motel is ideal for travelers, business guests, and
+              visitors attending events in Los Angeles.
+            </p>
+
+            <p className="aboutText">
+              We offer clean rooms, free Wi-Fi, cable TV, microwave,
+              refrigerator, and convenient access to LAX, SoFi Stadium, and
+              nearby Los Angeles attractions. Dream Inn is located at 3201 W
+              Imperial Hwy, Inglewood, CA 90303.
+            </p>
+
             <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
               Explore Rooms
             </a>
@@ -459,51 +464,57 @@ const scrollToSection = (event, id) => {
             ))}
           </div>
         </section>
-  <section className="reviewsSection">
-  <div className="sectionCenter">
-    <span className="sectionKicker">Guest Reviews</span>
-    <h2>What Our Guests Say</h2>
-  </div>
 
-  <div className="reviewGrid">
-    <div className="reviewCard">
-      <p>⭐⭐⭐⭐⭐</p>
-      <p>“Very clean rooms and great location near LAX. Staff was friendly!”</p>
-      <h4>— John D.</h4>
-    </div>
+        <section className="reviewsSection">
+          <div className="sectionCenter">
+            <span className="sectionKicker">Guest Reviews</span>
+            <h2>What Our Guests Say</h2>
+          </div>
 
-    <div className="reviewCard">
-      <p>⭐⭐⭐⭐⭐</p>
-      <p>“Perfect stay for SoFi Stadium events. Will come again!”</p>
-      <h4>— Maria S.</h4>
-    </div>
+          <div className="reviewGrid">
+            <div className="reviewCard">
+              <p>⭐⭐⭐⭐⭐</p>
+              <p>“Very clean rooms and great location near LAX. Staff was friendly!”</p>
+              <h4>— John D.</h4>
+            </div>
 
-    <div className="reviewCard">
-      <p>⭐⭐⭐⭐⭐</p>
-      <p>“Affordable and comfortable. Highly recommend Dream Inn.”</p>
-      <h4>— Alex R.</h4>
-    </div>
-  </div>
+            <div className="reviewCard">
+              <p>⭐⭐⭐⭐⭐</p>
+              <p>“Perfect stay for SoFi Stadium events. Will come again!”</p>
+              <h4>— Maria S.</h4>
+            </div>
 
-  <a
-    href="https://www.google.com/maps/place/Dream+Inn/@33.9325371,-118.3337641,13z/data=!4m11!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
-    target="_blank"
-    rel="noreferrer"
-    className="reviewBtn"
-  >
-    See All Reviews on Google
-  </a>
-</section>
+            <div className="reviewCard">
+              <p>⭐⭐⭐⭐⭐</p>
+              <p>“Affordable and comfortable. Highly recommend Dream Inn.”</p>
+              <h4>— Alex R.</h4>
+            </div>
+          </div>
+
+          <a
+            href="https://www.google.com/maps/place/Dream+Inn/@33.9325371,-118.3337641,13z/data=!4m11!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noreferrer"
+            className="reviewBtn"
+          >
+            See All Reviews on Google
+          </a>
+        </section>
 
         <section id="location" className="locationLuxury">
           <div className="locationDetails">
             <span className="sectionKicker">Contact Us</span>
             <h2>Experience Dream Inn</h2>
+
             <p>
-              📧 <a href="mailto:dreaminn3201@gmail.com">dreaminn3201@gmail.com</a>
+              📧{" "}
+              <a href="mailto:dreaminn3201@gmail.com">
+                dreaminn3201@gmail.com
+              </a>
             </p>
+
             <p>
-              ☎ <a href="tel:+13104120912">+1(310)412-0912</a>
+              ☎ <a href="tel:+13104120912">+1 (310) 412-0912</a>
             </p>
           </div>
 
@@ -549,6 +560,7 @@ function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
+
   return `${year}-${month}-${day}`;
 }
 
@@ -671,7 +683,15 @@ function DatePicker({
 
 function RoomCard({ room, onSeeMore }) {
   return (
-    <article className="luxRoomCard" onClick={onSeeMore} tabIndex="0" role="button">
+    <article
+      className="luxRoomCard"
+      onClick={onSeeMore}
+      tabIndex="0"
+      role="button"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") onSeeMore();
+      }}
+    >
       <div className="cardImgWrap">
         <img src={room.images[0]} alt={room.name} />
       </div>
@@ -679,7 +699,6 @@ function RoomCard({ room, onSeeMore }) {
       <div className="cardInfo">
         <h3>{room.name}</h3>
         <p>{room.details}</p>
-
         <span className="viewDetails">View Details ↗</span>
       </div>
     </article>
@@ -720,10 +739,19 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             />
           ))}
 
-          <button type="button" className="modalArrow modalArrowLeft" onClick={prevSlide}>
+          <button
+            type="button"
+            className="modalArrow modalArrowLeft"
+            onClick={prevSlide}
+          >
             ‹
           </button>
-          <button type="button" className="modalArrow modalArrowRight" onClick={nextSlide}>
+
+          <button
+            type="button"
+            className="modalArrow modalArrowRight"
+            onClick={nextSlide}
+          >
             ›
           </button>
 
