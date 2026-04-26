@@ -1379,3 +1379,23 @@ button {
   word-break: normal;
   overflow-wrap: normal;
 }
+.bookingTitle {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(42px, 4vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  max-width: 520px;
+}
+
+/* REMOVE weird breaking completely */
+.bookingTitle br {
+  display: block;
+}
+
+/* MOBILE */
+@media (max-width: 760px) {
+  .bookingTitle {
+    font-size: 36px;
+    line-height: 1.1;
+  }
+}

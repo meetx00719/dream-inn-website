@@ -351,7 +351,7 @@ useEffect(() => {
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
             <span className="sectionKicker">Book Now</span>
-            <h2>
+        <h2 className="bookingTitle">
   Plan Your Stay <br />
   at Dream Inn
 </h2>
