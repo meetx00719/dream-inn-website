@@ -144,6 +144,26 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
+  const scrollToSection = (event, id) => {
+  event?.preventDefault?.();
+
+  const section = document.getElementById(id);
+
+  if (section) {
+    const headerOffset = 86;
+    const y =
+      section.getBoundingClientRect().top +
+      window.pageYOffset -
+      headerOffset;
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+  }
+
+  setMobileMenuOpen(false);
+};
 
   const scrollToRooms = (event) => {
   event?.preventDefault?.();
@@ -226,9 +246,8 @@ function App() {
   </nav>
 
   <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-    Explore Rooms
-  </a>
-
+  Explore Rooms
+</a>
   <button
     type="button"
     className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
@@ -240,18 +259,27 @@ function App() {
     <span></span>
   </button>
 
-  <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-    <a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a>
-    <a href="#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
-    <a href="#rooms" onClick={(e) => {
-      setMobileMenuOpen(false);
-      scrollToRooms(e);
-    }}>
-      Rooms
-    </a>
-    <a href="#amenities" onClick={() => setMobileMenuOpen(false)}>Amenities</a>
-    <a href="#location" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
-  </div>
+ <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
+  <a href="#home" onClick={(e) => scrollToSection(e, "home")}>
+    Home
+  </a>
+
+  <a href="#about" onClick={(e) => scrollToSection(e, "about")}>
+    About Us
+  </a>
+
+  <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>
+    Rooms
+  </a>
+
+  <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>
+    Amenities
+  </a>
+
+  <a href="#location" onClick={(e) => scrollToSection(e, "location")}>
+    Contact Us
+  </a>
+</div>
 </header>
 
       <main>
