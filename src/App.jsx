@@ -150,14 +150,14 @@ function App() {
   const section = document.getElementById(id);
   if (!section) return;
 
-  const isMobile = window.innerWidth <= 760;
+  const isMobile = window.innerWidth <= 900;
 
   const offsets = {
     home: 0,
-    about: isMobile ? 60 : 20,
-    rooms: isMobile ? 60 : 20,
-    amenities: isMobile ? 60 : 20,
-    location: isMobile ? 60 : 20,
+    about: isMobile ? 100 : 90,
+    rooms: isMobile ? 100 : 90,
+    amenities: isMobile ? 100 : 90,
+    location: isMobile ? 100 : 90,
   };
 
   const y =
