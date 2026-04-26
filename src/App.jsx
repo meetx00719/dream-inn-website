@@ -258,11 +258,10 @@ const scrollToSection = (event, id) => {
   </a>
 
   <button
-    type="button"
-    className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-    onClick={() => setMobileMenuOpen((prev) => !prev)}
-    aria-label="Open mobile menu"
-  >
+  type="button"
+  className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
+  onClick={() => setMobileMenuOpen((prev) => !prev)}
+>
     <span></span>
     <span></span>
     <span></span>
