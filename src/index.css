@@ -1493,9 +1493,9 @@ button {
 .aboutText {
   background: linear-gradient(
     110deg,
-    #b08a5a 25%,
-    #f2e3b3 45%,
-    #b08a5a 65%
+    #b08a5a 20%,
+    #f2e3b3 30%,
+    #b08a5a 40%
   );
   background-size: 180% auto;
 
