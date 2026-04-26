@@ -149,15 +149,15 @@ function App() {
   const section = document.getElementById(id);
   if (!section) return;
 
-  const isMobile = window.innerWidth <= 900;
+const isMobile = window.innerWidth <= 760;
 
-  const offsets = {
-    home: 0,
-    about: isMobile ? 100 : 90,
-    rooms: isMobile ? 100 : 90,
-    amenities: isMobile ? 100 : 90,
-    location: isMobile ? 100 : 90,
-  };
+const offsets = {
+  home: 0,
+  about: isMobile ? 90 : 100,
+  rooms: isMobile ? 90 : 100,
+  amenities: isMobile ? 90 : 100,
+  location: isMobile ? 90 : 100,
+};
 
   const y =
     section.getBoundingClientRect().top +
@@ -240,7 +240,7 @@ function App() {
         </div>
       </div>
 
-<header className="mainHeader">
+      <header className="mainHeader">
   <a href="#home" className="luxLogo">
     Dream<span>Inn</span>
   </a>
@@ -253,13 +253,13 @@ function App() {
   </nav>
 
   <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-    Explore Rooms
-  </a>
-
+  Explore Rooms
+</a>
   <button
     type="button"
     className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-    onClick={() => setMobileMenuOpen((prev) => !prev)}
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    aria-label="Open mobile menu"
   >
     <span></span>
     <span></span>
@@ -267,12 +267,12 @@ function App() {
   </button>
 
   <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-    <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
-    <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
-    <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
-    <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
-    <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
-  </div>
+  <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
+  <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
+  <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
+  <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
+  <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
+</div>
 </header>
 
       <main>
