@@ -141,13 +141,22 @@ function App() {
   }, []);
 
   const scrollToRooms = (event) => {
-    event?.preventDefault?.();
+  event?.preventDefault?.();
 
-    document.getElementById("rooms")?.scrollIntoView({
+  const roomsSection = document.getElementById("rooms");
+
+  if (roomsSection) {
+    const y =
+      roomsSection.getBoundingClientRect().top +
+      window.pageYOffset -
+      80;
+
+    window.scrollTo({
+      top: y,
       behavior: "smooth",
-      block: "center",
     });
-  };
+  }
+};
 
   const openBookingEngine = () => {
     window.open("https://your-booking-engine-link.com", "_blank");
