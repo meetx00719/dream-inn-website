@@ -313,17 +313,8 @@ function App() {
   is ideal for travelers, business guests, and visitors attending events in Los
   Angeles.
 </p>
-<p>
-              Dream Inn offers guests a comfortable stay in Inglewood with clean rooms,
-              warm service, and a polished hotel experience designed for travelers visiting
-              the Los Angeles area.
-            </p>
-            <p>
-              Our property provides a practical and welcoming base for short stays,
-              business travel, event visits, and guests looking for comfort with direct
-              booking convenience.
-            </p>
 
+            
 <p>
   We offer clean rooms, free Wi-Fi, cable TV, microwave, refrigerator, and
   convenient access to LAX, SoFi Stadium, and nearby Los Angeles attractions.

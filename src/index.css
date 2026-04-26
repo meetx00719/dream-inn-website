@@ -1371,3 +1371,16 @@ button {
     margin-top: 10px;
   }
 }
+/* MOBILE HERO IMAGE FIX */
+@media (max-width: 760px) {
+  .luxHero {
+    height: 70vh;
+    min-height: 520px;
+  }
+
+  .luxHeroSlide img {
+    object-fit: contain;
+    object-position: center center;
+    background: #0d0f15;
+  }
+}
