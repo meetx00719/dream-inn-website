@@ -1728,3 +1728,46 @@ body {
   pointer-events: auto;
   transform: translateY(0);
 }
+@media (max-width: 760px) {
+  .mobileMenu {
+    display: flex !important;
+    position: fixed !important;
+    top: 82px !important;
+    right: 16px !important;
+    width: min(300px, calc(100vw - 32px)) !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    padding: 18px !important;
+    background: rgba(18, 20, 26, 0.97) !important;
+    border: 1px solid rgba(176, 138, 90, 0.45) !important;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-12px) !important;
+    pointer-events: none !important;
+    z-index: 9999 !important;
+  }
+
+  .mobileMenu.open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+  }
+
+  .mobileMenu a {
+    color: #fff !important;
+    padding: 14px 16px !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .mobileMenuBtn {
+    display: flex !important;
+    z-index: 10000 !important;
+    position: relative !important;
+  }
+}
