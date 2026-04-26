@@ -1303,3 +1303,56 @@ button {
     text-align: center;
   }
 }
+/* FINAL BOOKING FORM WIDTH + BOTTOM ALIGN FIX */
+
+.bookingLuxury {
+  grid-template-columns: 430px 1fr;
+  gap: 50px;
+  padding: 58px 70px;
+}
+
+.bookingForm {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  align-self: end;
+  transform: translateY(80px);
+}
+
+.inputGroup select,
+.datePopupInput,
+.checkBtn {
+  width: 100%;
+  min-width: 0;
+  height: 64px;
+}
+
+.checkBtn {
+  min-width: 0;
+}
+
+@media (max-width: 1250px) {
+  .bookingLuxury {
+    grid-template-columns: 1fr;
+  }
+
+  .bookingForm {
+    transform: none;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkBtn {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingForm {
+    grid-template-columns: 1fr;
+  }
+
+  .checkBtn {
+    grid-column: auto;
+  }
+}
