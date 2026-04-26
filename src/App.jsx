@@ -386,6 +386,41 @@ function App() {
             ))}
           </div>
         </section>
+  <section className="reviewsSection">
+  <div className="sectionCenter">
+    <span className="sectionKicker">Guest Reviews</span>
+    <h2>What Our Guests Say</h2>
+  </div>
+
+  <div className="reviewGrid">
+    <div className="reviewCard">
+      <p>⭐⭐⭐⭐⭐</p>
+      <p>“Very clean rooms and great location near LAX. Staff was friendly!”</p>
+      <h4>— John D.</h4>
+    </div>
+
+    <div className="reviewCard">
+      <p>⭐⭐⭐⭐⭐</p>
+      <p>“Perfect stay for SoFi Stadium events. Will come again!”</p>
+      <h4>— Maria S.</h4>
+    </div>
+
+    <div className="reviewCard">
+      <p>⭐⭐⭐⭐⭐</p>
+      <p>“Affordable and comfortable. Highly recommend Dream Inn.”</p>
+      <h4>— Alex R.</h4>
+    </div>
+  </div>
+
+  <a
+    href="https://www.google.com/maps/place/Dream+Inn/@33.9325371,-118.3337641,13z/data=!4m11!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+    target="_blank"
+    rel="noreferrer"
+    className="reviewBtn"
+  >
+    See All Reviews on Google
+  </a>
+</section>
 
         <section id="location" className="locationLuxury">
           <div className="locationDetails">

@@ -1378,3 +1378,50 @@ button {
     object-position: center center;
   }
 }
+.reviewsSection {
+  padding: 90px 8%;
+  background: #fbf9f6;
+  text-align: center;
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.reviewCard {
+  background: #fff;
+  padding: 28px;
+  border: 1px solid #e8dfd2;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+}
+
+.reviewCard p {
+  font-style: italic;
+  color: #444;
+}
+
+.reviewCard h4 {
+  margin-top: 15px;
+  color: #b08a5a;
+}
+.reviewBtn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #b08a5a, #8c6d47);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.reviewBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(176, 138, 90, 0.4);
+}
