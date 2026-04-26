@@ -282,15 +282,16 @@ const scrollToSection = (event, id) => {
 </button>
 
   {/* MOBILE MENU */}
-  <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
+  {/* MOBILE MENU */}
+<div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
   {navLinks.map((link) => (
-    <button
+    <a
       key={link.id}
-      type="button"
+      href={`#${link.id}`}
       onClick={(e) => scrollToSection(e, link.id)}
     >
       {link.label}
-    </button>
+    </a>
   ))}
 </div>
 </header>

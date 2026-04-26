@@ -1336,3 +1336,10 @@ button {
     margin-top: -20px;
   }
 }
+.mobileMenu {
+  display: none;
+}
+
+.mobileMenu.open {
+  display: flex !important;
+}
