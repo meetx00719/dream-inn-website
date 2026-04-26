@@ -1210,9 +1210,16 @@ button {
     height: 78vh;
   }
 
-  .centerHero {
-    top: 70%;
-  }
+ .centerHero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  text-align: center;
+  width: 100%;
+  z-index: 5;
+}
 
   .heroSub {
     font-size: 13px;
