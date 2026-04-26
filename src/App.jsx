@@ -312,10 +312,10 @@ const scrollToSection = (event, id) => {
 
     {/* SHOW TEXT ONLY ON SECOND IMAGE */}
     {index === 1 && (
-      <div className="luxHeroText centerHero">
-        <p className="heroSub">Near LAX & SoFi Stadium</p>
-      </div>
-    )}
+  <div className="luxHeroText centerHero">
+    <p className="heroSub">Near LAX & SoFi Stadium</p>
+  </div>
+)}
   </article>
 ))}
             

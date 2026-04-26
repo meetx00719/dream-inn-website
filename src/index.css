@@ -270,44 +270,38 @@ button {
 
 .luxHeroText {
   position: absolute;
-  left: 8%;
-  top: 48%;
-  transform: translateY(-50%);
+  inset: 0;
   color: #fff;
-  max-width: 760px;
-  animation: fadeInUp 0.9s ease both;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
 }
 
 .centerHero {
-  position: absolute;
-  left: 50%;
-  top: 72%;
-  transform: translate(-50%, -50%);
-  text-align: center;
   width: 100%;
-  z-index: 5;
+  padding: 0 8%;
 }
 
 .heroSub {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
+  position: static;
+  transform: none;
+  width: auto;
   text-align: center;
-  width: 100%;
 
-  font-size: clamp(16px, 2vw, 24px);
-  letter-spacing: 3px;
+  font-size: clamp(22px, 3vw, 44px);
+  letter-spacing: 8px;
   font-weight: 900;
+  text-transform: uppercase;
   color: var(--gold);
 
   text-shadow:
-    0 0 10px rgba(176, 138, 90, 0.6),
-    0 0 25px rgba(176, 138, 90, 0.4),
-    0 6px 20px rgba(0, 0, 0, 0.7);
+    0 0 10px rgba(176, 138, 90, 0.7),
+    0 0 28px rgba(176, 138, 90, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.75);
 }
-
 .heroPager {
   position: absolute;
   left: 8%;
@@ -1098,7 +1092,8 @@ button {
 
 /* MOBILE */
 
-   @media (max-width: 760px) {
+/* MOBILE */
+@media (max-width: 760px) {
   .mainHeader {
     position: fixed;
     top: 0;
@@ -1112,8 +1107,6 @@ button {
     z-index: 9999;
     overflow: visible;
   }
-}
-  
 
   .desktopNav,
   .bookRoomBtn {
@@ -1124,11 +1117,17 @@ button {
     font-size: 32px;
     color: #fff;
     text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+
+    position: absolute;
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .luxLogo span {
     color: #fff;
   }
+}
 
   .mobileMenuBtn {
     display: flex;
