@@ -1495,3 +1495,59 @@ button {
     grid-column: auto;
   }
 }
+/* PREMIUM SLIM BOOKING INPUTS */
+
+.bookingForm {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px; /* tighter spacing */
+}
+
+/* Make boxes slimmer */
+.inputGroup select,
+.datePopupInput,
+.checkBtn {
+  height: 52px;   /* ↓ from 64–66px */
+  font-size: 12.5px;
+  letter-spacing: 1.2px;
+}
+
+/* Make inputs feel wider */
+.inputGroup select,
+.datePopupInput {
+  padding: 0 16px;
+}
+
+/* Button proportional */
+.checkBtn {
+  padding: 0 22px;
+  font-size: 12px;
+  letter-spacing: 1.6px;
+}
+
+/* Better visual alignment */
+.bookingForm {
+  align-items: center;
+}
+
+/* OPTIONAL: more luxury spacing inside */
+.inputGroup select,
+.datePopupInput {
+  border-radius: 2px;
+}
+
+/* MOBILE */
+@media (max-width: 1250px) {
+  .bookingForm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkBtn {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingForm {
+    grid-template-columns: 1fr;
+  }
+}
