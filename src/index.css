@@ -1494,14 +1494,13 @@ button {
   background: linear-gradient(
     110deg,
     #b08a5a 20%,
-    #f2e3b3 30%,
+    #f2e3b3 10%,
     #b08a5a 40%
   );
   background-size: 180% auto;
 
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
+  
 
 }
 
