@@ -154,10 +154,10 @@ function App() {
 
   const offsets = {
     home: 0,
-    about: isMobile ? 160 : 20,
-    rooms: isMobile ? 160 : 20,
-    amenities: isMobile ? 160 : 20,
-    location: isMobile ? 160 : 20,
+    about: isMobile ? 60 : 20,
+    rooms: isMobile ? 60 : 20,
+    amenities: isMobile ? 60 : 20,
+    location: isMobile ? 60 : 20,
   };
 
   const y =
