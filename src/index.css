@@ -1771,3 +1771,21 @@ body {
     position: relative !important;
   }
 }
+.mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* keep nav centered */
+.desktopNav {
+  display: flex;
+  gap: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* fix button position */
+.bookRoomBtn {
+  margin-left: auto;
+}
