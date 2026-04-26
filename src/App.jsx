@@ -353,7 +353,8 @@ useEffect(() => {
             <span className="sectionKicker">Book Now</span>
         <h2 className="bookingTitle">
   Plan Your Stay <br />
-  at Dream Inn
+  at<br />
+  Dream Inn
 </h2>
           </div>
 
