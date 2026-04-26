@@ -129,7 +129,6 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const today = formatDate(new Date());
 
   const availableRooms =
@@ -241,7 +240,7 @@ function App() {
         </div>
       </div>
 
-      <header className="mainHeader">
+<header className="mainHeader">
   <a href="#home" className="luxLogo">
     Dream<span>Inn</span>
   </a>
@@ -254,26 +253,26 @@ function App() {
   </nav>
 
   <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-  Explore Rooms
-</a>
+    Explore Rooms
+  </a>
+
   <button
     type="button"
     className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-    aria-label="Open mobile menu"
+    onClick={() => setMobileMenuOpen((prev) => !prev)}
   >
     <span></span>
     <span></span>
     <span></span>
   </button>
 
- <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-  <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
-<a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
-<a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
-<a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
-<a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
-</div>
+  <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
+    <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
+    <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
+    <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
+    <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
+    <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
+  </div>
 </header>
 
       <main>
