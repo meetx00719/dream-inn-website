@@ -116,6 +116,8 @@ const amenities = [
   "24/7 Front Desk",
   "Daily Housekeeping",
   "Secure Key Card Access",
+  "Air Conditioning",
+  "Heater"
 ];
 
 function App() {
