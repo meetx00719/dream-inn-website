@@ -1092,11 +1092,8 @@ button {
 }
 
 /* MOBILE */
-@media (max-width: 760px) {
-  .topInfoBar {
-    display: none;
-  }
 
+   @media (max-width: 760px) {
   .mainHeader {
     position: fixed;
     top: 0;
@@ -1110,6 +1107,8 @@ button {
     z-index: 9999;
     overflow: visible;
   }
+}
+  
 
   .desktopNav,
   .bookRoomBtn {
