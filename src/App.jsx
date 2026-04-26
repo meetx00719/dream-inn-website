@@ -135,7 +135,7 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const bookingRef = useRef(null);
+const bookingRef = useRef(null);
 
 useEffect(() => {
   const closeCalendar = (event) => {
