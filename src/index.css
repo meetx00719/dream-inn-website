@@ -1482,3 +1482,8 @@ button {
   flex-direction: column;
   gap: 6px;
 }
+.aboutText {
+  font-size: 17px;
+  line-height: 2;
+  color: #4a4f5a;
+}
