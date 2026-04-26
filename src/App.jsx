@@ -114,6 +114,9 @@ const amenities = [
   "Free Parking",
   "Non-Smoking Property",
   "Direct Booking",
+  "24/7 Front Desk",
+  "Daily Housekeeping",
+  "Secure Key Card Access",
 ];
 
 function App() {
