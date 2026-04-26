@@ -1487,3 +1487,25 @@ button {
   line-height: 2;
   color: #4a4f5a;
 }
+/* GOLD LUXURY TEXT */
+/* PREMIUM GOLD TEXT (SOFT LUXURY) */
+.aboutText {
+  font-size: 16px;
+  line-height: 1.9;
+  margin-bottom: 18px;
+  max-width: 560px;
+
+  background: linear-gradient(
+    120deg,
+    #caa96b 0%,
+    #f2e3b3 40%,
+    #b08a5a 80%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 2px 10px rgba(176, 138, 90, 0.25);
+}
