@@ -1444,3 +1444,25 @@ button {
     scroll-margin-top: 80px;
   }
 }
+/* MOBILE REVIEWS STACK FIX */
+@media (max-width: 760px) {
+  .reviewsSection {
+    padding: 70px 6%;
+  }
+
+  .reviewGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .reviewCard {
+    width: 100%;
+  }
+
+  .reviewBtn {
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
+  }
+}

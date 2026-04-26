@@ -107,7 +107,6 @@ const rooms = [
 /* ================= AMENITIES ================= */
 const amenities = [
   "Free Wi-Fi",
-  "Private Bathrooms",
   "Cable TV",
   "Microwave",
   "Refrigerator",
