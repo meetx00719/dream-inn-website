@@ -1399,3 +1399,122 @@ button {
     line-height: 1.1;
   }
 }
+/* FINAL LUXURY BOOKING SECTION FIX */
+
+.bookingLuxury {
+  margin: -62px 8% 100px;
+  padding: 54px 56px;
+  grid-template-columns: 340px 1fr;
+  gap: 54px;
+  align-items: center;
+}
+
+.bookingHeader {
+  max-width: 340px;
+}
+
+.bookingTitle {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(52px, 4.6vw, 76px);
+  line-height: 0.96;
+  letter-spacing: -2px;
+  max-width: 340px;
+  margin: 18px 0 24px;
+  white-space: normal;
+}
+
+.bookingHeader p {
+  max-width: 320px;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.bookingForm {
+  grid-template-columns: repeat(4, minmax(150px, 1fr)) 180px;
+  gap: 18px;
+  align-items: end;
+}
+
+.inputGroup {
+  align-items: stretch;
+  text-align: left;
+}
+
+.inputGroup label {
+  text-align: left;
+  margin-left: 2px;
+  letter-spacing: 1.8px;
+}
+
+.inputGroup select,
+.datePopupInput {
+  height: 58px;
+  text-align: left;
+  text-align-last: left;
+  padding: 0 20px;
+  font-size: 15px;
+  border: 1px solid #ded2c1;
+  background-color: #fff;
+}
+
+.inputGroup select {
+  padding-right: 44px;
+}
+
+.checkBtn {
+  height: 58px;
+  min-width: 180px;
+  padding: 0 26px;
+  font-size: 13px;
+  letter-spacing: 1.4px;
+  border-radius: 0;
+}
+
+@media (max-width: 1200px) {
+  .bookingLuxury {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .bookingHeader,
+  .bookingTitle,
+  .bookingHeader p {
+    max-width: 100%;
+  }
+
+  .bookingTitle {
+    font-size: clamp(46px, 6vw, 68px);
+  }
+
+  .bookingForm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkBtn {
+    grid-column: span 2;
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingLuxury {
+    margin: -30px 6% 65px;
+    padding: 32px 24px;
+  }
+
+  .bookingTitle {
+    font-size: 40px;
+    line-height: 1.02;
+    letter-spacing: -1px;
+  }
+
+  .bookingForm {
+    grid-template-columns: 1fr;
+  }
+
+  .checkBtn {
+    grid-column: auto;
+    width: 100%;
+    min-width: 100%;
+  }
+}
