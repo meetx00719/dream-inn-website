@@ -351,8 +351,10 @@ useEffect(() => {
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
             <span className="sectionKicker">Book Now</span>
-            <h2>Plan Your Stay at Dream Inn</h2>
-            <p>Book directly with Dream Inn and avoid third-party commission.</p>
+            <h2>
+  Plan Your Stay <br />
+  at Dream Inn
+</h2>
           </div>
 
           <form className="bookingForm">

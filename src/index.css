@@ -1361,3 +1361,21 @@ button {
     height: 52px;
   }
 }
+.bookingHeader h2 {
+  max-width: 520px;
+  line-height: 1.05;
+}
+
+/* DESKTOP — keep it clean like before */
+@media (min-width: 900px) {
+  .bookingHeader h2 {
+    font-size: clamp(42px, 4vw, 64px);
+    white-space: normal;
+  }
+}
+
+/* FORCE better line breaks */
+.bookingHeader h2 {
+  word-break: normal;
+  overflow-wrap: normal;
+}
