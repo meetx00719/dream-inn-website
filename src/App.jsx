@@ -135,23 +135,7 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-const bookingRef = useRef(null);
 
-useEffect(() => {
-  const closeCalendar = (event) => {
-    if (bookingRef.current && !bookingRef.current.contains(event.target)) {
-      setOpenCalendar(null);
-    }
-  };
-
-  document.addEventListener("mousedown", closeCalendar);
-  document.addEventListener("touchstart", closeCalendar);
-
-  return () => {
-    document.removeEventListener("mousedown", closeCalendar);
-    document.removeEventListener("touchstart", closeCalendar);
-  };
-}, []);
 
   const today = formatDate(new Date());
 
