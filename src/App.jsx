@@ -135,6 +135,23 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const bookingRef = useRef(null);
+
+useEffect(() => {
+  const closeCalendar = (event) => {
+    if (bookingRef.current && !bookingRef.current.contains(event.target)) {
+      setOpenCalendar(null);
+    }
+  };
+
+  document.addEventListener("mousedown", closeCalendar);
+  document.addEventListener("touchstart", closeCalendar);
+
+  return () => {
+    document.removeEventListener("mousedown", closeCalendar);
+    document.removeEventListener("touchstart", closeCalendar);
+  };
+}, []);
 
   const today = formatDate(new Date());
 
@@ -331,9 +348,9 @@ function App() {
           </div>
         </section>
 
-        <section id="booking" className="bookingLuxury">
+        <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
-            <span className="sectionKicker">Check Availability</span>
+            <span className="sectionKicker">Book Now</span>
             <h2>Plan Your Stay at Dream Inn</h2>
             <p>Book directly with Dream Inn and avoid third-party commission.</p>
           </div>
