@@ -1502,7 +1502,7 @@ button {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  animation: goldShine 6s ease-in-out infinite;
+
 }
 
 @keyframes goldShine {
