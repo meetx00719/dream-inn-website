@@ -128,6 +128,7 @@ function App() {
   const [occupancy, setOccupancy] = useState("1");
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const today = formatDate(new Date());
 
@@ -213,21 +214,45 @@ function App() {
       </div>
 
       <header className="mainHeader">
-        <a href="#home" className="luxLogo">
-          Dream<span>Inn</span>
-        </a>
+  <a href="#home" className="luxLogo">
+    Dream<span>Inn</span>
+  </a>
 
-        <nav>
-          <a href="#home">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#amenities">Amenities</a>
-          <a href="#location">Contact Us</a>
-        </nav>
+  <nav className="desktopNav">
+    <a href="#home">Home</a>
+    <a href="#about">About Us</a>
+    <a href="#amenities">Amenities</a>
+    <a href="#location">Contact Us</a>
+  </nav>
 
-        <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-          Explore Rooms
-        </a>
-      </header>
+  <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
+    Explore Rooms
+  </a>
+
+  <button
+    type="button"
+    className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
+    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    aria-label="Open mobile menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
+    <a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a>
+    <a href="#about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
+    <a href="#rooms" onClick={(e) => {
+      setMobileMenuOpen(false);
+      scrollToRooms(e);
+    }}>
+      Rooms
+    </a>
+    <a href="#amenities" onClick={() => setMobileMenuOpen(false)}>Amenities</a>
+    <a href="#location" onClick={() => setMobileMenuOpen(false)}>Contact Us</a>
+  </div>
+</header>
 
       <main>
         <section id="home" className="luxHero">

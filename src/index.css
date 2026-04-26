@@ -1515,3 +1515,111 @@ button {
     background-position: 0% center;
   }
 }
+/* PREMIUM MOBILE HAMBURGER MENU */
+.mobileMenuBtn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(176, 138, 90, 0.35);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 2001;
+}
+
+.mobileMenuBtn span {
+  width: 20px;
+  height: 2px;
+  background: var(--gold);
+  transition: 0.3s ease;
+}
+
+.mobileMenuBtn.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobileMenuBtn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobileMenuBtn.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobileMenu {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .desktopNav {
+    display: none !important;
+  }
+
+  .mainHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 76px;
+    padding: 0 6%;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(18px);
+  }
+
+  .bookRoomBtn {
+    display: none;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+  }
+
+  .mobileMenu {
+    display: flex;
+    position: fixed;
+    top: 86px;
+    right: 6%;
+    width: min(280px, 88vw);
+    padding: 18px;
+    flex-direction: column;
+    gap: 10px;
+    background:
+      linear-gradient(135deg, rgba(18, 20, 26, 0.96), rgba(35, 31, 26, 0.96));
+    border: 1px solid rgba(176, 138, 90, 0.35);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+    transform: translateY(-15px);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+    z-index: 2000;
+  }
+
+  .mobileMenu.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobileMenu a {
+    color: #fff;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: 0.25s ease;
+  }
+
+  .mobileMenu a:hover {
+    color: var(--gold);
+    padding-left: 22px;
+  }
+
+  .luxHero {
+    padding-top: 76px;
+  }
+}
