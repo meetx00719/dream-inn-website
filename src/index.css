@@ -1697,3 +1697,74 @@ button {
     width: min(326px, 86vw);
   }
 }
+.bookingLuxury {
+  grid-template-columns: 520px 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.bookingTitle span {
+  display: block;
+}
+
+.bookingTitle span:first-child {
+  white-space: nowrap;
+}
+
+.bookingForm .inputGroup > label {
+  display: none;
+}
+
+.bookingForm .inputGroup select,
+.bookingForm .datePopupInput,
+.bookingForm .checkBtn {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookingForm .inputGroup select,
+.bookingForm .datePopupInput {
+  text-align: center;
+  text-align-last: center;
+  font-size: 15px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.bookingForm .checkBtn {
+  align-self: center;
+}
+
+.calendarPopup {
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 1250px) {
+  .bookingLuxury {
+    grid-template-columns: 1fr;
+  }
+
+  .bookingForm {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkBtn {
+    grid-column: span 2;
+    width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingForm {
+    grid-template-columns: 1fr;
+  }
+
+  .checkBtn {
+    grid-column: auto;
+  }
+}

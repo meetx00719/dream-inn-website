@@ -22,14 +22,8 @@ import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
 
 const heroSlides = [
-  {
-    image: hero1,
-    mobileImage: hero1Mobile,
-  },
-  {
-    image: hero2,
-    mobileImage: hero2Mobile,
-  },
+  { image: hero1, mobileImage: hero1Mobile },
+  { image: hero2, mobileImage: hero2Mobile },
 ];
 
 const parkingPolicy =
@@ -132,33 +126,40 @@ function App() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [occupancy, setOccupancy] = useState("1");
+  const [selectedRoomName, setSelectedRoomName] = useState("Single Bed Room");
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-const bookingRef = useRef(null);
 
-useEffect(() => {
-  const closeCalendar = (event) => {
-    if (bookingRef.current && !bookingRef.current.contains(event.target)) {
-      setOpenCalendar(null);
-    }
-  };
-
-  document.addEventListener("mousedown", closeCalendar);
-  document.addEventListener("touchstart", closeCalendar);
-
-  return () => {
-    document.removeEventListener("mousedown", closeCalendar);
-    document.removeEventListener("touchstart", closeCalendar);
-  };
-}, []);
-
+  const bookingRef = useRef(null);
   const today = formatDate(new Date());
 
   const availableRooms =
     Number(occupancy) > 2
       ? rooms.filter((room) => room.name === "Double Bed Room")
       : rooms;
+
+  useEffect(() => {
+    if (!availableRooms.some((room) => room.name === selectedRoomName)) {
+      setSelectedRoomName(availableRooms[0]?.name || "");
+    }
+  }, [occupancy, availableRooms, selectedRoomName]);
+
+  useEffect(() => {
+    const closeCalendar = (event) => {
+      if (bookingRef.current && !bookingRef.current.contains(event.target)) {
+        setOpenCalendar(null);
+      }
+    };
+
+    document.addEventListener("mousedown", closeCalendar);
+    document.addEventListener("touchstart", closeCalendar);
+
+    return () => {
+      document.removeEventListener("mousedown", closeCalendar);
+      document.removeEventListener("touchstart", closeCalendar);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -177,14 +178,9 @@ useEffect(() => {
     const isMobile = window.innerWidth <= 760;
     const offset = isMobile ? 80 : 100;
 
-    const y =
-      section.getBoundingClientRect().top + window.pageYOffset - offset;
+    const y = section.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
-
+    window.scrollTo({ top: y, behavior: "smooth" });
     setMobileMenuOpen(false);
   };
 
@@ -199,11 +195,7 @@ useEffect(() => {
       window.pageYOffset -
       (window.innerHeight / 2 - section.offsetHeight / 2);
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
-
+    window.scrollTo({ top: y, behavior: "smooth" });
     setMobileMenuOpen(false);
   };
 
@@ -351,65 +343,69 @@ useEffect(() => {
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
             <span className="sectionKicker">Book Now</span>
-        <h2 className="bookingTitle">
-  <span>Plan Your Stay</span>
-  <span className="bookingAt">at</span>
-  <span className="bookingHotel">Dream Inn</span>
 
-</h2>
+            <h2 className="bookingTitle">
+              <span>Plan Your Stay</span>
+              <span className="bookingAt">at</span>
+              <span className="bookingHotel">Dream Inn</span>
+            </h2>
           </div>
 
           <form className="bookingForm">
             <DatePicker
               id="checkin"
-              label="Arrival Date"
               value={checkIn}
               min={today}
+              placeholder="Arrival Date"
               onChange={handleCheckIn}
               openCalendar={openCalendar}
-              setOpenCalendar={setOpenCalendar} 
+              setOpenCalendar={setOpenCalendar}
             />
 
             <DatePicker
               id="checkout"
-              label="Departure Date"
               value={checkOut}
               min={checkIn ? getNextDay(checkIn) : getNextDay(today)}
+              placeholder="Departure Date"
               onChange={setCheckOut}
               openCalendar={openCalendar}
               setOpenCalendar={setOpenCalendar}
             />
 
-<div className="inputGroup">
-  <label>Occupancy</label>
-  <select
-    value={occupancy}
-    onFocus={() => setOpenCalendar(null)}
-    onClick={() => setOpenCalendar(null)}
-    onChange={(event) => setOccupancy(event.target.value)}
-  >
-    <option value="1">1 Guest</option>
-    <option value="2">2 Guests</option>
-    <option value="3">3 Guests</option>
-    <option value="4">4 Guests</option>
-  </select>
-</div>
+            <div className="inputGroup">
+              <select
+                value={occupancy}
+                onFocus={() => setOpenCalendar(null)}
+                onClick={() => setOpenCalendar(null)}
+                onChange={(event) => setOccupancy(event.target.value)}
+                aria-label="Occupancy"
+              >
+                <option value="1">Occupancy: 1 Guest</option>
+                <option value="2">Occupancy: 2 Guests</option>
+                <option value="3">Occupancy: 3 Guests</option>
+                <option value="4">Occupancy: 4 Guests</option>
+              </select>
+            </div>
 
-<div className="inputGroup">
-  <label>Rooms</label>
-  <select
-    onFocus={() => setOpenCalendar(null)}
-    onClick={() => setOpenCalendar(null)}
-  >
-    {availableRooms.map((room) => (
-      <option key={room.name}>{room.name}</option>
-    ))}
-  </select>
-</div>
+            <div className="inputGroup">
+              <select
+                value={selectedRoomName}
+                onFocus={() => setOpenCalendar(null)}
+                onClick={() => setOpenCalendar(null)}
+                onChange={(event) => setSelectedRoomName(event.target.value)}
+                aria-label="Rooms"
+              >
+                {availableRooms.map((room) => (
+                  <option key={room.name} value={room.name}>
+                    Rooms: {room.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-<button type="button" className="checkBtn" onClick={openBookingEngine}>
-  Book Now
-</button>
+            <button type="button" className="checkBtn" onClick={openBookingEngine}>
+              Book Now
+            </button>
           </form>
         </section>
 
@@ -592,9 +588,9 @@ function formatDate(date) {
 
 function DatePicker({
   id,
-  label,
   value,
   min,
+  placeholder,
   onChange,
   openCalendar,
   setOpenCalendar,
@@ -638,14 +634,13 @@ function DatePicker({
 
   return (
     <div className="inputGroup datePickerWrap">
-      <label>{label}</label>
-
       <button
         type="button"
         className="datePopupInput"
         onClick={() => setOpenCalendar(open ? null : id)}
+        aria-label={placeholder}
       >
-        {value || "Select date"}
+        {value || placeholder || "Select date"}
       </button>
 
       {open && (
@@ -746,7 +741,9 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
     setActive((current) => (current + 1) % room.images.length);
 
   const prevSlide = () =>
-    setActive((current) => (current - 1 + room.images.length) % room.images.length);
+    setActive(
+      (current) => (current - 1 + room.images.length) % room.images.length
+    );
 
   return (
     <div className="modalOverlay" onClick={onClose}>
@@ -815,7 +812,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             className="modalBookBtn"
             onClick={onCheckAvailability}
           >
-            Check Availability
+            Book Now
           </button>
         </div>
       </div>
