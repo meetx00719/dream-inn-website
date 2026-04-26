@@ -1664,3 +1664,67 @@ body {
     margin-right: 6%;
   }
 }
+@media (max-width: 760px) {
+  .mobileMenuBtn {
+    display: flex !important;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(176, 138, 90, 0.4);
+    background: rgba(255, 255, 255, 0.9);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 3000;
+  }
+
+  .mobileMenuBtn span {
+    width: 22px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .mobileMenu {
+    display: flex !important;
+    position: fixed;
+    top: 76px;
+    right: 6%;
+    width: 88vw;
+    max-width: 300px;
+    padding: 18px;
+    flex-direction: column;
+    background: #12141a;
+    border: 1px solid rgba(176, 138, 90, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: 0.3s ease;
+    z-index: 2500;
+  }
+
+  .mobileMenu.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobileMenu a {
+    color: white;
+    padding: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+}
+.mobileMenu {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: 0.3s ease;
+}
+
+.mobileMenu.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
