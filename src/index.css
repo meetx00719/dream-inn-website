@@ -1356,3 +1356,142 @@ button {
     grid-column: auto;
   }
 }
+/* ULTRA PREMIUM BOOKING SECTION */
+
+.bookingLuxury {
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: 430px 1fr;
+  gap: 52px;
+  padding: 70px 74px 82px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(251, 248, 243, 0.96)),
+    radial-gradient(circle at top left, rgba(176, 138, 90, 0.16), transparent 32%);
+  border: 1px solid rgba(176, 138, 90, 0.38);
+  border-top: 6px solid var(--gold);
+  box-shadow:
+    0 42px 120px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+}
+
+.bookingLuxury::before {
+  content: "";
+  position: absolute;
+  top: 26px;
+  left: 26px;
+  right: 26px;
+  bottom: 26px;
+  border: 1px solid rgba(176, 138, 90, 0.16);
+  pointer-events: none;
+}
+
+.bookingHeader {
+  position: relative;
+  z-index: 2;
+}
+
+.bookingTitle {
+  font-size: clamp(58px, 5vw, 88px);
+  line-height: 0.94;
+  letter-spacing: -2.8px;
+}
+
+.bookingTitle span:first-child {
+  font-size: clamp(58px, 5vw, 88px);
+}
+
+.bookingAt {
+  font-size: clamp(42px, 3.6vw, 62px);
+  font-style: italic;
+  color: var(--gold);
+}
+
+.bookingHotel {
+  font-size: clamp(58px, 5vw, 88px);
+}
+
+.bookingForm {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  align-self: end;
+  transform: translateY(68px);
+}
+
+.inputGroup select,
+.datePopupInput,
+.checkBtn {
+  height: 66px;
+  width: 100%;
+  min-width: 0;
+}
+
+.inputGroup select,
+.datePopupInput {
+  border: 1px solid rgba(176, 138, 90, 0.34);
+  background:
+    linear-gradient(180deg, #ffffff, #fbf8f3);
+  font-size: 13px;
+  letter-spacing: 1px;
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.inputGroup select:hover,
+.inputGroup select:focus,
+.datePopupInput:hover,
+.datePopupInput:focus {
+  border-color: var(--gold);
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(176, 138, 90, 0.12),
+    0 18px 42px rgba(176, 138, 90, 0.16);
+}
+
+.checkBtn {
+  min-width: 0;
+  background:
+    linear-gradient(135deg, #c4a06b 0%, #a67b45 45%, #7b5a32 100%);
+  box-shadow:
+    0 18px 44px rgba(176, 138, 90, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.checkBtn:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 24px 58px rgba(176, 138, 90, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 1250px) {
+  .bookingLuxury {
+    grid-template-columns: 1fr;
+  }
+
+  .bookingForm {
+    transform: none;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .checkBtn {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingLuxury {
+    padding: 38px 24px;
+  }
+
+  .bookingForm {
+    grid-template-columns: 1fr;
+  }
+
+  .checkBtn {
+    grid-column: auto;
+  }
+}
