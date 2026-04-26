@@ -1623,3 +1623,44 @@ button {
     padding-top: 76px;
   }
 }
+/* FIX MOBILE SIDE SWIPE / HORIZONTAL SCROLL */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 760px) {
+  .mainHeader,
+  .luxHotelSite,
+  main,
+  section {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .mobileMenu {
+    right: 4%;
+    width: 92vw;
+    max-width: 300px;
+  }
+
+  .bookRoomBtn,
+  .learnBtn,
+  .checkBtn,
+  .modalBookBtn,
+  .reviewBtn {
+    max-width: 100%;
+    white-space: normal;
+  }
+
+  .bookingLuxury,
+  .aboutLuxury,
+  .amenitiesLuxury,
+  .reviewsSection,
+  .locationLuxury {
+    margin-left: 6%;
+    margin-right: 6%;
+  }
+}
