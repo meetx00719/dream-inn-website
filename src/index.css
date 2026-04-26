@@ -1320,3 +1320,54 @@ button {
     outline-offset: 4px;
   }
 }
+/* FINAL MOBILE ROOMS CENTER SWIPE FIX */
+@media (max-width: 760px) {
+  #rooms {
+    scroll-margin-top: 80px;
+  }
+
+  .roomsLuxury {
+    min-height: auto;
+    padding: 70px 0 80px;
+    overflow: hidden;
+  }
+
+  .roomsLuxury .sectionCenter {
+    padding: 0 6%;
+    margin-bottom: 32px;
+  }
+
+  .roomGridLuxury {
+    display: flex !important;
+    overflow-x: auto;
+    gap: 18px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 8%;
+    scroll-padding-right: 8%;
+    padding: 0 8% 22px !important;
+    margin: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .luxRoomCard {
+    flex: 0 0 84%;
+    min-width: 84%;
+    max-width: 84%;
+    scroll-snap-align: center;
+  }
+
+  .roomGridLuxury::-webkit-scrollbar {
+    display: none;
+  }
+
+  .roomGridLuxury {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .roomDots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+}
