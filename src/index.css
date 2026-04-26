@@ -121,13 +121,13 @@ button {
   margin-left: 5px;
 }
 
-.mainHeader nav {
+.desktopNav {
   display: flex;
   align-items: center;
   gap: 30px;
 }
 
-.mainHeader nav a {
+.desktopNav a {
   position: relative;
   color: var(--dark);
   font-weight: 800;
@@ -136,7 +136,7 @@ button {
   transition: 0.25s ease;
 }
 
-.mainHeader nav a::after {
+.desktopNav a::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -148,13 +148,19 @@ button {
   transition: width 0.25s ease;
 }
 
-.mainHeader nav a:hover {
+.desktopNav a:hover {
   color: var(--gold);
   transform: translateY(-2px);
 }
 
-.mainHeader nav a:hover::after {
+.desktopNav a:hover::after {
   width: 100%;
+}
+
+/* MOBILE MENU DEFAULT HIDDEN */
+.mobileMenu,
+.mobileMenuBtn {
+  display: none;
 }
 
 /* BUTTONS */
@@ -238,10 +244,16 @@ button {
   position: relative;
 }
 
+.luxHeroSlide picture,
 .luxHeroSlide img {
   width: 100%;
   height: 100%;
+  display: block;
+}
+
+.luxHeroSlide img {
   object-fit: cover;
+  object-position: center center;
   filter: brightness(0.82) saturate(1.04);
   transform: scale(1.02);
 }
@@ -249,9 +261,7 @@ button {
 .luxHeroOverlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 18% 45%, rgba(176, 138, 90, 0.22), transparent 28%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.08));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.55));
 }
 
 .luxHeroText {
@@ -264,21 +274,29 @@ button {
   animation: fadeInUp 0.9s ease both;
 }
 
-.luxHeroText span {
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 3px;
-  color: #e8c28e;
+.centerHero {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  z-index: 5;
 }
 
-.luxHeroText h1 {
-  font-family: "Playfair Display", serif;
-  font-size: clamp(48px, 5.4vw, 82px);
-  line-height: 1.02;
-  margin: 18px 0 30px;
-  text-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
-  letter-spacing: -1.8px;
+.heroSub {
+  margin: 0;
+  font-size: clamp(18px, 2.2vw, 28px);
+  color: var(--gold);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-weight: 900;
+  white-space: nowrap;
+  text-shadow:
+    0 0 10px rgba(176, 138, 90, 0.65),
+    0 0 28px rgba(176, 138, 90, 0.45),
+    0 8px 30px rgba(0, 0, 0, 0.75);
+  animation: heroSubFade 1.2s ease forwards, heroSubGlow 3s ease-in-out infinite;
 }
 
 .heroPager {
@@ -352,6 +370,8 @@ button {
   gap: 8px;
   min-width: 140px;
   position: relative;
+  text-align: center;
+  align-items: center;
 }
 
 .inputGroup label {
@@ -360,6 +380,7 @@ button {
   color: var(--gold);
   text-transform: uppercase;
   letter-spacing: 1.4px;
+  text-align: center;
 }
 
 .inputGroup select,
@@ -373,6 +394,24 @@ button {
   font-size: 14px;
   font-weight: 800;
   outline: none;
+  text-align: center;
+  text-align-last: center;
+}
+
+.inputGroup select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0 40px 0 12px;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%2312141a' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+}
+
+.inputGroup select:hover {
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%23b08a5a' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .inputGroup select:hover,
@@ -381,6 +420,10 @@ button {
 .datePopupInput:focus {
   border-color: var(--gold);
   box-shadow: 0 0 0 3px rgba(176, 138, 90, 0.16);
+}
+
+.bookingForm .checkBtn {
+  justify-self: center;
 }
 
 /* CALENDAR */
@@ -465,26 +508,6 @@ button {
   cursor: not-allowed;
 }
 
-/* CENTER BOOKING FORM TEXT */
-.bookingForm .inputGroup {
-  text-align: center;
-  align-items: center;
-}
-
-.bookingForm .inputGroup label {
-  text-align: center;
-}
-
-.bookingForm .datePopupInput,
-.bookingForm select {
-  text-align: center;
-  text-align-last: center;
-}
-
-.bookingForm .checkBtn {
-  justify-self: center;
-}
-
 /* COMMON */
 .sectionKicker {
   color: var(--gold);
@@ -503,6 +526,12 @@ button {
   align-items: center;
 }
 
+.aboutCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .aboutCopy h2,
 .sectionCenter h2,
 .locationDetails h2 {
@@ -513,11 +542,14 @@ button {
   letter-spacing: -1px;
 }
 
-.aboutCopy p {
-  line-height: 1.9;
-  color: var(--text);
-  margin-bottom: 22px;
-  font-size: 15px;
+.aboutCopy p,
+.aboutText {
+  font-size: 17px;
+  line-height: 2;
+  color: #4a4f5a;
+  margin-bottom: 18px;
+  max-width: 560px;
+  letter-spacing: 0.3px;
 }
 
 .aboutImages {
@@ -530,21 +562,17 @@ button {
   width: 100%;
   height: 420px;
   object-fit: cover;
-
   border-radius: 8px;
-
   border: 5px solid rgba(255, 255, 255, 0.85);
   outline: 1.5px solid var(--gold);
   outline-offset: 6px;
-
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.2),
     0 10px 30px rgba(176, 138, 90, 0.15);
-
   filter: brightness(0.96) contrast(1.05);
-
   transition: all 0.5s ease;
 }
+
 .aboutImages img:hover {
   transform: scale(1.05) translateY(-6px);
   box-shadow:
@@ -560,14 +588,15 @@ button {
 .aboutImages img:last-child {
   transform: translateY(-35px);
 }
+
 /* ROOMS */
 #rooms {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 0;
 }
 
 .roomsLuxury {
-  min-height: 100vh;
-  padding: 105px 8%;
+  min-height: 92vh;
+  padding: 70px 8% 85px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -580,20 +609,25 @@ button {
 .sectionCenter {
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 60px;
+  margin: 0 auto 38px;
+}
+
+.sectionCenter h2 {
+  font-size: clamp(42px, 5vw, 74px);
+  line-height: 1.02;
 }
 
 .roomGridLuxury {
   display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 330px));
-  gap: 30px;
+  grid-template-columns: repeat(3, minmax(280px, 360px));
+  gap: 34px;
   justify-content: center;
   align-items: stretch;
-  margin-top: 40px;
+  margin-top: 0;
 }
 
 .luxRoomCard {
-  min-height: 520px;
+  min-height: 500px;
   background: #fff;
   cursor: pointer;
   border: 1px solid rgba(232, 223, 210, 0.9);
@@ -612,7 +646,7 @@ button {
 }
 
 .cardImgWrap {
-  height: 240px;
+  height: 250px;
   overflow: hidden;
 }
 
@@ -628,7 +662,7 @@ button {
 }
 
 .cardInfo {
-  padding: 30px;
+  padding: 26px 30px 28px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -638,43 +672,50 @@ button {
   font-family: "Playfair Display", serif;
   font-size: 30px;
   line-height: 1.12;
-  margin-bottom: 10px;
+  margin-bottom: 18px;
 }
 
 .cardInfo p {
   color: var(--text);
-  line-height: 1.7;
-}
-
-.cardPrice {
-  display: none !important;
-}
-
-.bedPreview {
-  color: var(--gold) !important;
-  font-weight: 900;
-  font-size: 13px;
-  margin-bottom: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-
-.roomFacts {
-  display: none;
+  font-size: 15px;
+  line-height: 1.72;
 }
 
 .viewDetails {
   color: var(--gold);
   font-size: 13px;
   font-weight: 900;
-  margin-top: auto;
+  margin-top: 28px;
   display: inline-block;
 }
 
-/* Hide old card check buttons */
+.cardPrice,
+.roomFacts,
 .roomCardActions,
 .roomCheckBtn {
   display: none !important;
+}
+
+/* DOT INDICATOR */
+.roomDots {
+  display: none;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.roomDots .dot {
+  width: 8px;
+  height: 8px;
+  background: #d5c3a8;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.roomDots .dot.active {
+  width: 20px;
+  border-radius: 10px;
+  background: var(--gold);
 }
 
 /* AMENITIES */
@@ -703,6 +744,55 @@ button {
 .amenityGrid div:hover {
   transform: translateY(-5px);
   border-color: var(--gold);
+}
+
+/* REVIEWS */
+.reviewsSection {
+  padding: 90px 8%;
+  background: #fbf9f6;
+  text-align: center;
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.reviewCard {
+  background: #fff;
+  padding: 28px;
+  border: 1px solid #e8dfd2;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.reviewCard p {
+  font-style: italic;
+  color: #444;
+}
+
+.reviewCard h4 {
+  margin-top: 15px;
+  color: #b08a5a;
+}
+
+.reviewBtn {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #b08a5a, #8c6d47);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.reviewBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(176, 138, 90, 0.4);
 }
 
 /* CONTACT */
@@ -763,7 +853,7 @@ button {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.68);
-  z-index: 9999;
+  z-index: 99999;
   display: grid;
   place-items: center;
   padding: 22px;
@@ -860,14 +950,6 @@ button {
   margin-bottom: 24px;
 }
 
-.modalBedDetail {
-  color: var(--gold) !important;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  margin-bottom: 18px !important;
-}
-
 .modalGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -920,6 +1002,7 @@ button {
     opacity: 0;
     transform: translateY(32px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -931,13 +1014,43 @@ button {
     opacity: 0;
     transform: translateY(18px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* RESPONSIVE */
+@keyframes heroSubFade {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSubGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 8px rgba(176, 138, 90, 0.45),
+      0 0 18px rgba(176, 138, 90, 0.25),
+      0 8px 30px rgba(0, 0, 0, 0.75);
+  }
+
+  50% {
+    text-shadow:
+      0 0 18px rgba(176, 138, 90, 0.9),
+      0 0 40px rgba(176, 138, 90, 0.55),
+      0 8px 30px rgba(0, 0, 0, 0.85);
+  }
+}
+
+/* TABLET */
 @media (max-width: 1100px) {
   .bookingLuxury,
   .aboutLuxury,
@@ -966,26 +1079,122 @@ button {
   }
 }
 
+@media (max-width: 900px) {
+  .aboutImages img {
+    height: 260px;
+    transform: none !important;
+    outline-offset: 4px;
+  }
+}
+
+/* MOBILE */
 @media (max-width: 760px) {
   .topInfoBar {
     display: none;
   }
 
   .mainHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
     height: 76px;
     padding: 0 6%;
+    background: transparent;
+    border-bottom: none;
+    backdrop-filter: none;
+    z-index: 9999;
+    overflow: visible;
   }
 
-  .mainHeader nav {
-    display: none;
+  .desktopNav,
+  .bookRoomBtn {
+    display: none !important;
   }
 
   .luxLogo {
     font-size: 32px;
+    color: #fff;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
   }
 
-  .bookRoomBtn {
-    padding: 11px 15px;
+  .luxLogo span {
+    color: #fff;
+  }
+
+  .mobileMenuBtn {
+    display: flex;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(176, 138, 90, 0.55);
+    background: rgba(18, 20, 26, 0.72);
+    backdrop-filter: blur(12px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    z-index: 10001;
+  }
+
+  .mobileMenuBtn span {
+    width: 22px;
+    height: 2px;
+    background: var(--gold);
+    transition: 0.3s ease;
+  }
+
+  .mobileMenuBtn.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .mobileMenuBtn.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobileMenuBtn.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .mobileMenu {
+    display: flex;
+    position: fixed;
+    top: 82px;
+    right: 16px;
+    width: min(300px, calc(100vw - 32px));
+    padding: 18px;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(18, 20, 26, 0.97);
+    border: 1px solid rgba(176, 138, 90, 0.45);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: 0.3s ease;
+    z-index: 10000;
+  }
+
+  .mobileMenu.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .mobileMenu a,
+  .mobileMenu button {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .luxHero {
@@ -993,13 +1202,18 @@ button {
     height: 78vh;
   }
 
-  .luxHeroText {
-    left: 6%;
-    right: 6%;
+  .centerHero {
+    top: 70%;
   }
 
-  .luxHeroText h1 {
-    font-size: 40px;
+  .heroSub {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .heroPager {
+    left: 6%;
+    bottom: 28px;
   }
 
   .bookingLuxury {
@@ -1015,20 +1229,65 @@ button {
     grid-column: auto;
   }
 
+  .calendarPopup {
+    width: min(326px, 86vw);
+  }
+
   .aboutLuxury,
-  .roomsLuxury,
   .amenitiesLuxury {
     padding: 70px 6%;
+  }
+
+  .roomsLuxury {
+    min-height: auto;
+    padding: 70px 0 80px;
+    overflow: hidden;
+  }
+
+  .roomsLuxury .sectionCenter {
+    padding: 0 6%;
+    margin-bottom: 32px;
+  }
+
+  #rooms {
+    scroll-margin-top: 80px;
+  }
+
+  .roomGridLuxury {
+    display: flex;
+    overflow-x: auto;
+    gap: 18px;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 8%;
+    scroll-padding-right: 8%;
+    padding: 0 8% 22px;
+    margin: 0;
+    justify-content: flex-start;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .roomGridLuxury::-webkit-scrollbar {
+    display: none;
+  }
+
+  .luxRoomCard {
+    flex: 0 0 84%;
+    min-width: 84%;
+    max-width: 84%;
+    scroll-snap-align: center;
+  }
+
+  .roomDots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
 
   .aboutImages,
   .modalGrid,
   .amenityGrid {
     grid-template-columns: 1fr;
-  }
-
-  .aboutImages img:first-child {
-    margin-top: 0;
   }
 
   .locationLuxury {
@@ -1048,411 +1307,11 @@ button {
     height: 240px;
   }
 
-  .calendarPopup {
-    width: min(326px, 86vw);
-  }
-}
-
-@media (max-width: 500px) {
-  .luxHeroText h1 {
-    font-size: 34px;
-  }
-
-  .bookingLuxury {
-    margin-top: -20px;
-  }
-} 
-/* FINAL ROOMS SECTION CENTER FIT */
-#rooms {
-  scroll-margin-top: 40px;
-}
-
-.roomsLuxury {
-  min-height: 92vh;
-  padding: 70px 8% 85px;
-  justify-content: center;
-}
-
-.sectionCenter {
-  margin: 0 auto 38px;
-}
-
-.sectionCenter h2 {
-  font-size: clamp(42px, 5vw, 74px);
-  line-height: 1.02;
-}
-
-.roomGridLuxury {
-  margin-top: 0;
-  grid-template-columns: repeat(3, minmax(280px, 360px));
-  gap: 34px;
-  align-items: stretch;
-}
-
-.luxRoomCard {
-  min-height: 500px;
-}
-
-.cardImgWrap {
-  height: 250px;
-}
-
-.cardInfo {
-  padding: 26px 30px 28px;
-}
-
-.cardInfo h3 {
-  font-size: 30px;
-  margin-bottom: 18px;
-}
-
-.cardInfo p {
-  font-size: 15px;
-  line-height: 1.72;
-}
-
-.viewDetails {
-  margin-top: 28px;
-}
-/* CLEAN PREMIUM DROPDOWN */
-.inputGroup select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-
-  padding: 0 40px 0 12px; /* space for arrow */
-  background-color: #fff;
-
-  /* custom arrow */
-  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%2312141a' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 14px;
-}
-.inputGroup select:hover {
-  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%23b08a5a' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
-}
-/* MOBILE ROOM CARDS SWIPE */
-@media (max-width: 760px) {
-  .roomGridLuxury {
-    display: flex;
-    overflow-x: auto;
-    gap: 18px;
-    scroll-snap-type: x mandatory;
-    justify-content: flex-start;
-    padding: 0 6% 18px;
-    margin-left: -6%;
-    margin-right: -6%;
-  }
-
-  .luxRoomCard {
-    min-width: 82%;
-    scroll-snap-align: center;
-  }
-
-  .roomGridLuxury::-webkit-scrollbar {
-    display: none;
-  }
-
-  .roomGridLuxury {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-} 
-/* PREMIUM MOBILE ROOM SWIPE */
-@media (max-width: 760px) {
-  .roomsLuxury {
-    overflow: hidden;
-  }
-
-  .roomGridLuxury {
-    display: flex;
-    overflow-x: auto;
-    gap: 18px;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    justify-content: flex-start;
-    padding: 0 6% 22px;
-    margin-left: -6%;
-    margin-right: -6%;
-  }
-
-  .luxRoomCard {
-    min-width: 84%;
-    scroll-snap-align: center;
-    transform: scale(0.96);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .luxRoomCard:hover,
-  .luxRoomCard:focus {
-    transform: scale(1);
-    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.18);
-  }
-
-  .roomGridLuxury::-webkit-scrollbar {
-    display: none;
-  }
-
-  .roomGridLuxury {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .sectionCenter {
-    margin-bottom: 34px;
-  }
-
-  .cardImgWrap {
-    height: 245px;
-  }
-}
-/* DOT INDICATOR */
-.roomDots {
-  display: none;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.roomDots .dot {
-  width: 8px;
-  height: 8px;
-  background: #d5c3a8;
-  border-radius: 50%;
-  transition: 0.3s;
-}
-
-.roomDots .dot.active {
-  width: 20px;
-  border-radius: 10px;
-  background: var(--gold);
-}
-
-/* SHOW ONLY ON MOBILE */
-@media (max-width: 760px) {
-  .roomDots {
-    display: flex;
-  }
-}
-/* ================= FINAL HERO SUBTITLE FIX ================= */
-
-/* Text only for second hero slide */
-.centerHero {
-  position: absolute !important;
-  left: 50% !important;
-  top: 72% !important;
-  transform: translate(-50%, -50%) !important;
-  text-align: center !important;
-  width: 100%;
-  z-index: 5;
-}
-
-/* Golden subtitle */
-.heroSub {
-  margin: 0;
-  font-size: clamp(18px, 2.2vw, 28px);
-  color: var(--gold);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  font-weight: 900;
-  white-space: nowrap;
-  text-shadow:
-    0 0 10px rgba(176, 138, 90, 0.65),
-    0 0 28px rgba(176, 138, 90, 0.45),
-    0 8px 30px rgba(0, 0, 0, 0.75);
-  animation: heroSubFade 1.2s ease forwards, heroSubGlow 3s ease-in-out infinite;
-}
-
-@keyframes heroSubFade {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes heroSubGlow {
-  0%, 100% {
-    text-shadow:
-      0 0 8px rgba(176, 138, 90, 0.45),
-      0 0 18px rgba(176, 138, 90, 0.25),
-      0 8px 30px rgba(0, 0, 0, 0.75);
-  }
-
-  50% {
-    text-shadow:
-      0 0 18px rgba(176, 138, 90, 0.9),
-      0 0 40px rgba(176, 138, 90, 0.55),
-      0 8px 30px rgba(0, 0, 0, 0.85);
-  }
-}
-
-/* Hero overlay */
-.luxHeroOverlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.55)
-  ) !important;
-}
-
-/* Mobile */
-@media (max-width: 760px) {
-  .centerHero {
-    top: 70% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .heroSub {
-    font-size: 13px;
-    letter-spacing: 2px;
-  }
-}
-@media (max-width: 900px) {
-  .aboutImages img {
-    height: 260px;
-    transform: none !important;
-    outline-offset: 4px;
-  }
-}
-/* FINAL MOBILE ROOMS CENTER SWIPE FIX */
-@media (max-width: 760px) {
-  #rooms {
-    scroll-margin-top: 80px;
-  }
-
-  .roomsLuxury {
-    min-height: auto;
-    padding: 70px 0 80px;
-    overflow: hidden;
-  }
-
-  .roomsLuxury .sectionCenter {
-    padding: 0 6%;
-    margin-bottom: 32px;
-  }
-
-  .roomGridLuxury {
-    display: flex !important;
-    overflow-x: auto;
-    gap: 18px;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 8%;
-    scroll-padding-right: 8%;
-    padding: 0 8% 22px !important;
-    margin: 0 !important;
-    justify-content: flex-start !important;
-  }
-
-  .luxRoomCard {
-    flex: 0 0 84%;
-    min-width: 84%;
-    max-width: 84%;
-    scroll-snap-align: center;
-  }
-
-  .roomGridLuxury::-webkit-scrollbar {
-    display: none;
-  }
-
-  .roomGridLuxury {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .roomDots {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-}
-/* MOBILE HERO IMAGE FIX */
-@media (max-width: 760px) {
-  .luxHeroSlide img {
-    object-fit: cover;
-    object-position: center center;
-  }
-}
-.reviewsSection {
-  padding: 90px 8%;
-  background: #fbf9f6;
-  text-align: center;
-}
-
-.reviewGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
-  margin-top: 40px;
-}
-
-.reviewCard {
-  background: #fff;
-  padding: 28px;
-  border: 1px solid #e8dfd2;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-}
-
-.reviewCard p {
-  font-style: italic;
-  color: #444;
-}
-
-.reviewCard h4 {
-  margin-top: 15px;
-  color: #b08a5a;
-}
-.reviewBtn {
-  display: inline-block;
-  margin-top: 30px;
-  padding: 14px 30px;
-  background: linear-gradient(135deg, #b08a5a, #8c6d47);
-  color: #fff;
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.reviewBtn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(176, 138, 90, 0.4);
-}
-#rooms {
-  scroll-margin-top: 140px;
-}
-/* Fix direct #rooms link position */
-#rooms {
-  scroll-margin-top: 0px;
-}
-
-@media (min-width: 761px) {
-  #rooms {
-    scroll-margin-top: -40px;
-  }
-}
-
-
-@media (max-width: 760px) {
-  #rooms {
-    scroll-margin-top: 80px;
-  }
-}
-/* MOBILE REVIEWS STACK FIX */
-@media (max-width: 760px) {
   .reviewsSection {
     padding: 70px 6%;
   }
 
   .reviewGrid {
-    display: grid;
     grid-template-columns: 1fr;
     gap: 18px;
   }
@@ -1467,271 +1326,13 @@ button {
     text-align: center;
   }
 }
-.aboutText {
-  font-size: 16px;
-  line-height: 1.9;
-  color: #5a5f69;
-  margin-bottom: 18px;
-  max-width: 560px;
-  letter-spacing: 0.3px;
-}
 
-/* premium spacing */
-.aboutCopy {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.aboutText {
-  font-size: 17px;
-  line-height: 2;
-  color: #4a4f5a;
-}
-/* GOLD LUXURY TEXT */
-/* PREMIUM GOLD TEXT (SOFT LUXURY) */
-/* LUXURY GOLD SHIMMER (SUBTLE) */
-.aboutText {
-  background: linear-gradient(
-    110deg,
-    #b08a5a 25%,
-    #f2e3b3 15%,
-    #b08a5a 40%
-  );
-  background-size: 180% auto;
-
-  -webkit-background-clip: text;
-  
-
-}
-
-@keyframes goldShine {
-  0% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-  100% {
-    background-position: 0% center;
-  }
-}
-/* ===== FINAL MOBILE HAMBURGER MENU FIX ===== */
-.mobileMenuBtn {
-  display: none;
-}
-
-.mobileMenu {
-  display: none;
-}
-
-@media (max-width: 760px) {
-  .mainHeader {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 76px;
-    padding: 0 6%;
-    z-index: 9998 !important;
-    overflow: visible !important;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(18px);
+@media (max-width: 500px) {
+  .luxHeroText h1 {
+    font-size: 34px;
   }
 
-  .desktopNav,
-  .bookRoomBtn {
-    display: none !important;
-  }
-
-  .mobileMenuBtn {
-    display: flex !important;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(176, 138, 90, 0.45);
-    background: rgba(255, 255, 255, 0.95);
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    z-index: 10001 !important;
-  }
-
-  .mobileMenuBtn span {
-    width: 22px;
-    height: 2px;
-    background: var(--gold);
-    transition: 0.3s ease;
-  }
-
-  .mobileMenuBtn.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .mobileMenuBtn.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .mobileMenuBtn.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  .mobileMenu {
-    display: flex !important;
-    position: fixed !important;
-    top: 82px !important;
-    right: 16px !important;
-    width: min(300px, calc(100vw - 32px)) !important;
-    flex-direction: column;
-    gap: 8px;
-    padding: 18px;
-    background: rgba(18, 20, 26, 0.98);
-    border: 1px solid rgba(176, 138, 90, 0.45);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-12px);
-    transition: 0.3s ease;
-    z-index: 10000 !important;
-  }
-
-  .mobileMenu.open {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateY(0) !important;
-  }
-
-  .mobileMenu a {
-    color: #fff !important;
-    padding: 14px 16px;
-    font-size: 13px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .luxHero {
-    padding-top: 76px;
-  }
-}
-/* ===== FINAL HEADER + MOBILE HERO MENU FIX ===== */
-
-/* Hide mobile menu on desktop */
-.mobileMenu,
-.mobileMenuBtn {
-  display: none !important;
-}
-
-/* Desktop header clean */
-@media (min-width: 761px) {
-  .desktopNav {
-    display: flex !important;
-  }
-
-  .bookRoomBtn {
-    display: inline-flex !important;
-  }
-}
-
-/* Mobile hero menu */
-@media (max-width: 760px) {
-  .desktopNav,
-  .bookRoomBtn {
-    display: none !important;
-  }
-
-  .mainHeader {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 76px;
-    padding: 0 6%;
-    background: transparent !important;
-    border-bottom: none !important;
-    backdrop-filter: none !important;
-    z-index: 9999 !important;
-    overflow: visible !important;
-  }
-
-  .luxLogo {
-    color: #fff !important;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
-  }
-
-  .luxLogo span {
-    color: #fff !important;
-  }
-
-  .mobileMenuBtn {
-    display: flex !important;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(176, 138, 90, 0.55);
-    background: rgba(18, 20, 26, 0.72);
-    backdrop-filter: blur(12px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    z-index: 10001 !important;
-  }
-
-  .mobileMenuBtn span {
-    width: 22px;
-    height: 2px;
-    background: var(--gold);
-    transition: 0.3s ease;
-  }
-
-  .mobileMenuBtn.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .mobileMenuBtn.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .mobileMenuBtn.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  .mobileMenu {
-    display: flex !important;
-    position: fixed !important;
-    top: 82px;
-    right: 16px;
-    width: min(300px, calc(100vw - 32px));
-    padding: 18px;
-    flex-direction: column;
-    gap: 8px;
-    background: rgba(18, 20, 26, 0.97);
-    border: 1px solid rgba(176, 138, 90, 0.45);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-12px);
-    transition: 0.3s ease;
-    z-index: 10000 !important;
-  }
-
-  .mobileMenu.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-
-  .mobileMenu a {
-    color: #fff !important;
-    padding: 14px 16px;
-    font-size: 13px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  .bookingLuxury {
+    margin-top: -20px;
   }
 }

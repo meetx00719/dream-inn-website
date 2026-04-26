@@ -119,7 +119,13 @@ const amenities = [
   "Air Conditioning",
   "Heater"
 ];
-
+const navLinks = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About Us" },
+  { id: "rooms", label: "Rooms" },
+  { id: "amenities", label: "Amenities" },
+  { id: "location", label: "Contact Us" },
+];
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -241,39 +247,52 @@ const scrollToSection = (event, id) => {
         </div>
       </div>
 
-     <header className="mainHeader">
+    <header className="mainHeader">
   <a href="#home" className="luxLogo">
     Dream<span>Inn</span>
   </a>
 
+  {/* DESKTOP NAV */}
   <nav className="desktopNav">
-    <a href="#home">Home</a>
-    <a href="#about">About Us</a>
-    <a href="#amenities">Amenities</a>
-    <a href="#location">Contact Us</a>
+    {navLinks.map((link) => (
+      <a key={link.id} href={`#${link.id}`}>
+        {link.label}
+      </a>
+    ))}
   </nav>
 
   <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
     Explore Rooms
   </a>
 
-  <button
+  {/* MOBILE BUTTON */}
+<button
   type="button"
   className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-  onClick={() => setMobileMenuOpen((prev) => !prev)}
+  onClick={(e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setMobileMenuOpen((prev) => !prev);
+  }}
+  aria-label="Open menu"
 >
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
 
+  {/* MOBILE MENU */}
   <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-    <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
-    <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
-    <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
-    <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
-    <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
-  </div>
+  {navLinks.map((link) => (
+    <button
+      key={link.id}
+      type="button"
+      onClick={(e) => scrollToSection(e, link.id)}
+    >
+      {link.label}
+    </button>
+  ))}
+</div>
 </header>
 
       <main>
