@@ -398,9 +398,9 @@ useEffect(() => {
               </select>
             </div>
 
-            <button type="button" className="checkBtn" onClick={openBookingEngine}>
-              Check Availability
-            </button>
+           <button type="button" className="checkBtn" onClick={openBookingEngine}>
+  Book Now
+</button>
           </form>
         </section>
 
