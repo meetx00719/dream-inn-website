@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -348,7 +348,7 @@ useEffect(() => {
           </div>
         </section>
 
-        <section id="booking" className="bookingLuxury">
+        <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
             <span className="sectionKicker">Book Now</span>
             <h2>Plan Your Stay at Dream Inn</h2>
