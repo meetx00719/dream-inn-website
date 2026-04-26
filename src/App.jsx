@@ -352,9 +352,10 @@ useEffect(() => {
           <div className="bookingHeader">
             <span className="sectionKicker">Book Now</span>
         <h2 className="bookingTitle">
-  Plan Your Stay <br />
-  at<br />
-  Dream Inn
+  <span>Plan Your Stay</span>
+  <span className="bookingAt">at</span>
+  <span className="bookingHotel">Dream Inn</span>
+
 </h2>
           </div>
 
@@ -366,7 +367,7 @@ useEffect(() => {
               min={today}
               onChange={handleCheckIn}
               openCalendar={openCalendar}
-              setOpenCalendar={setOpenCalendar}
+              setOpenCalendar={setOpenCalendar} 
             />
 
             <DatePicker
@@ -379,29 +380,34 @@ useEffect(() => {
               setOpenCalendar={setOpenCalendar}
             />
 
-            <div className="inputGroup">
-              <label>Occupancy</label>
-              <select
-                value={occupancy}
-                onChange={(event) => setOccupancy(event.target.value)}
-              >
-                <option value="1">1 Guest</option>
-                <option value="2">2 Guests</option>
-                <option value="3">3 Guests</option>
-                <option value="4">4 Guests</option>
-              </select>
-            </div>
+<div className="inputGroup">
+  <label>Occupancy</label>
+  <select
+    value={occupancy}
+    onFocus={() => setOpenCalendar(null)}
+    onClick={() => setOpenCalendar(null)}
+    onChange={(event) => setOccupancy(event.target.value)}
+  >
+    <option value="1">1 Guest</option>
+    <option value="2">2 Guests</option>
+    <option value="3">3 Guests</option>
+    <option value="4">4 Guests</option>
+  </select>
+</div>
 
-            <div className="inputGroup">
-              <label>Room</label>
-              <select>
-                {availableRooms.map((room) => (
-                  <option key={room.name}>{room.name}</option>
-                ))}
-              </select>
-            </div>
+<div className="inputGroup">
+  <label>Rooms</label>
+  <select
+    onFocus={() => setOpenCalendar(null)}
+    onClick={() => setOpenCalendar(null)}
+  >
+    {availableRooms.map((room) => (
+      <option key={room.name}>{room.name}</option>
+    ))}
+  </select>
+</div>
 
-           <button type="button" className="checkBtn" onClick={openBookingEngine}>
+<button type="button" className="checkBtn" onClick={openBookingEngine}>
   Book Now
 </button>
           </form>
