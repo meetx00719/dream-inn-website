@@ -149,7 +149,7 @@ function App() {
     const y =
       roomsSection.getBoundingClientRect().top +
       window.pageYOffset -
-      80;
+      75;
 
     window.scrollTo({
       top: y,
