@@ -1340,7 +1340,7 @@ button {
     width: 100%;
     text-align: center;
   }
-}
+
 
 @media (max-width: 500px) {
   .luxHeroText h1 {
