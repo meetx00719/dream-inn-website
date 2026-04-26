@@ -143,13 +143,13 @@ function App() {
   const scrollToRooms = (event) => {
   event?.preventDefault?.();
 
-  const roomsSection = document.getElementById("rooms");
+  const section = document.getElementById("rooms");
 
-  if (roomsSection) {
+  if (section) {
     const y =
-      roomsSection.getBoundingClientRect().top +
+      section.getBoundingClientRect().top +
       window.pageYOffset -
-      85;
+      (window.innerHeight / 2 - section.offsetHeight / 2);
 
     window.scrollTo({
       top: y,
