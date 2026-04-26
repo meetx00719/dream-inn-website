@@ -129,6 +129,7 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const today = formatDate(new Date());
 
   const availableRooms =
@@ -143,26 +144,26 @@ function App() {
 
     return () => clearInterval(timer);
   }, []);
-  const scrollToSection = (event, id) => {
+const scrollToSection = (event, id) => {
   event?.preventDefault?.();
 
   const section = document.getElementById(id);
   if (!section) return;
 
-const isMobile = window.innerWidth <= 760;
+  const isMobile = window.innerWidth <= 760;
 
-const offsets = {
-  home: 0,
-  about: isMobile ? 90 : 100,
-  rooms: isMobile ? 90 : 100,
-  amenities: isMobile ? 90 : 100,
-  location: isMobile ? 90 : 100,
-};
+  const offsets = {
+    home: 0,
+    about: isMobile ? 80 : 100,
+    rooms: isMobile ? 80 : 100,
+    amenities: isMobile ? 80 : 100,
+    location: isMobile ? 80 : 100,
+  };
 
   const y =
     section.getBoundingClientRect().top +
     window.pageYOffset -
-    (offsets[id] || 90);
+    (offsets[id] || 80);
 
   window.scrollTo({
     top: y,
@@ -240,7 +241,7 @@ const offsets = {
         </div>
       </div>
 
-      <header className="mainHeader">
+     <header className="mainHeader">
   <a href="#home" className="luxLogo">
     Dream<span>Inn</span>
   </a>
@@ -253,12 +254,13 @@ const offsets = {
   </nav>
 
   <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-  Explore Rooms
-</a>
+    Explore Rooms
+  </a>
+
   <button
     type="button"
     className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+    onClick={() => setMobileMenuOpen((prev) => !prev)}
     aria-label="Open mobile menu"
   >
     <span></span>
@@ -267,12 +269,12 @@ const offsets = {
   </button>
 
   <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-  <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
-  <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
-  <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
-  <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
-  <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
-</div>
+    <a href="#home" onClick={(e) => scrollToSection(e, "home")}>Home</a>
+    <a href="#about" onClick={(e) => scrollToSection(e, "about")}>About Us</a>
+    <a href="#rooms" onClick={(e) => scrollToSection(e, "rooms")}>Rooms</a>
+    <a href="#amenities" onClick={(e) => scrollToSection(e, "amenities")}>Amenities</a>
+    <a href="#location" onClick={(e) => scrollToSection(e, "location")}>Contact Us</a>
+  </div>
 </header>
 
       <main>
