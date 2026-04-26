@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import hero1 from "./assets/hero1.jpg";
 import hero2 from "./assets/hero2.jpg";
+import hero1Mobile from "./assets/hero1-mobile.jpg";
+import hero2Mobile from "./assets/hero2-mobile.jpg";
 import about1 from "./assets/about1.jpg";
 import about2 from "./assets/about2.jpg";
 import singleRoom from "./assets/single.jpg";
@@ -18,9 +20,11 @@ import jacuzzi3 from "./assets/jacuzzi3.jpg";
 const heroSlides = [
   {
     image: hero1,
+    mobileImage: hero1Mobile,
   },
   {
     image: hero2,
+    mobileImage: hero2Mobile,
   },
 ];
 
@@ -220,7 +224,10 @@ function App() {
           >
             {heroSlides.map((slide, index) => (
   <article className="luxHeroSlide" key={slide.image}>
-    <img src={slide.image} alt="Dream Inn hotel" />
+   <picture>
+  <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
+  <img src={slide.image} alt="Dream Inn hotel" />
+</picture>
     <div className="luxHeroOverlay" />
 
     {/* SHOW TEXT ONLY ON SECOND IMAGE */}
