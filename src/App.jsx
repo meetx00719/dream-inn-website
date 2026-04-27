@@ -342,8 +342,8 @@ function App() {
             <span className="sectionKicker">Book Now</span>
 
             <h2 className="bookingTitle">
-  Plan Your Stay <span>at Dream Inn</span>
-</h2>
+              Plan Your Stay <span>at Dream Inn</span>
+            </h2>
           </div>
 
           <form className="bookingForm">
@@ -351,7 +351,7 @@ function App() {
               id="checkin"
               value={checkIn}
               min={today}
-              placeholder="Check In Date"
+              placeholder="Check In"
               onChange={handleCheckIn}
               openCalendar={openCalendar}
               setOpenCalendar={setOpenCalendar}
@@ -361,7 +361,7 @@ function App() {
               id="checkout"
               value={checkOut}
               min={checkIn ? getNextDay(checkIn) : getNextDay(today)}
-              placeholder="Check Out Date"
+              placeholder="Check Out"
               onChange={setCheckOut}
               openCalendar={openCalendar}
               setOpenCalendar={setOpenCalendar}

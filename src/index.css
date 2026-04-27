@@ -406,26 +406,27 @@ button {
 .datePopupInput {
   width: 100%;
   min-width: 0;
-  height: 58px;
-  padding: 0 34px 0 14px;
-  border: 1px solid rgba(176, 138, 90, 0.34);
-  background: linear-gradient(180deg, #ffffff, #fbf8f3);
-  color: #11131a;
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  font-weight: 800;
+  height: 60px;
+  padding: 0 42px 0 18px;
+  border: 1px solid rgba(176, 138, 90, 0.26);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(251, 248, 243, 0.96));
+  color: #17130d;
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 700;
   text-align: center;
   text-align-last: center;
   text-transform: none;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.15px;
   outline: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  border-radius: 4px;
+  border-radius: 15px;
   box-shadow:
-    0 14px 34px rgba(0, 0, 0, 0.045),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    0 18px 42px rgba(0, 0, 0, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .datePopupInput {
@@ -435,8 +436,10 @@ button {
 .datePopupInput span {
   display: block;
   width: 100%;
-  color: #11131a;
-  font-weight: 800;
+  color: #17130d;
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 700;
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -447,9 +450,13 @@ button {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='16' height='11' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%2312141a' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  color: #17130d;
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  font-weight: 700;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='11' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%2317140f' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
+  background-position: right 16px center;
   background-size: 14px;
 }
 
@@ -1274,6 +1281,11 @@ button {
   .bookingForm {
     grid-template-columns: 1fr;
     gap: 15px;
+  }
+  .inputGroup select,
+  .datePopupInput,
+  .datePopupInput span {
+    font-size: 16px;
   }
 
   .checkBtn {
