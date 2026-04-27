@@ -169,49 +169,57 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-const scrollToSection = (event, id) => {
-  event?.preventDefault?.();
+const getCenteredScrollPosition = (section) => {
+    const isMobile = window.innerWidth <= 760;
+    const headerOffset = isMobile ? 76 : 0;
 
-  const section = document.getElementById(id);
-  if (!section) return;
+    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+    const sectionHeight = section.offsetHeight;
+    const viewportHeight = window.innerHeight;
 
-  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
+    const centeredPosition =
+      sectionTop - (viewportHeight / 2 - sectionHeight / 2) - headerOffset;
 
-  const y =
-    section.getBoundingClientRect().top +
-    window.pageYOffset -
-    (window.innerHeight / 2 - section.offsetHeight / 2) -
-    headerOffset;
+    return Math.max(centeredPosition, 0);
+  };
 
-  window.scrollTo({
-    top: Math.max(y, 0),
-    behavior: "smooth",
-  });
+  const scrollToSection = (event, id) => {
+    event?.preventDefault?.();
 
-  setMobileMenuOpen(false);
-};
+    const section = document.getElementById(id);
+    if (!section) return;
 
- const scrollToRooms = (event) => {
-  event?.preventDefault?.();
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setMobileMenuOpen(false);
+      return;
+    }
 
-  const section = document.getElementById("rooms");
-  if (!section) return;
+    const y = getCenteredScrollPosition(section);
 
-  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
 
-  const y =
-    section.getBoundingClientRect().top +
-    window.pageYOffset -
-    (window.innerHeight / 2 - section.offsetHeight / 2) -
-    headerOffset;
+    setMobileMenuOpen(false);
+  };
 
-  window.scrollTo({
-    top: Math.max(y, 0),
-    behavior: "smooth",
-  });
+  const scrollToRooms = (event) => {
+    event?.preventDefault?.();
 
-  setMobileMenuOpen(false);
-};
+    const section = document.getElementById("rooms");
+    if (!section) return;
+
+    const y = getCenteredScrollPosition(section);
+
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+
+    setMobileMenuOpen(false);
+  };
   const openBookingEngine = () => {
     window.open("https://your-booking-engine-link.com", "_blank");
   };
