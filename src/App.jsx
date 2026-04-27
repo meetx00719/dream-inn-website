@@ -169,16 +169,19 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
- const scrollToSection = (event, id) => {
+const scrollToSection = (event, id) => {
   event?.preventDefault?.();
 
   const section = document.getElementById(id);
   if (!section) return;
 
+  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
+
   const y =
     section.getBoundingClientRect().top +
     window.pageYOffset -
-    (window.innerHeight / 2 - section.offsetHeight / 2);
+    (window.innerHeight / 2 - section.offsetHeight / 2) -
+    headerOffset;
 
   window.scrollTo({
     top: Math.max(y, 0),
@@ -188,21 +191,27 @@ function App() {
   setMobileMenuOpen(false);
 };
 
-  const scrollToRooms = (event) => {
-    event?.preventDefault?.();
+ const scrollToRooms = (event) => {
+  event?.preventDefault?.();
 
-    const section = document.getElementById("rooms");
-    if (!section) return;
+  const section = document.getElementById("rooms");
+  if (!section) return;
 
-    const y =
-      section.getBoundingClientRect().top +
-      window.pageYOffset -
-      (window.innerHeight / 2 - section.offsetHeight / 2);
+  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
 
-    window.scrollTo({ top: y, behavior: "smooth" });
-    setMobileMenuOpen(false);
-  };
+  const y =
+    section.getBoundingClientRect().top +
+    window.pageYOffset -
+    (window.innerHeight / 2 - section.offsetHeight / 2) -
+    headerOffset;
 
+  window.scrollTo({
+    top: Math.max(y, 0),
+    behavior: "smooth",
+  });
+
+  setMobileMenuOpen(false);
+};
   const openBookingEngine = () => {
     window.open("https://your-booking-engine-link.com", "_blank");
   };
