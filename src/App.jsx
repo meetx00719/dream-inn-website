@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -126,6 +126,7 @@ const navLinks = [
   { id: "about", label: "About Us" },
   { id: "rooms", label: "Rooms" },
   { id: "amenities", label: "Amenities" },
+  { id: "reviews", label: "Reviews" },
   { id: "location", label: "Contact Us" },
 ];
 
@@ -134,10 +135,6 @@ const ASI_BOOKING_ACTION =
 
 const TAX_RATE = 0.14;
 
-/*
-  Estimated rates only.
-  Update these numbers later with your real Dream Inn rate ranges.
-*/
 const RATE_TABLE = {
   "Single Bed Room": {
     weekday: 89,
@@ -164,12 +161,13 @@ function App() {
   const [activeDot, setActiveDot] = useState(0);
 
   const bookingRef = useRef(null);
-  const today = formatDate(new Date());
+  const today = useMemo(() => formatDate(new Date()), []);
 
-  const availableRooms =
-    Number(occupancy) > 2
+  const availableRooms = useMemo(() => {
+    return Number(occupancy) > 2
       ? rooms.filter((room) => room.name === "Double Bed Room")
       : rooms;
+  }, [occupancy]);
 
   const selectedRoomObject =
     availableRooms.find((room) => room.name === selectedRoomName) || null;
@@ -195,6 +193,10 @@ function App() {
   }, [availableRooms, selectedRoomName]);
 
   useEffect(() => {
+    setActiveDot(0);
+  }, [availableRooms.length]);
+
+  useEffect(() => {
     const closeCalendar = (event) => {
       if (bookingRef.current && !bookingRef.current.contains(event.target)) {
         setOpenCalendar(null);
@@ -218,7 +220,7 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-const getHeaderOffset = () => {
+  const getHeaderOffset = () => {
     const isMobile = window.innerWidth <= 760;
     const topBar = document.querySelector(".topInfoBar");
     const header = document.querySelector(".mainHeader");
@@ -226,20 +228,21 @@ const getHeaderOffset = () => {
     const topBarHeight = isMobile ? 0 : topBar?.offsetHeight || 0;
     const headerHeight = header?.offsetHeight || 0;
 
-    return topBarHeight + headerHeight + (isMobile ? 18 : 24);
+    return topBarHeight + headerHeight + (isMobile ? 16 : 22);
   };
 
   const scrollToSectionById = (id) => {
     const section = document.getElementById(id);
     if (!section) return;
 
+    setOpenCalendar(null);
+
     if (id === "home") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
-    const y =
-      section.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
+    const y = section.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
 
     window.scrollTo({
       top: Math.max(y, 0),
@@ -257,7 +260,7 @@ const getHeaderOffset = () => {
     scrollToSectionById("rooms");
   };
 
-const openBookingEngine = () => {
+  const openBookingEngine = () => {
     if (!checkIn || !checkOut || !occupancy) {
       alert("Please select Check In, Check Out, and Occupancy before booking.");
       return;
@@ -296,6 +299,7 @@ const openBookingEngine = () => {
     form.submit();
     document.body.removeChild(form);
   };
+
   const getNextDay = (dateString) => {
     const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
     date.setDate(date.getDate() + 1);
@@ -351,7 +355,7 @@ const openBookingEngine = () => {
           Dream<span>Inn</span>
         </a>
 
-        <nav className="desktopNav">
+        <nav className="desktopNav" aria-label="Primary navigation">
           {navLinks.map((link) => (
             <a
               key={link.id}
@@ -407,9 +411,7 @@ const openBookingEngine = () => {
 
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
-            <span className="sectionKicker centerKicker">
-              Reserve Your Stay
-            </span>
+            <span className="sectionKicker centerKicker">Reserve Your Stay</span>
 
             <h2 className="bookingTitle">
               <span>Dream Inn</span>
@@ -420,7 +422,7 @@ const openBookingEngine = () => {
             </p>
           </div>
 
-          <form className="bookingForm">
+          <form className="bookingForm" onSubmit={(event) => event.preventDefault()}>
             <DatePicker
               id="checkin"
               value={checkIn}
@@ -536,12 +538,15 @@ const openBookingEngine = () => {
 
           <div
             className="roomGridLuxury"
-            onScroll={(e) => {
-              const container = e.target;
-              const scrollLeft = container.scrollLeft;
-              const width = container.offsetWidth;
-              const index = Math.round(scrollLeft / width);
-              setActiveDot(index);
+            onScroll={(event) => {
+              const container = event.currentTarget;
+              const firstCard = container.querySelector(".luxRoomCard");
+              if (!firstCard) return;
+
+              const cardWidth = firstCard.getBoundingClientRect().width;
+              const gap = parseFloat(window.getComputedStyle(container).gap || "0");
+              const index = Math.round(container.scrollLeft / (cardWidth + gap));
+              setActiveDot(Math.min(Math.max(index, 0), availableRooms.length - 1));
             }}
           >
             {availableRooms.map((room) => (
@@ -576,7 +581,7 @@ const openBookingEngine = () => {
           </div>
         </section>
 
-        <section className="reviewsSection">
+        <section id="reviews" className="reviewsSection">
           <div className="sectionCenter">
             <span className="sectionKicker">Guest Experiences</span>
             <h2>What Our Guests Say</h2>
@@ -618,10 +623,7 @@ const openBookingEngine = () => {
             <h2>Experience Dream Inn</h2>
 
             <p>
-              📧{" "}
-              <a href="mailto:dreaminn3201@gmail.com">
-                dreaminn3201@gmail.com
-              </a>
+              📧 <a href="mailto:dreaminn3201@gmail.com">dreaminn3201@gmail.com</a>
             </p>
 
             <p>
@@ -645,6 +647,7 @@ const openBookingEngine = () => {
           onClose={() => setSelectedRoom(null)}
           onCheckAvailability={() => {
             setSelectedRoom(null);
+            setSelectedRoomName(selectedRoom.name);
 
             setTimeout(() => {
               scrollToSectionById("booking");
@@ -662,16 +665,6 @@ const openBookingEngine = () => {
       </footer>
     </div>
   );
-}
-
-function calculateNights(checkIn, checkOut) {
-  if (!checkIn || !checkOut) return 0;
-
-  const start = new Date(`${checkIn}T00:00:00`);
-  const end = new Date(`${checkOut}T00:00:00`);
-  const diff = end.getTime() - start.getTime();
-
-  return diff > 0 ? Math.round(diff / (1000 * 60 * 60 * 24)) : 0;
 }
 
 function calculateEstimatedRate(roomName, checkIn, checkOut) {
@@ -778,8 +771,6 @@ function BookingPreview({
   selectedRoom,
   availableRooms,
   nights,
-  estimatedSubtotal,
-  estimatedTaxes,
   estimatedTotal,
   averageNightlyRate,
   pricingType,
@@ -858,11 +849,11 @@ function DatePicker({
   });
 
   useEffect(() => {
-    if (min) {
+    if (min && !value) {
       const base = new Date(`${min}T00:00:00`);
       setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
     }
-  }, [min]);
+  }, [min, value]);
 
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -892,27 +883,28 @@ function DatePicker({
       <button
         type="button"
         className="datePopupInput"
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
           setOpenCalendar(open ? null : id);
         }}
         aria-label={placeholder}
       >
-      <span>{value ? formatAsiDate(value) : placeholder}</span>
+        <span>{value ? formatAsiDate(value) : placeholder}</span>
       </button>
 
       {open && (
         <div
           className="calendarPopup"
-          onClick={(e) => e.stopPropagation()}
-          onMouseDown={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
+          onClick={(event) => event.stopPropagation()}
+          onMouseDown={(event) => event.stopPropagation()}
+          onTouchStart={(event) => event.stopPropagation()}
         >
           <div className="calendarHead">
             <button
               type="button"
               onClick={() => setViewDate(new Date(year, month - 1, 1))}
+              aria-label="Previous month"
             >
               ‹
             </button>
@@ -924,6 +916,7 @@ function DatePicker({
             <button
               type="button"
               onClick={() => setViewDate(new Date(year, month + 1, 1))}
+              aria-label="Next month"
             >
               ›
             </button>
@@ -944,7 +937,7 @@ function DatePicker({
               day ? (
                 <button
                   type="button"
-                  key={`${month}-${day}`}
+                  key={`${year}-${month}-${day}`}
                   onClick={() => selectDate(day)}
                   disabled={new Date(year, month, day) < minDate}
                   className={
@@ -956,7 +949,7 @@ function DatePicker({
                   {day}
                 </button>
               ) : (
-                <span key={`blank-${index}`} />
+                <span key={`blank-${year}-${month}-${index}`} />
               )
             )}
           </div>
@@ -973,8 +966,11 @@ function RoomCard({ room, onSeeMore }) {
       onClick={onSeeMore}
       tabIndex="0"
       role="button"
-      onKeyDown={(e) => {
-        if (e.key === "Enter") onSeeMore();
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSeeMore();
+        }
       }}
     >
       <div className="cardImgWrap">
@@ -998,21 +994,36 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
       setActive((current) => (current + 1) % room.images.length);
     }, 5000);
 
-    return () => clearInterval(timer);
-  }, [room.images.length]);
+    const handleEscape = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      clearInterval(timer);
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [room.images.length, onClose]);
 
   const nextSlide = () =>
     setActive((current) => (current + 1) % room.images.length);
 
   const prevSlide = () =>
-    setActive(
-      (current) => (current - 1 + room.images.length) % room.images.length
-    );
+    setActive((current) => (current - 1 + room.images.length) % room.images.length);
 
   return (
     <div className="modalOverlay" onClick={onClose}>
-      <div className="roomModal" onClick={(event) => event.stopPropagation()}>
-        <button type="button" className="modalClose" onClick={onClose}>
+      <div
+        className="roomModal"
+        role="dialog"
+        aria-modal="true"
+        aria-label={room.name}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button type="button" className="modalClose" onClick={onClose} aria-label="Close room details">
           ×
         </button>
 
@@ -1030,6 +1041,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             type="button"
             className="modalArrow modalArrowLeft"
             onClick={prevSlide}
+            aria-label="Previous image"
           >
             ‹
           </button>
@@ -1038,6 +1050,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             type="button"
             className="modalArrow modalArrowRight"
             onClick={nextSlide}
+            aria-label="Next image"
           >
             ›
           </button>
