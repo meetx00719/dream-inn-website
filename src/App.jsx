@@ -220,14 +220,13 @@ function App() {
 
 const getCenteredScrollPosition = (section) => {
     const isMobile = window.innerWidth <= 760;
-    const headerOffset = isMobile ? 76 : 0;
+    const headerOffset = isMobile ? 86 : 118;
 
-    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
-    const sectionHeight = section.offsetHeight;
-    const viewportHeight = window.innerHeight;
+    const rect = section.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     const centeredPosition =
-      sectionTop - (viewportHeight / 2 - sectionHeight / 2) - headerOffset;
+      rect.top + scrollTop - (window.innerHeight / 2 - rect.height / 2) - headerOffset;
 
     return Math.max(centeredPosition, 0);
   };
