@@ -2487,15 +2487,14 @@ html {
 }
 
 
-
 /* =========================================================
-   FINAL CHECKED FIXES
-   Place this at the bottom. It overrides conflicting earlier rules.
+   FINAL NON-CONFLICTING OVERRIDES
+   Keep this block at the absolute bottom of index.css
 ========================================================= */
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 110px;
+  scroll-behavior: smooth !important;
+  scroll-padding-top: 146px !important;
 }
 
 #home,
@@ -2504,35 +2503,55 @@ html {
 #rooms,
 #amenities,
 #location {
-  scroll-margin-top: 110px;
+  scroll-margin-top: 146px !important;
 }
 
-/* Desktop / tablet section landing */
-#about.aboutLuxury,
-#rooms.roomsLuxury,
-#amenities.amenitiesLuxury,
-#location.locationLuxury {
-  position: relative;
+@media (min-width: 761px) {
+  .mainHeader {
+    position: sticky !important;
+    top: 0 !important;
+  }
+
+  .roomGridLuxury {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(280px, 380px)) !important;
+    gap: 38px !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .luxRoomCard {
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+  }
 }
 
-/* Keep rooms section premium on desktop */
-.roomGridLuxury {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(280px, 380px));
-  gap: 38px;
-  justify-content: center;
-  align-items: stretch;
+@media (max-width: 1100px) and (min-width: 761px) {
+  .aboutLuxury,
+  .locationLuxury {
+    grid-template-columns: 1fr !important;
+  }
+
+  .roomGridLuxury {
+    grid-template-columns: minmax(280px, 460px) !important;
+  }
+
+  .amenityGrid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
-.luxRoomCard:hover .cardImgWrap img {
-  transform: scale(1.08);
-  filter: brightness(1) contrast(1.07) saturate(1.07);
-}
-
-/* Better native anchor support */
 @media (max-width: 760px) {
   html {
-    scroll-padding-top: 88px;
+    scroll-padding-top: 96px !important;
   }
 
   #home,
@@ -2541,13 +2560,88 @@ html {
   #rooms,
   #amenities,
   #location {
-    scroll-margin-top: 88px;
+    scroll-margin-top: 96px !important;
   }
 
-  /* FIX: mobile sections should be single column */
-  .aboutLuxury {
+  .topInfoBar {
+    display: none !important;
+  }
+
+  .mainHeader {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 76px !important;
+    padding: 0 20px !important;
+    background: rgba(12, 14, 18, 0.72) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    z-index: 9999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .desktopNav,
+  .bookRoomBtn,
+  .mobileMenu,
+  .mobileMenuBtn {
+    display: none !important;
+  }
+
+  .luxLogo,
+  .luxLogo span {
+    color: #fff !important;
+  }
+
+  .luxLogo {
+    position: static !important;
+    transform: none !important;
+    font-size: 34px !important;
+    line-height: 1 !important;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  .luxHero {
+    min-height: 560px !important;
+    height: 78vh !important;
+  }
+
+  .bookingLuxury {
+    width: calc(100% - 28px) !important;
+    margin: 34px auto 65px !important;
+    padding: 42px 22px !important;
     grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    text-align: center !important;
+  }
+
+  .bookingForm {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
+    padding-top: 8px !important;
+  }
+
+  .checkBtn {
+    grid-column: auto !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+  }
+
+  .aboutLuxury,
+  .amenitiesLuxury,
+  .reviewsSection {
     padding: 74px 6% !important;
+  }
+
+  .aboutLuxury,
+  .locationLuxury,
+  .modalGrid,
+  .amenityGrid,
+  .reviewGrid {
+    grid-template-columns: 1fr !important;
   }
 
   .aboutImages {
@@ -2566,7 +2660,6 @@ html {
     outline-offset: 5px !important;
   }
 
-  /* FIX: room cards should swipe horizontally on phone */
   .roomsLuxury {
     min-height: auto !important;
     padding: 74px 0 82px !important;
@@ -2609,12 +2702,6 @@ html {
     margin: 12px 12px 0 !important;
   }
 
-  /* FIX: amenities/reviews one column on mobile */
-  .amenitiesLuxury,
-  .reviewsSection {
-    padding: 74px 6% !important;
-  }
-
   .amenityGrid,
   .reviewGrid,
   .modalGrid {
@@ -2624,14 +2711,7 @@ html {
     margin-top: 34px !important;
   }
 
-  .amenityGrid div {
-    min-height: 76px !important;
-    font-size: 14px !important;
-  }
-
-  /* FIX: contact section mobile */
   .locationLuxury {
-    grid-template-columns: 1fr !important;
     margin: 56px 6% !important;
     padding: 36px 26px !important;
     gap: 36px !important;
@@ -2639,11 +2719,6 @@ html {
 
   .locationLuxury::before {
     inset: 14px !important;
-  }
-
-  .locationDetails h2 {
-    font-size: clamp(38px, 11vw, 54px) !important;
-    line-height: 1.04 !important;
   }
 
   .mapBox {
@@ -2659,36 +2734,5 @@ html {
   .reviewBtn {
     width: 100% !important;
     min-width: 0 !important;
-  }
-}
-/* =========================================================
-   FINAL SCROLL SAFETY OVERRIDE
-========================================================= */
-html {
-  scroll-behavior: smooth !important;
-  scroll-padding-top: 146px !important;
-}
-
-#home,
-#booking,
-#about,
-#rooms,
-#amenities,
-#location {
-  scroll-margin-top: 146px !important;
-}
-
-@media (max-width: 760px) {
-  html {
-    scroll-padding-top: 96px !important;
-  }
-
-  #home,
-  #booking,
-  #about,
-  #rooms,
-  #amenities,
-  #location {
-    scroll-margin-top: 96px !important;
   }
 }
