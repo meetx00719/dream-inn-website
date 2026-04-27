@@ -350,6 +350,7 @@ button {
   letter-spacing: 3px;
 
   background: linear-gradient(135deg, #c4a06b, #7b5a32);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 

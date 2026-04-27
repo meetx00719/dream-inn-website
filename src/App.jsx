@@ -420,7 +420,7 @@ const openBookingEngine = () => {
 </span>
 
             <h2 className="bookingTitle">
-              at<span>Dream Inn</span>
+              <span>Dream Inn</span>
             </h2>
           </div>
 
