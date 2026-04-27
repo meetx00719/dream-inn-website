@@ -2661,3 +2661,34 @@ html {
     min-width: 0 !important;
   }
 }
+/* =========================================================
+   FINAL SCROLL SAFETY OVERRIDE
+========================================================= */
+html {
+  scroll-behavior: smooth !important;
+  scroll-padding-top: 146px !important;
+}
+
+#home,
+#booking,
+#about,
+#rooms,
+#amenities,
+#location {
+  scroll-margin-top: 146px !important;
+}
+
+@media (max-width: 760px) {
+  html {
+    scroll-padding-top: 96px !important;
+  }
+
+  #home,
+  #booking,
+  #about,
+  #rooms,
+  #amenities,
+  #location {
+    scroll-margin-top: 96px !important;
+  }
+}

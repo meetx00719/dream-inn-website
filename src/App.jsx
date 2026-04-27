@@ -218,19 +218,15 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-const getScrollOffset = (id) => {
+const getHeaderOffset = () => {
     const isMobile = window.innerWidth <= 760;
+    const topBar = document.querySelector(".topInfoBar");
+    const header = document.querySelector(".mainHeader");
 
-    const offsets = {
-      home: 0,
-      booking: isMobile ? 88 : 110,
-      about: isMobile ? 92 : 112,
-      rooms: isMobile ? 88 : 108,
-      amenities: isMobile ? 88 : 108,
-      location: isMobile ? 88 : 108,
-    };
+    const topBarHeight = isMobile ? 0 : topBar?.offsetHeight || 0;
+    const headerHeight = header?.offsetHeight || 0;
 
-    return offsets[id] ?? (isMobile ? 88 : 108);
+    return topBarHeight + headerHeight + (isMobile ? 18 : 24);
   };
 
   const scrollToSectionById = (id) => {
@@ -242,11 +238,11 @@ const getScrollOffset = (id) => {
       return;
     }
 
-    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
-    const y = Math.max(sectionTop - getScrollOffset(id), 0);
+    const y =
+      section.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
 
     window.scrollTo({
-      top: y,
+      top: Math.max(y, 0),
       behavior: "smooth",
     });
   };
