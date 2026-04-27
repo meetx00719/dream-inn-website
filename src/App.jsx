@@ -538,7 +538,7 @@ const openBookingEngine = () => {
 
         <section id="rooms" className="roomsLuxury">
           <div className="sectionCenter">
-            <span className="sectionKicker">Rooms</span>
+            <span className="sectionKicker">Rooms & Suites</span>
             <h2>Comfortable Rooms for Every Stay</h2>
           </div>
 
@@ -573,7 +573,7 @@ const openBookingEngine = () => {
 
         <section id="amenities" className="amenitiesLuxury">
           <div className="sectionCenter">
-            <span className="sectionKicker">Amenities</span>
+            <span className="sectionKicker">Hotel Amenities</span>
             <h2>Everything You Need for a Comfortable Stay</h2>
           </div>
 
@@ -586,7 +586,7 @@ const openBookingEngine = () => {
 
         <section className="reviewsSection">
           <div className="sectionCenter">
-            <span className="sectionKicker">Guest Reviews</span>
+            <span className="sectionKicker">Guest Experiences</span>
             <h2>What Our Guests Say</h2>
           </div>
 
