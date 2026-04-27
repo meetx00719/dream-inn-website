@@ -1141,95 +1141,36 @@ button {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 9999;
     overflow: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .desktopNav,
-  .bookRoomBtn {
+  .bookRoomBtn,
+  .mobileMenu,
+  .mobileMenuBtn {
     display: none !important;
   }
 
   .luxLogo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: static;
+    transform: none;
     font-family: "Great Vibes", cursive;
-    font-size: 32px;
+    font-size: 34px;
     line-height: 1;
     color: #fff;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
     white-space: nowrap;
     z-index: 10001;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
 
   .luxLogo span {
     color: #fff;
     margin-left: 2px;
-  }
-
-  .mobileMenuBtn {
-    display: flex;
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(176, 138, 90, 0.55);
-    background: rgba(18, 20, 26, 0.72);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    z-index: 10002;
-  }
-
-  .mobileMenuBtn span {
-    width: 22px;
-    height: 2px;
-    background: var(--gold);
-    transition: 0.3s ease;
-  }
-
-  .mobileMenu {
-    display: flex;
-    position: fixed;
-    top: 82px;
-    right: 16px;
-    width: min(300px, calc(100vw - 32px));
-    padding: 18px;
-    flex-direction: column;
-    gap: 8px;
-    background: rgba(18, 20, 26, 0.97);
-    border: 1px solid rgba(176, 138, 90, 0.45);
-    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-12px);
-    transition: 0.3s ease;
-    z-index: 10000;
-  }
-
-  .mobileMenu.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0);
-  }
-}
-  .mobileMenu a {
-    width: 100%;
-    color: #fff;
-    text-align: left;
-    padding: 14px 16px;
-    font-size: 13px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .luxHero {
@@ -1382,3 +1323,10 @@ button {
     width: 100%;
     text-align: center;
   }
+}
+
+/* FINAL SAFETY: remove mobile menu completely */
+.mobileMenu,
+.mobileMenuBtn {
+  display: none !important;
+}

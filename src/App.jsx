@@ -129,7 +129,6 @@ function App() {
   const [selectedRoomName, setSelectedRoomName] = useState("");
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const bookingRef = useRef(null);
   const today = formatDate(new Date());
@@ -183,49 +182,39 @@ const getCenteredScrollPosition = (section) => {
     return Math.max(centeredPosition, 0);
   };
 
- const scrollToSection = (event, id) => {
-  event?.preventDefault?.();
+  const scrollToSection = (event, id) => {
+    event?.preventDefault?.();
 
-  const section = document.getElementById(id);
-  if (!section) return;
+    const section = document.getElementById(id);
+    if (!section) return;
 
-  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
-  const y =
-    section.getBoundingClientRect().top +
-    window.pageYOffset -
-    (window.innerHeight / 2 - section.offsetHeight / 2) -
-    headerOffset;
+    const y = getCenteredScrollPosition(section);
 
-  window.scrollTo({
-    top: Math.max(y, 0),
-    behavior: "smooth",
-  });
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+  };
 
-  setMobileMenuOpen(false);
-};
+  const scrollToRooms = (event) => {
+    event?.preventDefault?.();
 
-const scrollToRooms = (event) => {
-  event?.preventDefault?.();
+    const section = document.getElementById("rooms");
+    if (!section) return;
 
-  const section = document.getElementById("rooms");
-  if (!section) return;
+    const y = getCenteredScrollPosition(section);
 
-  const headerOffset = window.innerWidth <= 760 ? 76 : 0;
+    window.scrollTo({
+      top: y,
+      behavior: "smooth",
+    });
+  };
 
-  const y =
-    section.getBoundingClientRect().top +
-    window.pageYOffset -
-    (window.innerHeight / 2 - section.offsetHeight / 2) -
-    headerOffset;
-
-  window.scrollTo({
-    top: Math.max(y, 0),
-    behavior: "smooth",
-  });
-
-  setMobileMenuOpen(false);
-};
   const openBookingEngine = () => {
     window.open("https://your-booking-engine-link.com", "_blank");
   };
@@ -300,33 +289,6 @@ const scrollToRooms = (event) => {
         <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
           Explore Rooms
         </a>
-
-        <button
-          type="button"
-          className={`mobileMenuBtn ${mobileMenuOpen ? "active" : ""}`}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setMobileMenuOpen((prev) => !prev);
-          }}
-          aria-label="Open menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
-        <div className={`mobileMenu ${mobileMenuOpen ? "open" : ""}`}>
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={(e) => scrollToSection(e, link.id)}
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
       </header>
 
       <main>
