@@ -115,30 +115,21 @@ button {
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-@media (max-width: 760px) {
-  .luxLogo {
-    font-family: "Great Vibes", cursive;
-    font-size: 34px;
-    line-height: 1;
-    color: #fff;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+.luxLogo {
+  font-family: "Great Vibes", cursive;
+  font-size: 42px;
+  color: var(--gold);
+  white-space: nowrap;
+  position: absolute;
+left: 6%;
+top: 50%;
+transform: translateY(-50%);
+  z-index: 10001;
+}
 
-    position: absolute;
-    left: 6%;
-    top: 50%;
-    transform: translateY(-50%);
-
-    z-index: 10001;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .luxLogo span {
-    color: #fff;
-    margin-left: 2px;
-  }
+.luxLogo span {
+  color: var(--dark);
+  margin-left: 5px;
 }
 
 .desktopNav {
