@@ -811,7 +811,7 @@ function DatePicker({
         }}
         aria-label={placeholder}
       >
-        <span>{value || placeholder}</span>
+      <span>{value ? formatAsiDate(value) : placeholder}</span>
       </button>
 
       {open && (
