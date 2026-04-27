@@ -339,43 +339,64 @@ button {
 .bookingHeader {
   position: relative;
   z-index: 2;
+  text-align: center;
 }
 
 .centerKicker {
   display: block;
   text-align: center;
-  margin-bottom: 12px;
-
-  font-size: 12px;
-  letter-spacing: 3px;
-
-  background: linear-gradient(135deg, #c4a06b, #7b5a32);
+  margin-bottom: 16px;
+  font-size: 16px;
+  letter-spacing: 3.6px;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #d6b178, #b08a5a 48%, #7b5a32);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
   font-weight: 900;
 }
 /* ===== ONE LINE PREMIUM TITLE ===== */
 
 .bookingTitle {
   font-family: "Playfair Display", serif;
-  font-size: clamp(30px, 3.3vw, 46px);
+  font-size: clamp(46px, 5.4vw, 78px);
   font-weight: 600;
   text-align: center;
   color: #11131a;
   letter-spacing: -0.5px;
-  line-height: 1.2;
+  line-height: 1.02;
   margin: 0;
 }
 
 .bookingTitle span {
-  font-weight: 700;
-  margin-left: 6px;
+  font-weight: 800;
+  margin-left: 0;
   background: linear-gradient(135deg, #c4a06b 0%, #a67b45 45%, #7b5a32 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+
+.bookingDirectText {
+  max-width: 330px;
+  margin: 18px auto 0;
+  color: #6f604f;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.8;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.bookingDirectText::before {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 1px;
+  margin: 0 auto 14px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
 .bookingAt,
@@ -1113,6 +1134,10 @@ button {
 /* TABLET */
 
 @media (max-width: 1250px) {
+  .bookingTitle {
+    font-size: clamp(42px, 7vw, 68px);
+  }
+
   .bookingLuxury {
     grid-template-columns: 1fr;
     gap: 34px;
@@ -1239,13 +1264,27 @@ button {
     bottom: 16px;
   }
 
+  .centerKicker {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+
   .bookingTitle {
-    font-size: 28px;
-    line-height: 1.25;
+    font-size: 48px;
+    line-height: 1;
   }
 
   .bookingTitle span {
-    margin-left: 4px;
+    margin-left: 0;
+  }
+
+  .bookingDirectText {
+    max-width: 280px;
+    margin-top: 16px;
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.6px;
   }
 
   .bookingForm {

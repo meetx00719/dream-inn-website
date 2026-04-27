@@ -416,12 +416,16 @@ const openBookingEngine = () => {
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
             <span className="sectionKicker centerKicker">
-  Reserve Your Dream Stay
-</span>
+              Reserve Your Stay
+            </span>
 
             <h2 className="bookingTitle">
               <span>Dream Inn</span>
             </h2>
+
+            <p className="bookingDirectText">
+              No extra commission. No hidden charges. Book direct with us.
+            </p>
           </div>
 
           <form className="bookingForm">
