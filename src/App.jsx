@@ -134,6 +134,25 @@ const ASI_BOOKING_ACTION =
 
 const TAX_RATE = 0.14;
 
+/*
+  Estimated rates only.
+  Update these numbers later with your real Dream Inn rate ranges.
+*/
+const RATE_TABLE = {
+  "Single Bed Room": {
+    weekday: 89,
+    weekend: 119,
+  },
+  "Double Bed Room": {
+    weekday: 109,
+    weekend: 149,
+  },
+  "Jacuzzi Room": {
+    weekday: 139,
+    weekend: 179,
+  },
+};
+
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -155,13 +174,13 @@ function App() {
   const selectedRoomObject =
     availableRooms.find((room) => room.name === selectedRoomName) || null;
 
-  const nights = calculateNights(checkIn, checkOut);
-
-  const estimatedSubtotal =
-    selectedRoomObject && nights > 0 ? selectedRoomObject.estimatedRate * nights : 0;
-
-  const estimatedTaxes = estimatedSubtotal ? Math.round(estimatedSubtotal * TAX_RATE) : 0;
-  const estimatedTotal = estimatedSubtotal + estimatedTaxes;
+  const estimate = calculateEstimatedRate(selectedRoomName, checkIn, checkOut);
+  const nights = estimate.nights;
+  const estimatedSubtotal = estimate.subtotal;
+  const estimatedTaxes = estimate.taxes;
+  const estimatedTotal = estimate.total;
+  const averageNightlyRate = estimate.avgNightlyRate;
+  const pricingType = estimate.pricingType;
 
   useEffect(() => {
     if (selectedRoomName && !availableRooms.some((room) => room.name === selectedRoomName)) {
@@ -475,6 +494,8 @@ const openBookingEngine = () => {
               estimatedSubtotal={estimatedSubtotal}
               estimatedTaxes={estimatedTaxes}
               estimatedTotal={estimatedTotal}
+              averageNightlyRate={averageNightlyRate}
+              pricingType={pricingType}
             />
           </form>
         </section>
@@ -658,6 +679,76 @@ function calculateNights(checkIn, checkOut) {
   return diff > 0 ? Math.round(diff / (1000 * 60 * 60 * 24)) : 0;
 }
 
+function calculateEstimatedRate(roomName, checkIn, checkOut) {
+  if (!roomName || !checkIn || !checkOut || !RATE_TABLE[roomName]) {
+    return {
+      nights: 0,
+      subtotal: 0,
+      taxes: 0,
+      total: 0,
+      avgNightlyRate: 0,
+      pricingType: "",
+    };
+  }
+
+  const start = new Date(`${checkIn}T00:00:00`);
+  const end = new Date(`${checkOut}T00:00:00`);
+
+  if (end <= start) {
+    return {
+      nights: 0,
+      subtotal: 0,
+      taxes: 0,
+      total: 0,
+      avgNightlyRate: 0,
+      pricingType: "",
+    };
+  }
+
+  let nights = 0;
+  let subtotal = 0;
+  let weekdayNights = 0;
+  let weekendNights = 0;
+
+  const current = new Date(start);
+
+  while (current < end) {
+    const day = current.getDay();
+    const isWeekend = day === 5 || day === 6;
+    const nightlyRate = isWeekend
+      ? RATE_TABLE[roomName].weekend
+      : RATE_TABLE[roomName].weekday;
+
+    subtotal += nightlyRate;
+    nights += 1;
+
+    if (isWeekend) {
+      weekendNights += 1;
+    } else {
+      weekdayNights += 1;
+    }
+
+    current.setDate(current.getDate() + 1);
+  }
+
+  const taxes = Math.round(subtotal * TAX_RATE);
+  const total = subtotal + taxes;
+  const avgNightlyRate = nights ? Math.round(subtotal / nights) : 0;
+
+  let pricingType = "Weekday pricing";
+  if (weekdayNights && weekendNights) pricingType = "Weekday + weekend pricing";
+  if (!weekdayNights && weekendNights) pricingType = "Weekend pricing";
+
+  return {
+    nights,
+    subtotal,
+    taxes,
+    total,
+    avgNightlyRate,
+    pricingType,
+  };
+}
+
 function formatAsiDate(dateString) {
   const date = new Date(`${dateString}T00:00:00`);
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -695,6 +786,8 @@ function BookingPreview({
   estimatedSubtotal,
   estimatedTaxes,
   estimatedTotal,
+  averageNightlyRate,
+  pricingType,
 }) {
   const hasBasicSearch = checkIn && checkOut && occupancy;
   const roomsText =
@@ -745,7 +838,7 @@ function BookingPreview({
 
         <p>
           {selectedRoom && nights > 0
-            ? `${nights} night${nights > 1 ? "s" : ""} × $${selectedRoom.estimatedRate}/night + estimated taxes. Final live rates and availability are confirmed on the reservation page.`
+            ? `${nights} night${nights > 1 ? "s" : ""} • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
             : "Live availability and final rates will be confirmed by ASI WebRes after clicking Book Now."}
         </p>
       </div>
