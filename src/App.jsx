@@ -415,10 +415,12 @@ const openBookingEngine = () => {
 
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
-            <span className="sectionKicker">Book Now</span>
+            <span className="sectionKicker centerKicker">
+  Reserve Your Dream Stay
+</span>
 
             <h2 className="bookingTitle">
-              Plan Your Stay <span>at Dream Inn</span>
+              at<span>Dream Inn</span>
             </h2>
           </div>
 
@@ -1081,7 +1083,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             className="modalBookBtn"
             onClick={onCheckAvailability}
           >
-            Book Now
+            Check Availability
           </button>
         </div>
       </div>

@@ -341,14 +341,20 @@ button {
   z-index: 2;
 }
 
-.sectionKicker {
-  color: var(--gold);
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 2.4px;
-}
+.centerKicker {
+  display: block;
+  text-align: center;
+  margin-bottom: 12px;
 
+  font-size: 12px;
+  letter-spacing: 3px;
+
+  background: linear-gradient(135deg, #c4a06b, #7b5a32);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  font-weight: 900;
+}
 /* ===== ONE LINE PREMIUM TITLE ===== */
 
 .bookingTitle {
