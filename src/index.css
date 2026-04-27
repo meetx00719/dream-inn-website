@@ -1148,18 +1148,25 @@ button {
   }
 
   .luxLogo {
-    font-size: 32px;
+    font-family: "Great Vibes", cursive;
+    font-size: 34px;
+    line-height: 1;
     color: #fff;
-    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
-    position: absolute;
-    left: 6%;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10001;
+    text-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    transform: none;
+    z-index: 10005;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
   .luxLogo span {
     color: #fff;
+    margin-left: 2px;
   }
 
   .mobileMenuBtn {
