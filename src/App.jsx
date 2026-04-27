@@ -215,10 +215,12 @@ const getCenteredScrollPosition = (section) => {
     });
   };
 
-  const openBookingEngine = () => {
-    window.open("https://your-booking-engine-link.com", "_blank");
-  };
-
+const openBookingEngine = () => {
+  window.open(
+    "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f",
+    "_blank"
+  );
+};
   const getNextDay = (dateString) => {
     const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
     date.setDate(date.getDate() + 1);
