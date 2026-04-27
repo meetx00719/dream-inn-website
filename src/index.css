@@ -2486,9 +2486,11 @@ html {
   }
 }
 
+
+
 /* =========================================================
-   FINAL RELIABLE SCROLL SETTINGS
-   JSX controls exact scroll position. CSS only supports native anchors.
+   FINAL CHECKED FIXES
+   Place this at the bottom. It overrides conflicting earlier rules.
 ========================================================= */
 
 html {
@@ -2505,15 +2507,29 @@ html {
   scroll-margin-top: 110px;
 }
 
-/* Make sections land visually clean when scrolled */
-#about,
-#rooms,
-#amenities,
-#location {
+/* Desktop / tablet section landing */
+#about.aboutLuxury,
+#rooms.roomsLuxury,
+#amenities.amenitiesLuxury,
+#location.locationLuxury {
   position: relative;
 }
 
-/* Mobile header-safe anchor support */
+/* Keep rooms section premium on desktop */
+.roomGridLuxury {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 380px));
+  gap: 38px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.luxRoomCard:hover .cardImgWrap img {
+  transform: scale(1.08);
+  filter: brightness(1) contrast(1.07) saturate(1.07);
+}
+
+/* Better native anchor support */
 @media (max-width: 760px) {
   html {
     scroll-padding-top: 88px;
@@ -2526,5 +2542,122 @@ html {
   #amenities,
   #location {
     scroll-margin-top: 88px;
+  }
+
+  /* FIX: mobile sections should be single column */
+  .aboutLuxury {
+    grid-template-columns: 1fr !important;
+    padding: 74px 6% !important;
+  }
+
+  .aboutImages {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    margin-top: 32px !important;
+  }
+
+  .aboutImages img,
+  .aboutImages img:first-child,
+  .aboutImages img:last-child {
+    height: 300px !important;
+    transform: none !important;
+    border-width: 6px !important;
+    outline-offset: 5px !important;
+  }
+
+  /* FIX: room cards should swipe horizontally on phone */
+  .roomsLuxury {
+    min-height: auto !important;
+    padding: 74px 0 82px !important;
+    overflow: hidden !important;
+  }
+
+  .roomsLuxury .sectionCenter {
+    padding: 0 6% !important;
+    margin: 0 auto 34px !important;
+  }
+
+  .roomGridLuxury {
+    display: flex !important;
+    overflow-x: auto !important;
+    gap: 18px !important;
+    scroll-snap-type: x mandatory !important;
+    scroll-padding-left: 8% !important;
+    scroll-padding-right: 8% !important;
+    padding: 0 8% 22px !important;
+    margin: 0 !important;
+    justify-content: flex-start !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .roomGridLuxury::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .luxRoomCard {
+    flex: 0 0 84% !important;
+    min-width: 84% !important;
+    max-width: 84% !important;
+    min-height: 500px !important;
+    scroll-snap-align: center !important;
+  }
+
+  .cardImgWrap {
+    height: 240px !important;
+    margin: 12px 12px 0 !important;
+  }
+
+  /* FIX: amenities/reviews one column on mobile */
+  .amenitiesLuxury,
+  .reviewsSection {
+    padding: 74px 6% !important;
+  }
+
+  .amenityGrid,
+  .reviewGrid,
+  .modalGrid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+    margin-top: 34px !important;
+  }
+
+  .amenityGrid div {
+    min-height: 76px !important;
+    font-size: 14px !important;
+  }
+
+  /* FIX: contact section mobile */
+  .locationLuxury {
+    grid-template-columns: 1fr !important;
+    margin: 56px 6% !important;
+    padding: 36px 26px !important;
+    gap: 36px !important;
+  }
+
+  .locationLuxury::before {
+    inset: 14px !important;
+  }
+
+  .locationDetails h2 {
+    font-size: clamp(38px, 11vw, 54px) !important;
+    line-height: 1.04 !important;
+  }
+
+  .mapBox {
+    border-width: 6px !important;
+    outline-offset: 5px !important;
+  }
+
+  .mapBox iframe {
+    height: 310px !important;
+  }
+
+  .learnBtn,
+  .reviewBtn {
+    width: 100% !important;
+    min-width: 0 !important;
   }
 }
