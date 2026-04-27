@@ -143,7 +143,7 @@ function App() {
     if (!availableRooms.some((room) => room.name === selectedRoomName)) {
       setSelectedRoomName(availableRooms[0]?.name || "");
     }
-  }, [occupancy, availableRooms, selectedRoomName]);
+  }, [availableRooms, selectedRoomName]);
 
   useEffect(() => {
     const closeCalendar = (event) => {
@@ -175,9 +175,7 @@ function App() {
     const section = document.getElementById(id);
     if (!section) return;
 
-    const isMobile = window.innerWidth <= 760;
-    const offset = isMobile ? 80 : 100;
-
+    const offset = window.innerWidth <= 760 ? 80 : 100;
     const y = section.getBoundingClientRect().top + window.pageYOffset - offset;
 
     window.scrollTo({ top: y, behavior: "smooth" });
@@ -213,7 +211,6 @@ function App() {
     setCheckIn(value);
 
     const minimumCheckout = getNextDay(value);
-
     if (!checkOut || checkOut < minimumCheckout) {
       setCheckOut("");
     }
@@ -372,7 +369,7 @@ function App() {
               setOpenCalendar={setOpenCalendar}
             />
 
-            <div className="inputGroup">
+            <div className="inputGroup" data-label="Occupancy">
               <select
                 value={occupancy}
                 onFocus={() => setOpenCalendar(null)}
@@ -380,14 +377,14 @@ function App() {
                 onChange={(event) => setOccupancy(event.target.value)}
                 aria-label="Occupancy"
               >
-                <option value="1">Occupancy: 1 Guest</option>
-                <option value="2">Occupancy: 2 Guests</option>
-                <option value="3">Occupancy: 3 Guests</option>
-                <option value="4">Occupancy: 4 Guests</option>
+                <option value="1">1 Guest</option>
+                <option value="2">2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
               </select>
             </div>
 
-            <div className="inputGroup">
+            <div className="inputGroup" data-label="Rooms">
               <select
                 value={selectedRoomName}
                 onFocus={() => setOpenCalendar(null)}
@@ -397,7 +394,7 @@ function App() {
               >
                 {availableRooms.map((room) => (
                   <option key={room.name} value={room.name}>
-                    Rooms: {room.name}
+                    {room.name}
                   </option>
                 ))}
               </select>
@@ -633,18 +630,27 @@ function DatePicker({
   };
 
   return (
-    <div className="inputGroup datePickerWrap">
+    <div className="inputGroup datePickerWrap" data-label={placeholder}>
       <button
         type="button"
         className="datePopupInput"
-        onClick={() => setOpenCalendar(open ? null : id)}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpenCalendar(open ? null : id);
+        }}
         aria-label={placeholder}
       >
-        {value || placeholder || "Select date"}
+        <span>{value || "Select Date"}</span>
       </button>
 
       {open && (
-        <div className="calendarPopup">
+        <div
+          className="calendarPopup"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
           <div className="calendarHead">
             <button
               type="button"
