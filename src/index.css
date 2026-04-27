@@ -302,9 +302,7 @@ button {
 
 /* BOOKING FINAL FIX */
 
-#booking {
-  scroll-margin-top: 150px;
-}
+
 
 .bookingLuxury {
   position: relative;
@@ -722,9 +720,7 @@ button {
 
 /* ROOMS */
 
-#rooms {
-  scroll-margin-top: 0;
-}
+
 
 .roomsLuxury {
   min-height: 92vh;
@@ -1484,13 +1480,9 @@ button {
   position: relative;
 }
 
-  #rooms {
-    scroll-margin-top: 80px;
-  }
+  
 
-  #booking {
-    scroll-margin-top: 96px;
-  }
+  
 
   .roomGridLuxury {
   display: grid;
@@ -1962,13 +1954,9 @@ html {
   scroll-padding-top: 110px;
 }
 
-#rooms {
-  scroll-margin-top: 120px;
-}
 
-#booking {
-  scroll-margin-top: 140px;
-}
+
+
 
 /* Section labels */
 .sectionKicker {
@@ -2384,13 +2372,9 @@ html {
     scroll-padding-top: 86px;
   }
 
-  #rooms {
-    scroll-margin-top: 90px;
-  }
+  
 
-  #booking {
-    scroll-margin-top: 100px;
-  }
+  
 
   .aboutLuxury,
   .amenitiesLuxury,
@@ -2503,13 +2487,13 @@ html {
 }
 
 /* =========================================================
-   FINAL SCROLL FIX
-   Works for desktop + mobile navbar/explore/modal buttons
+   FINAL RELIABLE SCROLL SETTINGS
+   JSX controls exact scroll position. CSS only supports native anchors.
 ========================================================= */
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 112px;
+  scroll-padding-top: 110px;
 }
 
 #home,
@@ -2518,32 +2502,21 @@ html {
 #rooms,
 #amenities,
 #location {
-  scroll-margin-top: 112px;
+  scroll-margin-top: 110px;
 }
 
-.aboutLuxury,
-.roomsLuxury,
-.amenitiesLuxury,
-.reviewsSection,
-.locationLuxury {
-  scroll-margin-top: 112px;
+/* Make sections land visually clean when scrolled */
+#about,
+#rooms,
+#amenities,
+#location {
+  position: relative;
 }
 
-#rooms.roomsLuxury {
-  padding-top: 105px;
-}
-
-#amenities.amenitiesLuxury {
-  padding-top: 110px;
-}
-
-#location.locationLuxury {
-  margin-top: 115px;
-}
-
+/* Mobile header-safe anchor support */
 @media (max-width: 760px) {
   html {
-    scroll-padding-top: 86px;
+    scroll-padding-top: 88px;
   }
 
   #home,
@@ -2552,26 +2525,6 @@ html {
   #rooms,
   #amenities,
   #location {
-    scroll-margin-top: 86px;
-  }
-
-  .aboutLuxury,
-  .roomsLuxury,
-  .amenitiesLuxury,
-  .reviewsSection,
-  .locationLuxury {
-    scroll-margin-top: 86px;
-  }
-
-  #rooms.roomsLuxury {
-    padding-top: 82px;
-  }
-
-  #amenities.amenitiesLuxury {
-    padding-top: 82px;
-  }
-
-  #location.locationLuxury {
-    margin-top: 62px;
+    scroll-margin-top: 88px;
   }
 }

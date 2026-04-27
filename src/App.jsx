@@ -218,21 +218,22 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-const getHeaderOffset = () => {
+const getScrollOffset = (id) => {
     const isMobile = window.innerWidth <= 760;
-    return isMobile ? 86 : 112;
+
+    const offsets = {
+      home: 0,
+      booking: isMobile ? 88 : 110,
+      about: isMobile ? 92 : 112,
+      rooms: isMobile ? 88 : 108,
+      amenities: isMobile ? 88 : 108,
+      location: isMobile ? 88 : 108,
+    };
+
+    return offsets[id] ?? (isMobile ? 88 : 108);
   };
 
-  const getSectionScrollPosition = (section) => {
-    const headerOffset = getHeaderOffset();
-    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
-
-    return Math.max(sectionTop - headerOffset - 18, 0);
-  };
-
-  const scrollToSection = (event, id) => {
-    event?.preventDefault?.();
-
+  const scrollToSectionById = (id) => {
     const section = document.getElementById(id);
     if (!section) return;
 
@@ -241,7 +242,8 @@ const getHeaderOffset = () => {
       return;
     }
 
-    const y = getSectionScrollPosition(section);
+    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+    const y = Math.max(sectionTop - getScrollOffset(id), 0);
 
     window.scrollTo({
       top: y,
@@ -249,18 +251,14 @@ const getHeaderOffset = () => {
     });
   };
 
+  const scrollToSection = (event, id) => {
+    event?.preventDefault?.();
+    scrollToSectionById(id);
+  };
+
   const scrollToRooms = (event) => {
     event?.preventDefault?.();
-
-    const section = document.getElementById("rooms");
-    if (!section) return;
-
-    const y = getSectionScrollPosition(section);
-
-    window.scrollTo({
-      top: y,
-      behavior: "smooth",
-    });
+    scrollToSectionById("rooms");
   };
 
 const openBookingEngine = () => {
@@ -650,18 +648,11 @@ const openBookingEngine = () => {
           room={selectedRoom}
           onClose={() => setSelectedRoom(null)}
           onCheckAvailability={() => {
-            const booking = document.getElementById("booking");
-
-            if (booking) {
-              const y = getSectionScrollPosition(booking);
-
-              window.scrollTo({
-                top: y,
-                behavior: "smooth",
-              });
-            }
-
             setSelectedRoom(null);
+
+            setTimeout(() => {
+              scrollToSectionById("booking");
+            }, 80);
           }}
         />
       )}
