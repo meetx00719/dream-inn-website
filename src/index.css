@@ -17,6 +17,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 body {
@@ -1184,6 +1185,10 @@ button {
 /* MOBILE */
 
 @media (max-width: 760px) {
+  html {
+    scroll-padding-top: 86px;
+  }
+
   .topInfoBar {
     display: none;
   }
@@ -1340,6 +1345,10 @@ button {
 
   #rooms {
     scroll-margin-top: 80px;
+  }
+
+  #booking {
+    scroll-margin-top: 96px;
   }
 
   .roomGridLuxury {

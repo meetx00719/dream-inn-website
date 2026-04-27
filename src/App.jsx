@@ -654,10 +654,14 @@ const openBookingEngine = () => {
           onCheckAvailability={() => {
             const booking = document.getElementById("booking");
 
-            booking?.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-            });
+            if (booking) {
+              const y = getCenteredScrollPosition(booking);
+
+              window.scrollTo({
+                top: y,
+                behavior: "smooth",
+              });
+            }
 
             setSelectedRoom(null);
           }}
