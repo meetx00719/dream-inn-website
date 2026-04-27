@@ -466,10 +466,6 @@ button {
   font-weight: 700;
 }
 
-.bookingForm .inputGroup {
-  overflow: hidden;
-}
-
 .datePopupInput span,
 .inputGroup select {
   max-width: 100%;
@@ -516,6 +512,24 @@ button {
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
+/* DATE PICKER VISIBILITY FIX */
+
+.bookingLuxury,
+.bookingForm,
+.bookingForm .inputGroup,
+.datePickerWrap {
+  overflow: visible !important;
+}
+
+.datePickerWrap {
+  position: relative;
+  z-index: 50;
+}
+
+.datePickerWrap:has(.calendarPopup) {
+  z-index: 999999;
+}
+
 /* CALENDAR */
 
 .calendarPopup {
@@ -528,7 +542,7 @@ button {
   border: 1px solid #eadfce;
   box-shadow: 0 26px 78px rgba(0, 0, 0, 0.24);
   padding: 18px;
-  z-index: 99999;
+  z-index: 999999 !important;
 }
 
 .calendarHead {
@@ -1251,8 +1265,12 @@ button {
     margin-top: 4px;
   }
 
+
   .calendarPopup {
-    width: min(326px, 86vw);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(326px, calc(100vw - 36px));
   }
 
   .aboutLuxury,
