@@ -2501,3 +2501,77 @@ html {
     min-width: 0;
   }
 }
+
+/* =========================================================
+   FINAL SCROLL FIX
+   Works for desktop + mobile navbar/explore/modal buttons
+========================================================= */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 112px;
+}
+
+#home,
+#booking,
+#about,
+#rooms,
+#amenities,
+#location {
+  scroll-margin-top: 112px;
+}
+
+.aboutLuxury,
+.roomsLuxury,
+.amenitiesLuxury,
+.reviewsSection,
+.locationLuxury {
+  scroll-margin-top: 112px;
+}
+
+#rooms.roomsLuxury {
+  padding-top: 105px;
+}
+
+#amenities.amenitiesLuxury {
+  padding-top: 110px;
+}
+
+#location.locationLuxury {
+  margin-top: 115px;
+}
+
+@media (max-width: 760px) {
+  html {
+    scroll-padding-top: 86px;
+  }
+
+  #home,
+  #booking,
+  #about,
+  #rooms,
+  #amenities,
+  #location {
+    scroll-margin-top: 86px;
+  }
+
+  .aboutLuxury,
+  .roomsLuxury,
+  .amenitiesLuxury,
+  .reviewsSection,
+  .locationLuxury {
+    scroll-margin-top: 86px;
+  }
+
+  #rooms.roomsLuxury {
+    padding-top: 82px;
+  }
+
+  #amenities.amenitiesLuxury {
+    padding-top: 82px;
+  }
+
+  #location.locationLuxury {
+    margin-top: 62px;
+  }
+}

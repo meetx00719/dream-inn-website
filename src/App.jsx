@@ -218,17 +218,16 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-const getCenteredScrollPosition = (section) => {
+const getHeaderOffset = () => {
     const isMobile = window.innerWidth <= 760;
-    const headerOffset = isMobile ? 86 : 118;
+    return isMobile ? 86 : 112;
+  };
 
-    const rect = section.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const getSectionScrollPosition = (section) => {
+    const headerOffset = getHeaderOffset();
+    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
 
-    const centeredPosition =
-      rect.top + scrollTop - (window.innerHeight / 2 - rect.height / 2) - headerOffset;
-
-    return Math.max(centeredPosition, 0);
+    return Math.max(sectionTop - headerOffset - 18, 0);
   };
 
   const scrollToSection = (event, id) => {
@@ -242,7 +241,7 @@ const getCenteredScrollPosition = (section) => {
       return;
     }
 
-    const y = getCenteredScrollPosition(section);
+    const y = getSectionScrollPosition(section);
 
     window.scrollTo({
       top: y,
@@ -256,7 +255,7 @@ const getCenteredScrollPosition = (section) => {
     const section = document.getElementById("rooms");
     if (!section) return;
 
-    const y = getCenteredScrollPosition(section);
+    const y = getSectionScrollPosition(section);
 
     window.scrollTo({
       top: y,
@@ -654,7 +653,7 @@ const openBookingEngine = () => {
             const booking = document.getElementById("booking");
 
             if (booking) {
-              const y = getCenteredScrollPosition(booking);
+              const y = getSectionScrollPosition(booking);
 
               window.scrollTo({
                 top: y,
