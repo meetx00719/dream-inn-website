@@ -125,8 +125,8 @@ function App() {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [occupancy, setOccupancy] = useState("1");
-  const [selectedRoomName, setSelectedRoomName] = useState("Single Bed Room");
+  const [occupancy, setOccupancy] = useState("");
+  const [selectedRoomName, setSelectedRoomName] = useState("");
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -140,8 +140,8 @@ function App() {
       : rooms;
 
   useEffect(() => {
-    if (!availableRooms.some((room) => room.name === selectedRoomName)) {
-      setSelectedRoomName(availableRooms[0]?.name || "");
+    if (selectedRoomName && !availableRooms.some((room) => room.name === selectedRoomName)) {
+      setSelectedRoomName("");
     }
   }, [availableRooms, selectedRoomName]);
 
@@ -353,7 +353,7 @@ function App() {
               id="checkin"
               value={checkIn}
               min={today}
-              placeholder="Arrival Date"
+              placeholder="Check In Date"
               onChange={handleCheckIn}
               openCalendar={openCalendar}
               setOpenCalendar={setOpenCalendar}
@@ -363,7 +363,7 @@ function App() {
               id="checkout"
               value={checkOut}
               min={checkIn ? getNextDay(checkIn) : getNextDay(today)}
-              placeholder="Departure Date"
+              placeholder="Check Out Date"
               onChange={setCheckOut}
               openCalendar={openCalendar}
               setOpenCalendar={setOpenCalendar}
@@ -377,6 +377,9 @@ function App() {
                 onChange={(event) => setOccupancy(event.target.value)}
                 aria-label="Occupancy"
               >
+                <option value="" disabled>
+                  Occupancy
+                </option>
                 <option value="1">1 Guest</option>
                 <option value="2">2 Guests</option>
                 <option value="3">3 Guests</option>
@@ -392,6 +395,9 @@ function App() {
                 onChange={(event) => setSelectedRoomName(event.target.value)}
                 aria-label="Rooms"
               >
+                <option value="" disabled>
+                  Rooms
+                </option>
                 {availableRooms.map((room) => (
                   <option key={room.name} value={room.name}>
                     {room.name}
@@ -641,7 +647,7 @@ function DatePicker({
         }}
         aria-label={placeholder}
       >
-        <span>{value || "Select Date"}</span>
+        <span>{value || placeholder}</span>
       </button>
 
       {open && (
