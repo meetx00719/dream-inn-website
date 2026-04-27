@@ -342,10 +342,8 @@ function App() {
             <span className="sectionKicker">Book Now</span>
 
             <h2 className="bookingTitle">
-              <span>Plan Your Stay</span>
-              <span className="bookingAt">at</span>
-              <span className="bookingHotel">Dream Inn</span>
-            </h2>
+  Plan Your Stay <span>at Dream Inn</span>
+</h2>
           </div>
 
           <form className="bookingForm">
