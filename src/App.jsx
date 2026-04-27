@@ -169,18 +169,24 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const scrollToSection = (event, id) => {
-    event?.preventDefault?.();
+ const scrollToSection = (event, id) => {
+  event?.preventDefault?.();
 
-    const section = document.getElementById(id);
-    if (!section) return;
+  const section = document.getElementById(id);
+  if (!section) return;
 
-    const offset = window.innerWidth <= 760 ? 80 : 100;
-    const y = section.getBoundingClientRect().top + window.pageYOffset - offset;
+  const y =
+    section.getBoundingClientRect().top +
+    window.pageYOffset -
+    (window.innerHeight / 2 - section.offsetHeight / 2);
 
-    window.scrollTo({ top: y, behavior: "smooth" });
-    setMobileMenuOpen(false);
-  };
+  window.scrollTo({
+    top: Math.max(y, 0),
+    behavior: "smooth",
+  });
+
+  setMobileMenuOpen(false);
+};
 
   const scrollToRooms = (event) => {
     event?.preventDefault?.();
