@@ -1325,6 +1325,158 @@ button {
   }
 }
 
+
+
+/* ===============================
+   BOOKING PREVIEW
+================================ */
+
+.bookingPreview {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(176, 138, 90, 0.25);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 242, 0.96)),
+    radial-gradient(circle at top right, rgba(176, 138, 90, 0.12), transparent 35%);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.previewTopLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #8a7a60;
+}
+
+.previewTopLine span {
+  font-weight: 900;
+}
+
+.previewTopLine strong {
+  color: var(--gold);
+  font-weight: 900;
+  text-align: right;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.previewGrid div {
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(176, 138, 90, 0.14);
+}
+
+.previewGrid small {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #9a8a70;
+}
+
+.previewGrid strong {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #11131a;
+}
+
+.previewPriceBox {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(176, 138, 90, 0.08);
+  border: 1px solid rgba(176, 138, 90, 0.25);
+}
+
+.previewPriceBox div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.previewPriceBox span {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7a6a55;
+}
+
+.previewPriceBox strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+.previewPriceBox p {
+  font-size: 12px;
+  color: #6a5c48;
+  line-height: 1.55;
+}
+
+/* MOBILE BOOKING PREVIEW */
+@media (max-width: 760px) {
+  .bookingPreview {
+    margin-top: 18px;
+    padding: 16px;
+  }
+
+  .previewTopLine {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .previewTopLine strong {
+    text-align: left;
+  }
+
+  .previewGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .previewGrid strong {
+    font-size: 16px;
+  }
+
+  .previewPriceBox div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .previewPriceBox strong {
+    font-size: 20px;
+  }
+}
+
 /* FINAL SAFETY: remove mobile menu completely */
 .mobileMenu,
 .mobileMenuBtn {

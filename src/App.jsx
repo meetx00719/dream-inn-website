@@ -32,6 +32,9 @@ const parkingPolicy =
 const rooms = [
   {
     name: "Single Bed Room",
+    roomId: "-1",
+    maxGuests: 2,
+    estimatedRate: 89,
     images: [singleRoom, singleTwo, single3],
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
@@ -53,6 +56,9 @@ const rooms = [
   },
   {
     name: "Double Bed Room",
+    roomId: "-1",
+    maxGuests: 4,
+    estimatedRate: 109,
     images: [double1, double2, double3],
     details:
       "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
@@ -74,6 +80,9 @@ const rooms = [
   },
   {
     name: "Jacuzzi Room",
+    roomId: "-1",
+    maxGuests: 2,
+    estimatedRate: 139,
     images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
       "A premium room experience with a private bath, Jacuzzi, added relaxation, and a refined atmosphere.",
@@ -120,6 +129,11 @@ const navLinks = [
   { id: "location", label: "Contact Us" },
 ];
 
+const ASI_BOOKING_ACTION =
+  "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f&Operation=Date";
+
+const TAX_RATE = 0.14;
+
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
@@ -138,9 +152,26 @@ function App() {
       ? rooms.filter((room) => room.name === "Double Bed Room")
       : rooms;
 
+  const selectedRoomObject =
+    availableRooms.find((room) => room.name === selectedRoomName) || null;
+
+  const nights = calculateNights(checkIn, checkOut);
+
+  const estimatedSubtotal =
+    selectedRoomObject && nights > 0 ? selectedRoomObject.estimatedRate * nights : 0;
+
+  const estimatedTaxes = estimatedSubtotal ? Math.round(estimatedSubtotal * TAX_RATE) : 0;
+  const estimatedTotal = estimatedSubtotal + estimatedTaxes;
+
   useEffect(() => {
     if (selectedRoomName && !availableRooms.some((room) => room.name === selectedRoomName)) {
       setSelectedRoomName("");
+    }
+  }, [availableRooms, selectedRoomName]);
+
+  useEffect(() => {
+    if (!selectedRoomName && availableRooms.length === 1) {
+      setSelectedRoomName(availableRooms[0].name);
     }
   }, [availableRooms, selectedRoomName]);
 
@@ -216,11 +247,44 @@ const getCenteredScrollPosition = (section) => {
   };
 
 const openBookingEngine = () => {
-  window.open(
-    "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f",
-    "_blank"
-  );
-};
+    if (!checkIn || !checkOut || !occupancy) {
+      alert("Please select Check In, Check Out, and Occupancy before booking.");
+      return;
+    }
+
+    if (nights <= 0) {
+      alert("Check Out date must be after Check In date.");
+      return;
+    }
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = ASI_BOOKING_ACTION;
+    form.target = "_blank";
+    form.style.display = "none";
+
+    const fields = {
+      txtcheckindate: formatAsiDate(checkIn),
+      txtcheckoutdate: formatAsiDate(checkOut),
+      txtadult: occupancy,
+      txtChildren: "0",
+      txtPromocode: "",
+      txtRoomId: selectedRoomObject?.roomId || "-1",
+    };
+
+    Object.entries(fields).forEach(([name, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.id = name;
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  };
   const getNextDay = (dateString) => {
     const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
     date.setDate(date.getDate() + 1);
@@ -400,6 +464,18 @@ const openBookingEngine = () => {
             <button type="button" className="checkBtn" onClick={openBookingEngine}>
               Book Now
             </button>
+
+            <BookingPreview
+              checkIn={checkIn}
+              checkOut={checkOut}
+              occupancy={occupancy}
+              selectedRoom={selectedRoomObject}
+              availableRooms={availableRooms}
+              nights={nights}
+              estimatedSubtotal={estimatedSubtotal}
+              estimatedTaxes={estimatedTaxes}
+              estimatedTotal={estimatedTotal}
+            />
           </form>
         </section>
 
@@ -572,12 +648,109 @@ const openBookingEngine = () => {
   );
 }
 
+function calculateNights(checkIn, checkOut) {
+  if (!checkIn || !checkOut) return 0;
+
+  const start = new Date(`${checkIn}T00:00:00`);
+  const end = new Date(`${checkOut}T00:00:00`);
+  const diff = end.getTime() - start.getTime();
+
+  return diff > 0 ? Math.round(diff / (1000 * 60 * 60 * 24)) : 0;
+}
+
+function formatAsiDate(dateString) {
+  const date = new Date(`${dateString}T00:00:00`);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
+function formatDisplayDate(dateString) {
+  if (!dateString) return "Not selected";
+
+  return new Date(`${dateString}T00:00:00`).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 function formatDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
+}
+
+function BookingPreview({
+  checkIn,
+  checkOut,
+  occupancy,
+  selectedRoom,
+  availableRooms,
+  nights,
+  estimatedSubtotal,
+  estimatedTaxes,
+  estimatedTotal,
+}) {
+  const hasBasicSearch = checkIn && checkOut && occupancy;
+  const roomsText =
+    availableRooms.length === 1
+      ? "Auto-selected based on occupancy"
+      : "Choose your preferred room type";
+
+  return (
+    <div className="bookingPreview">
+      <div className="previewTopLine">
+        <span>Reservation Preview</span>
+        <strong>{hasBasicSearch ? "Ready to Check" : "Complete Search Details"}</strong>
+      </div>
+
+      <div className="previewGrid">
+        <div>
+          <small>Check In</small>
+          <strong>{formatDisplayDate(checkIn)}</strong>
+        </div>
+
+        <div>
+          <small>Check Out</small>
+          <strong>{formatDisplayDate(checkOut)}</strong>
+        </div>
+
+        <div>
+          <small>Occupancy</small>
+          <strong>
+            {occupancy ? `${occupancy} Guest${occupancy === "1" ? "" : "s"}` : "Not selected"}
+          </strong>
+        </div>
+
+        <div>
+          <small>Room</small>
+          <strong>{selectedRoom?.name || roomsText}</strong>
+        </div>
+      </div>
+
+      <div className="previewPriceBox">
+        <div>
+          <span>Estimated Stay</span>
+          <strong>
+            {selectedRoom && nights > 0
+              ? `$${estimatedTotal.toLocaleString()}`
+              : "Select dates + room"}
+          </strong>
+        </div>
+
+        <p>
+          {selectedRoom && nights > 0
+            ? `${nights} night${nights > 1 ? "s" : ""} × $${selectedRoom.estimatedRate}/night + estimated taxes. Final live rates and availability are confirmed on the reservation page.`
+            : "Live availability and final rates will be confirmed by ASI WebRes after clicking Book Now."}
+        </p>
+      </div>
+    </div>
+  );
 }
 
 function DatePicker({
