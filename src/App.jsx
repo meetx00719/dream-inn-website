@@ -161,6 +161,8 @@ function App() {
   const [activeDot, setActiveDot] = useState(0);
 
   const bookingRef = useRef(null);
+  const scrollAnimationRef = useRef(null);
+
   const today = useMemo(() => formatDate(new Date()), []);
 
   const availableRooms = useMemo(() => {
@@ -223,54 +225,52 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const scrollAnimationRef = useRef(null);
-
-const premiumScrollTo = (targetY, duration = 850) => {
-  if (scrollAnimationRef.current) {
-    cancelAnimationFrame(scrollAnimationRef.current);
-  }
-
-  const startY = window.scrollY || document.documentElement.scrollTop;
-  const distance = targetY - startY;
-  const startTime = performance.now();
-
-  const easeInOutCubic = (t) =>
-    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-  const animate = (currentTime) => {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const eased = easeInOutCubic(progress);
-
-    window.scrollTo({
-      top: startY + distance * eased,
-      left: 0,
-      behavior: "auto",
-    });
-
-    if (progress < 1) {
-      scrollAnimationRef.current = requestAnimationFrame(animate);
-    } else {
-      scrollAnimationRef.current = null;
+  const premiumScrollTo = (targetY, duration = 850) => {
+    if (scrollAnimationRef.current) {
+      cancelAnimationFrame(scrollAnimationRef.current);
     }
+
+    const startY = window.scrollY || document.documentElement.scrollTop;
+    const distance = targetY - startY;
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeInOutCubic(progress);
+
+      window.scrollTo({
+        top: startY + distance * eased,
+        left: 0,
+        behavior: "auto",
+      });
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(animate);
+      } else {
+        scrollAnimationRef.current = null;
+      }
+    };
+
+    scrollAnimationRef.current = requestAnimationFrame(animate);
   };
 
-  scrollAnimationRef.current = requestAnimationFrame(animate);
-};
+  const getHeaderOffset = () => {
+    const header = document.querySelector(".mainHeader");
+    const topBar = document.querySelector(".topInfoBar");
 
- const getHeaderOffset = () => {
-  const header = document.querySelector(".mainHeader");
-  const topBar = document.querySelector(".topInfoBar");
+    const headerHeight = header?.getBoundingClientRect().height || 0;
 
-  const headerHeight = header?.getBoundingClientRect().height || 0;
+    const topBarHeight =
+      topBar && ["fixed", "sticky"].includes(getComputedStyle(topBar).position)
+        ? topBar.getBoundingClientRect().height
+        : 0;
 
-  const topBarHeight =
-    topBar && ["fixed", "sticky"].includes(getComputedStyle(topBar).position)
-      ? topBar.getBoundingClientRect().height
-      : 0;
-
-  return headerHeight + topBarHeight + 18;
-};
+    return headerHeight + topBarHeight + 18;
+  };
 
   const scrollToSectionById = (id) => {
     const section = document.getElementById(id);
@@ -278,15 +278,12 @@ const premiumScrollTo = (targetY, duration = 850) => {
 
     setOpenCalendar(null);
 
-   if (id === "home") {
-  premiumScrollTo(0, 800);
-  return;
-}
+    if (id === "home") {
+      premiumScrollTo(0, 800);
+      return;
+    }
 
-    const rect = section.getBoundingClientRect();
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const target = rect.top + scrollTop - getHeaderOffset();
-
+    const target = section.offsetTop - getHeaderOffset();
     premiumScrollTo(Math.max(0, target));
   };
 
