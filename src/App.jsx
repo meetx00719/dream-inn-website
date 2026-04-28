@@ -36,7 +36,7 @@ const rooms = [
     maxGuests: 2,
     images: [singleRoom, singleTwo, single3],
     details:
-      "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
+      "A clean and comfortable room with essential in-room convenience for a simple stay.",
     amenities: [
       "2 Guests",
       "Cali King size bed",
@@ -59,7 +59,7 @@ const rooms = [
     maxGuests: 4,
     images: [double1, double2, double3],
     details:
-      "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
+      "A practical room with two queen size beds for friends, families, or guests needing more space.",
     amenities: [
       "4 Guests",
       "Two Queen Size beds",
@@ -82,7 +82,7 @@ const rooms = [
     maxGuests: 2,
     images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
-      "A relaxing room experience with a private bath, Jacuzzi, and additional comfort for a quiet stay.",
+      "A comfortable room with a private Jacuzzi for guests looking for a relaxing stay.",
     amenities: [
       "2 Guests",
       "One Cali King Bed and Sofa",
@@ -113,7 +113,6 @@ const amenities = [
   "Direct Booking",
   "24/7 Front Desk",
   "Daily Housekeeping",
-  "Secure Key Card Access",
   "Air Conditioning",
   "Heater",
 ];
@@ -396,8 +395,8 @@ function App() {
           ))}
         </nav>
 
-        <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
-          View Rooms
+        <a href="#booking" className="bookRoomBtn" onClick={(e) => scrollToSection(e, "booking")}>
+          Book Now
         </a>
       </header>
 
@@ -410,43 +409,9 @@ function App() {
             {heroSlides.map((slide, index) => (
               <article className="luxHeroSlide" key={index}>
                 <picture>
-                  <source
-                    media="(max-width: 760px)"
-                    srcSet={slide.mobileImage}
-                  />
+                  <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
                   <img src={slide.image} alt="Dream Inn hotel" />
                 </picture>
-
-                <div className="luxHeroOverlay" />
-
-                <div className="luxHeroText centerHero">
-                  <div className="heroContentBox">
-                    <p className="heroEyebrow">Dream Inn Inglewood</p>
-
-                    <h1>Comfortable Stay Near LAX &amp; SoFi Stadium</h1>
-
-                    <p className="heroDescription">
-                      Clean rooms, convenient location, free Wi-Fi, and direct
-                      booking with no hidden charges.
-                    </p>
-
-                    <div className="heroActions">
-                      <button
-                        type="button"
-                        onClick={() => scrollToSectionById("booking")}
-                      >
-                        Check Availability
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => scrollToSectionById("rooms")}
-                      >
-                        View Rooms
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </article>
             ))}
           </div>
@@ -466,21 +431,18 @@ function App() {
 
         <section id="booking" className="bookingLuxury" ref={bookingRef}>
           <div className="bookingHeader">
-            <span className="sectionKicker centerKicker">Reserve Your Stay</span>
+            <span className="sectionKicker centerKicker">Book Direct</span>
 
             <h2 className="bookingTitle">
               <span>Dream Inn</span>
             </h2>
 
             <p className="bookingDirectText">
-              No extra commission. No hidden charges. Book direct with us.
+              No extra commission. No hidden charges.
             </p>
           </div>
 
-          <form
-            className="bookingForm"
-            onSubmit={(event) => event.preventDefault()}
-          >
+          <form className="bookingForm" onSubmit={(event) => event.preventDefault()}>
             <DatePicker
               id="checkin"
               value={checkIn}
@@ -561,20 +523,18 @@ function App() {
           <div className="aboutCopy">
             <span className="sectionKicker">About Us</span>
 
-            <h2>Comfortable, Convenient, and Guest-Focused</h2>
+            <h2>Simple, Comfortable Stay in Inglewood</h2>
 
             <p className="aboutText">
-              Dream Inn Inglewood is a comfortable and affordable hotel near Los
-              Angeles International Airport and SoFi Stadium. Located in
-              Inglewood, our motel is ideal for travelers, business guests, and
-              visitors attending events in Los Angeles.
+              Dream Inn Inglewood is located near Los Angeles International
+              Airport and SoFi Stadium. Our hotel is ideal for travelers,
+              business guests, and visitors attending events in Los Angeles.
             </p>
 
             <p className="aboutText">
               We offer clean rooms, free Wi-Fi, cable TV, microwave,
-              refrigerator, and convenient access to LAX, SoFi Stadium, and
-              nearby Los Angeles attractions. Dream Inn is located at 3201 W
-              Imperial Hwy, Inglewood, CA 90303.
+              refrigerator, and convenient access to nearby Los Angeles
+              attractions.
             </p>
 
             <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
@@ -591,7 +551,7 @@ function App() {
         <section id="rooms" className="roomsLuxury">
           <div className="sectionCenter">
             <span className="sectionKicker">Rooms</span>
-            <h2>Room Options Designed for Your Stay</h2>
+            <h2>Choose Your Room</h2>
           </div>
 
           <div
@@ -635,8 +595,8 @@ function App() {
 
         <section id="amenities" className="amenitiesLuxury">
           <div className="sectionCenter">
-            <span className="sectionKicker">Hotel Amenities</span>
-            <h2>Essential Amenities for a Smooth Stay</h2>
+            <span className="sectionKicker">Amenities</span>
+            <h2>Hotel Amenities</h2>
           </div>
 
           <div className="amenityGrid">
@@ -646,49 +606,14 @@ function App() {
           </div>
         </section>
 
-        <section id="reviews" className="reviewsSection">
-          <div className="sectionCenter">
-            <span className="sectionKicker">Guest Reviews</span>
-            <h2>What Our Guests Say</h2>
-          </div>
-
-          <div className="reviewGrid">
-            <div className="reviewCard">
-              <p>⭐⭐⭐⭐⭐</p>
-              <p>
-                “Very clean rooms and great location near LAX. Staff was
-                friendly!”
-              </p>
-              <h4>— John D.</h4>
-            </div>
-
-            <div className="reviewCard">
-              <p>⭐⭐⭐⭐⭐</p>
-              <p>“Perfect stay for SoFi Stadium events. Will come again!”</p>
-              <h4>— Maria S.</h4>
-            </div>
-
-            <div className="reviewCard">
-              <p>⭐⭐⭐⭐⭐</p>
-              <p>“Affordable and comfortable. Highly recommend Dream Inn.”</p>
-              <h4>— Alex R.</h4>
-            </div>
-          </div>
-
-          <a
-            href="https://www.google.com/maps/place/Dream+Inn/@33.9325371,-118.3337641,13z/data=!4m11!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
-            target="_blank"
-            rel="noreferrer"
-            className="reviewBtn"
-          >
-            See All Reviews on Google
-          </a>
-        </section>
-
         <section id="location" className="locationLuxury">
           <div className="locationDetails">
-            <span className="sectionKicker">Contact Us</span>
+            <span className="sectionKicker">Contact</span>
             <h2>Contact Dream Inn</h2>
+
+            <p>
+              📍 3201 W Imperial Hwy, Inglewood, CA 90303
+            </p>
 
             <p>
               📧{" "}
@@ -858,7 +783,9 @@ function BookingPreview({
     <div className="bookingPreview">
       <div className="previewTopLine">
         <span>Reservation Preview</span>
-        <strong>{hasBasicSearch ? "Ready to Check" : "Complete Search Details"}</strong>
+        <strong>
+          {hasBasicSearch ? "Ready to Check" : "Complete Search Details"}
+        </strong>
       </div>
 
       <div className="previewGrid">
@@ -902,7 +829,7 @@ function BookingPreview({
             ? `${nights} night${
                 nights > 1 ? "s" : ""
               } • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
-            : "Live availability and final rates will be confirmed by ASI WebRes after clicking Check Availability."}
+            : "Live availability and final rates will be confirmed after clicking Check Availability."}
         </p>
       </div>
     </div>
