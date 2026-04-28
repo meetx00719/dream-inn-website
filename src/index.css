@@ -2575,3 +2575,417 @@ html {
     margin-top: 62px;
   }
 }
+/* =========================================================
+   FINAL DREAM INN FIX — SCROLL + MOBILE + UI OVERRIDES
+   Paste at VERY BOTTOM of index.css
+========================================================= */
+
+html {
+  scroll-behavior: auto !important;
+  scroll-padding-top: 0 !important;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.luxHotelSite {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* section offset handled by JS */
+#home,
+#booking,
+#about,
+#rooms,
+#amenities,
+#reviews,
+#location {
+  scroll-margin-top: 0 !important;
+}
+
+/* Header clean */
+.mainHeader {
+  height: 86px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.topInfoBar {
+  position: relative;
+  z-index: 1001;
+}
+
+/* Hero safe spacing */
+.luxHero {
+  height: calc(100vh - 86px);
+  min-height: 620px;
+}
+
+.centerHero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroSub {
+  width: 100%;
+  text-align: center;
+}
+
+/* Booking safe */
+.bookingLuxury,
+.bookingForm,
+.bookingForm .inputGroup,
+.datePickerWrap {
+  overflow: visible !important;
+}
+
+.bookingLuxury {
+  margin-top: 42px;
+}
+
+.calendarPopup {
+  z-index: 999999 !important;
+  border-radius: 18px;
+}
+
+/* Rooms desktop */
+.roomGridLuxury {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 380px));
+  justify-content: center;
+  gap: 38px;
+  overflow: visible;
+}
+
+.luxRoomCard {
+  width: 100%;
+}
+
+/* Fix hover image */
+.luxRoomCard:hover .cardImgWrap img {
+  transform: scale(1.08);
+}
+
+/* About section clean */
+.aboutImages {
+  grid-template-columns: 1fr 1fr;
+}
+
+.aboutImages img:first-child {
+  transform: translateY(35px);
+}
+
+.aboutImages img:last-child {
+  transform: translateY(-35px);
+}
+
+/* Amenities/reviews desktop */
+.amenityGrid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.reviewGrid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Contact */
+.locationLuxury {
+  scroll-margin-top: 0 !important;
+}
+
+/* Modal */
+.modalOverlay {
+  z-index: 999999;
+}
+
+.roomModal {
+  border-radius: 22px;
+}
+
+/* Buttons */
+.bookRoomBtn,
+.learnBtn,
+.checkBtn,
+.reviewBtn,
+.modalBookBtn {
+  border-radius: 999px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+  .aboutLuxury,
+  .locationLuxury {
+    grid-template-columns: 1fr;
+  }
+
+  .roomGridLuxury {
+    grid-template-columns: minmax(280px, 430px);
+  }
+
+  .amenityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile final */
+@media (max-width: 760px) {
+  html {
+    scroll-behavior: auto !important;
+    scroll-padding-top: 0 !important;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .topInfoBar {
+    display: none !important;
+  }
+
+  .mainHeader {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 76px;
+    padding: 0 20px;
+    background: rgba(12, 14, 18, 0.76);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: center;
+    z-index: 99999;
+  }
+
+  .desktopNav,
+  .bookRoomBtn,
+  .mobileMenu,
+  .mobileMenuBtn {
+    display: none !important;
+  }
+
+  .luxLogo {
+    color: #fff;
+    font-size: 34px;
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.65);
+  }
+
+  .luxLogo span {
+    color: #fff;
+  }
+
+  .luxHero {
+    height: 78vh;
+    min-height: 560px;
+    padding-top: 0;
+  }
+
+  .luxHeroSlide img {
+    object-position: center center;
+  }
+
+  .heroSub {
+    font-size: 13px;
+    letter-spacing: 2px;
+    padding: 0 18px;
+  }
+
+  .heroPager {
+    left: 6%;
+    bottom: 28px;
+  }
+
+  .bookingLuxury {
+    width: calc(100% - 28px);
+    margin: 34px auto 64px;
+    padding: 42px 22px;
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .bookingTitle {
+    font-size: 48px;
+  }
+
+  .bookingForm {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding-top: 8px;
+  }
+
+  .inputGroup select,
+  .datePopupInput {
+    height: 58px;
+    font-size: 15px;
+    padding-left: 14px;
+    padding-right: 38px;
+  }
+
+  .datePopupInput span {
+    font-size: 15px;
+  }
+
+  .checkBtn {
+    grid-column: auto;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .calendarPopup {
+    width: min(326px, calc(100vw - 36px));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .aboutLuxury,
+  .amenitiesLuxury,
+  .reviewsSection {
+    padding: 74px 6%;
+  }
+
+  .aboutLuxury {
+    grid-template-columns: 1fr;
+    gap: 44px;
+  }
+
+  .aboutCopy h2,
+  .sectionCenter h2,
+  .locationDetails h2 {
+    font-size: clamp(38px, 11vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -1.2px;
+  }
+
+  .aboutText,
+  .aboutCopy p {
+    font-size: 15.5px;
+    line-height: 1.9;
+  }
+
+  .aboutImages {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .aboutImages img,
+  .aboutImages img:first-child,
+  .aboutImages img:last-child {
+    height: 300px;
+    transform: none !important;
+    border-width: 6px;
+    outline-offset: 5px;
+  }
+
+  .roomsLuxury {
+    min-height: auto;
+    padding: 74px 0 82px;
+    overflow: hidden;
+  }
+
+  .roomsLuxury .sectionCenter {
+    padding: 0 6%;
+    margin-bottom: 34px;
+  }
+
+  .roomGridLuxury {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 18px;
+    padding: 0 8% 22px;
+    margin: 0;
+    justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 8%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .roomGridLuxury::-webkit-scrollbar {
+    display: none;
+  }
+
+  .luxRoomCard {
+    flex: 0 0 84%;
+    min-width: 84%;
+    max-width: 84%;
+    min-height: 500px;
+    scroll-snap-align: center;
+  }
+
+  .cardImgWrap {
+    height: 240px;
+  }
+
+  .roomDots {
+    display: flex;
+  }
+
+  .amenityGrid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+
+  .reviewGrid {
+    grid-template-columns: 1fr !important;
+    gap: 18px;
+  }
+
+  .locationLuxury {
+    margin: 56px 6%;
+    padding: 36px 26px;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .locationLuxury::before {
+    inset: 14px;
+  }
+
+  .mapBox {
+    border-width: 6px;
+    outline-offset: 5px;
+  }
+
+  .mapBox iframe {
+    height: 310px;
+  }
+
+  .modalOverlay {
+    padding: 14px;
+  }
+
+  .roomModal {
+    width: 96vw;
+    max-height: 88vh;
+  }
+
+  .modalHeaderImg {
+    height: 260px;
+  }
+
+  .modalBody {
+    padding: 26px 20px;
+  }
+
+  .modalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .learnBtn,
+  .reviewBtn {
+    width: 100%;
+    min-width: 0;
+  }
+}

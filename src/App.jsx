@@ -34,7 +34,6 @@ const rooms = [
     name: "Single Bed Room",
     roomId: "-1",
     maxGuests: 2,
-    estimatedRate: 89,
     images: [singleRoom, singleTwo, single3],
     details:
       "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
@@ -58,7 +57,6 @@ const rooms = [
     name: "Double Bed Room",
     roomId: "-1",
     maxGuests: 4,
-    estimatedRate: 109,
     images: [double1, double2, double3],
     details:
       "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
@@ -82,7 +80,6 @@ const rooms = [
     name: "Jacuzzi Room",
     roomId: "-1",
     maxGuests: 2,
-    estimatedRate: 139,
     images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
       "A premium room experience with a private bath, Jacuzzi, added relaxation, and a refined atmosphere.",
@@ -136,18 +133,9 @@ const ASI_BOOKING_ACTION =
 const TAX_RATE = 0.14;
 
 const RATE_TABLE = {
-  "Single Bed Room": {
-    weekday: 89,
-    weekend: 119,
-  },
-  "Double Bed Room": {
-    weekday: 109,
-    weekend: 149,
-  },
-  "Jacuzzi Room": {
-    weekday: 139,
-    weekend: 179,
-  },
+  "Single Bed Room": { weekday: 89, weekend: 119 },
+  "Double Bed Room": { weekday: 109, weekend: 149 },
+  "Jacuzzi Room": { weekday: 139, weekend: 179 },
 };
 
 function App() {
@@ -176,8 +164,6 @@ function App() {
 
   const estimate = calculateEstimatedRate(selectedRoomName, checkIn, checkOut);
   const nights = estimate.nights;
-  const estimatedSubtotal = estimate.subtotal;
-  const estimatedTaxes = estimate.taxes;
   const estimatedTotal = estimate.total;
   const averageNightlyRate = estimate.avgNightlyRate;
   const pricingType = estimate.pricingType;
@@ -223,6 +209,14 @@ function App() {
     }, 5400);
 
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current) {
+        cancelAnimationFrame(scrollAnimationRef.current);
+      }
+    };
   }, []);
 
   const premiumScrollTo = (targetY, duration = 850) => {
@@ -384,21 +378,13 @@ function App() {
       </div>
 
       <header className="mainHeader">
-        <a
-          href="#"
-          className="luxLogo"
-          onClick={(e) => scrollToSection(e, "home")}
-        >
+        <a href="#" className="luxLogo" onClick={(e) => scrollToSection(e, "home")}>
           Dream<span>Inn</span>
         </a>
 
         <nav className="desktopNav" aria-label="Primary navigation">
           {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href="#"
-              onClick={(e) => scrollToSection(e, link.id)}
-            >
+            <a key={link.id} href="#" onClick={(e) => scrollToSection(e, link.id)}>
               {link.label}
             </a>
           ))}
@@ -528,8 +514,6 @@ function App() {
               selectedRoom={selectedRoomObject}
               availableRooms={availableRooms}
               nights={nights}
-              estimatedSubtotal={estimatedSubtotal}
-              estimatedTaxes={estimatedTaxes}
               estimatedTotal={estimatedTotal}
               averageNightlyRate={averageNightlyRate}
               pricingType={pricingType}
@@ -583,6 +567,7 @@ function App() {
               const cardWidth = firstCard.getBoundingClientRect().width;
               const gap = parseFloat(window.getComputedStyle(container).gap || "0");
               const index = Math.round(container.scrollLeft / (cardWidth + gap));
+
               setActiveDot(Math.min(Math.max(index, 0), availableRooms.length - 1));
             }}
           >
@@ -747,11 +732,8 @@ function calculateEstimatedRate(roomName, checkIn, checkOut) {
     subtotal += nightlyRate;
     nights += 1;
 
-    if (isWeekend) {
-      weekendNights += 1;
-    } else {
-      weekdayNights += 1;
-    }
+    if (isWeekend) weekendNights += 1;
+    else weekdayNights += 1;
 
     current.setDate(current.getDate() + 1);
   }
@@ -813,6 +795,7 @@ function BookingPreview({
   pricingType,
 }) {
   const hasBasicSearch = checkIn && checkOut && occupancy;
+
   const roomsText =
     availableRooms.length === 1
       ? "Auto-selected based on occupancy"
@@ -1031,6 +1014,8 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
     const timer = setInterval(() => {
       setActive((current) => (current + 1) % room.images.length);
     }, 5000);
@@ -1044,16 +1029,18 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
 
     return () => {
       clearInterval(timer);
-      document.body.style.overflow = "";
+      document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleEscape);
     };
   }, [room.images.length, onClose]);
 
-  const nextSlide = () =>
+  const nextSlide = () => {
     setActive((current) => (current + 1) % room.images.length);
+  };
 
-  const prevSlide = () =>
+  const prevSlide = () => {
     setActive((current) => (current - 1 + room.images.length) % room.images.length);
+  };
 
   return (
     <div className="modalOverlay" onClick={onClose}>
