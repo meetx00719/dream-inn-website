@@ -2024,6 +2024,14 @@ section {
   }
 }
 section {
-  padding-top: 120px;
-  padding-bottom: 120px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.luxRoomCard {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.luxRoomCard:hover {
+  transform: translateY(-14px) scale(1.01);
 }
