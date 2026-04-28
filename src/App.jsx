@@ -223,29 +223,31 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  const getHeaderOffset = () => {
-    const header = document.querySelector(".mainHeader");
-    return (header?.offsetHeight || 0) + 10;
-  };
+ const getHeaderOffset = () => {
+  const header = document.querySelector(".mainHeader");
+  return (header?.getBoundingClientRect().height || 0) + 16;
+};
 
-  const scrollToSectionById = (id) => {
-    const section = document.getElementById(id);
-    if (!section) return;
+const scrollToSectionById = (id) => {
+  const section = document.getElementById(id);
+  if (!section) return;
 
-    setOpenCalendar(null);
+  setOpenCalendar(null);
 
-    if (id === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
+  if (id === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
 
-    const y = section.offsetTop - getHeaderOffset();
+  const rect = section.getBoundingClientRect();
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const target = rect.top + scrollTop - getHeaderOffset();
 
-    window.scrollTo({
-      top: Math.max(y, 0),
-      behavior: "smooth",
-    });
-  };
+  window.scrollTo({
+    top: Math.max(0, target),
+    behavior: "smooth",
+  });
+};
 
   const scrollToSection = (event, id) => {
     event?.preventDefault?.();

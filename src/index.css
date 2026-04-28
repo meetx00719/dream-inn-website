@@ -846,11 +846,12 @@ button {
 
 /* ROOMS */
 .roomsLuxury {
-  min-height: 92vh;
-  padding: 92px 8% 105px;
+  min-height: auto;
+  padding: 105px 8% 105px;
   text-align: center;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   justify-content: center;
   background: radial-gradient(circle at top right, rgba(176, 138, 90, 0.14), transparent 31%),
     linear-gradient(180deg, #fbf9f6 0%, #fff 54%, #fbf9f6 100%);
