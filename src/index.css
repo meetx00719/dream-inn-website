@@ -1720,3 +1720,36 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+/* FIX HERO TOP/BOTTOM WHITE GAP */
+.luxHero {
+  height: calc(100vh - 86px);
+  min-height: 620px;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000;
+}
+
+.luxHeroTrack,
+.luxHeroSlide,
+.luxHeroSlide picture,
+.luxHeroSlide img {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.luxHeroSlide img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* MOBILE HERO FIX */
+@media (max-width: 760px) {
+  .luxHero {
+    height: 100vh;
+    min-height: 560px;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+}
