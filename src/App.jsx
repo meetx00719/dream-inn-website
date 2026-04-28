@@ -848,8 +848,8 @@ function BookingPreview({
           {selectedRoom && nights > 0
             ? `${nights} night${
                 nights > 1 ? "s" : ""
-              } • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
-            : "Live availability and final rates will be confirmed by ASI WebRes after clicking Check Availability."}
+              } • average $${averageNightlyRate}/night +taxes• ${pricingType}. Final live rates and availability are confirmed on the booking page.`
+            : "Availability and final rates will be confirmed by ASI WebRes after clicking Check Availability."}
         </p>
       </div>
     </div>
