@@ -283,9 +283,7 @@ function App() {
   };
 
   const getNextDay = (dateString) => {
-    const date = dateString
-      ? new Date(`${dateString}T00:00:00`)
-      : new Date();
+    const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
 
     date.setDate(date.getDate() + 1);
     return formatDate(date);
@@ -352,23 +350,10 @@ function App() {
         </div>
 
         <div className="topSocials">
-          <a
-            className="facebookIcon"
-            href="https://www.facebook.com/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Facebook"
-          >
+          <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
             f
           </a>
-
-          <a
-            className="instagramIcon"
-            href="https://www.instagram.com/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Instagram"
-          >
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
             ◎
           </a>
         </div>
@@ -383,7 +368,7 @@ function App() {
           Dream<span>Inn</span>
         </a>
 
-        <nav className="desktopNav" aria-label="Primary navigation">
+        <nav className="desktopNav">
           {navLinks.map((link) => (
             <a
               key={link.id}
@@ -395,7 +380,11 @@ function App() {
           ))}
         </nav>
 
-        <a href="#booking" className="bookRoomBtn" onClick={(e) => scrollToSection(e, "booking")}>
+        <a
+          href="#booking"
+          className="bookRoomBtn"
+          onClick={(event) => scrollToSection(event, "booking")}
+        >
           Book Now
         </a>
       </header>
@@ -410,10 +399,34 @@ function App() {
               <article className="luxHeroSlide" key={index}>
                 <picture>
                   <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
-                  <img src={slide.image} alt="Dream Inn hotel" />
+                  <img src={slide.image} alt="Dream Inn hotel exterior" />
                 </picture>
               </article>
             ))}
+          </div>
+
+          <div className="luxHeroContent">
+            <span className="sectionKicker">Dream Inn Inglewood</span>
+
+            <h1>
+              Comfortable Stay <br />
+              Near LAX &amp; SoFi
+            </h1>
+
+            <p>
+              Clean rooms, convenient location, free Wi-Fi, and direct booking
+              with no hidden charges.
+            </p>
+
+            <div className="heroButtons">
+              <button type="button" onClick={() => scrollToSectionById("booking")}>
+                Check Availability
+              </button>
+
+              <button type="button" onClick={() => scrollToSectionById("rooms")}>
+                View Rooms
+              </button>
+            </div>
           </div>
 
           <div className="heroPager">
@@ -469,7 +482,6 @@ function App() {
                 onFocus={() => setOpenCalendar(null)}
                 onClick={() => setOpenCalendar(null)}
                 onChange={(event) => setOccupancy(event.target.value)}
-                aria-label="Occupancy"
               >
                 <option value="" disabled>
                   Occupancy
@@ -487,7 +499,6 @@ function App() {
                 onFocus={() => setOpenCalendar(null)}
                 onClick={() => setOpenCalendar(null)}
                 onChange={(event) => setSelectedRoomName(event.target.value)}
-                aria-label="Rooms"
               >
                 <option value="" disabled>
                   Rooms
@@ -611,9 +622,7 @@ function App() {
             <span className="sectionKicker">Contact</span>
             <h2>Contact Dream Inn</h2>
 
-            <p>
-              📍 3201 W Imperial Hwy, Inglewood, CA 90303
-            </p>
+            <p>📍 3201 W Imperial Hwy, Inglewood, CA 90303</p>
 
             <p>
               📧{" "}
@@ -783,9 +792,7 @@ function BookingPreview({
     <div className="bookingPreview">
       <div className="previewTopLine">
         <span>Reservation Preview</span>
-        <strong>
-          {hasBasicSearch ? "Ready to Check" : "Complete Search Details"}
-        </strong>
+        <strong>{hasBasicSearch ? "Ready to Check" : "Complete Search Details"}</strong>
       </div>
 
       <div className="previewGrid">
@@ -895,7 +902,6 @@ function DatePicker({
           event.stopPropagation();
           setOpenCalendar(open ? null : id);
         }}
-        aria-label={placeholder}
       >
         <span>{value ? formatAsiDate(value) : placeholder}</span>
       </button>
@@ -911,7 +917,6 @@ function DatePicker({
             <button
               type="button"
               onClick={() => setViewDate(new Date(year, month - 1, 1))}
-              aria-label="Previous month"
             >
               ‹
             </button>
@@ -923,7 +928,6 @@ function DatePicker({
             <button
               type="button"
               onClick={() => setViewDate(new Date(year, month + 1, 1))}
-              aria-label="Next month"
             >
               ›
             </button>
@@ -970,18 +974,7 @@ function DatePicker({
 
 function RoomCard({ room, onSeeMore }) {
   return (
-    <article
-      className="luxRoomCard"
-      onClick={onSeeMore}
-      tabIndex="0"
-      role="button"
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          onSeeMore();
-        }
-      }}
-    >
+    <article className="luxRoomCard" onClick={onSeeMore} tabIndex="0" role="button">
       <div className="cardImgWrap">
         <img src={room.images[0]} alt={room.name} />
       </div>
@@ -1029,19 +1022,8 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
 
   return (
     <div className="modalOverlay" onClick={onClose}>
-      <div
-        className="roomModal"
-        role="dialog"
-        aria-modal="true"
-        aria-label={room.name}
-        onClick={(event) => event.stopPropagation()}
-      >
-        <button
-          type="button"
-          className="modalClose"
-          onClick={onClose}
-          aria-label="Close room details"
-        >
+      <div className="roomModal" onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="modalClose" onClick={onClose}>
           ×
         </button>
 
@@ -1055,21 +1037,11 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             />
           ))}
 
-          <button
-            type="button"
-            className="modalArrow modalArrowLeft"
-            onClick={prevSlide}
-            aria-label="Previous image"
-          >
+          <button type="button" className="modalArrow modalArrowLeft" onClick={prevSlide}>
             ‹
           </button>
 
-          <button
-            type="button"
-            className="modalArrow modalArrowRight"
-            onClick={nextSlide}
-            aria-label="Next image"
-          >
+          <button type="button" className="modalArrow modalArrowRight" onClick={nextSlide}>
             ›
           </button>
 
@@ -1102,11 +1074,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             </div>
           </div>
 
-          <button
-            type="button"
-            className="modalBookBtn"
-            onClick={onCheckAvailability}
-          >
+          <button type="button" className="modalBookBtn" onClick={onCheckAvailability}>
             Check Availability
           </button>
         </div>
