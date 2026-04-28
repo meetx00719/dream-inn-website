@@ -1720,3 +1720,345 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+/* ================================
+   BUSINESS LEVEL PROFESSIONAL FIX
+   ADD THIS AT VERY BOTTOM
+================================ */
+
+/* Overall clean professional feel */
+:root {
+  --gold: #9a7445;
+  --gold-dark: #735632;
+  --dark: #15171c;
+  --text: #4d5562;
+  --bg-soft: #f7f5f1;
+  --border: #ded6ca;
+  --radius-lg: 16px;
+}
+
+/* Remove overly flashy effects */
+* {
+  scroll-margin-top: 110px;
+}
+
+body {
+  background: #ffffff;
+  color: #15171c;
+}
+
+/* Header cleaner */
+.mainHeader {
+  height: 78px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.luxLogo {
+  font-size: 38px;
+}
+
+.desktopNav a {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+}
+
+/* Buttons cleaner business style */
+.bookRoomBtn,
+.learnBtn,
+.checkBtn,
+.reviewBtn,
+.modalBookBtn {
+  background: #9a7445;
+  border-radius: 10px;
+  box-shadow: none;
+  letter-spacing: 0.7px;
+}
+
+.bookRoomBtn:hover,
+.learnBtn:hover,
+.checkBtn:hover,
+.reviewBtn:hover,
+.modalBookBtn:hover {
+  background: #735632;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(115, 86, 50, 0.22);
+}
+
+.bookRoomBtn,
+.learnBtn,
+.reviewBtn {
+  min-width: auto;
+  padding: 14px 26px;
+}
+
+/* Hero gap fix */
+.luxHero {
+  height: calc(100vh - 78px);
+  min-height: 620px;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000;
+}
+
+.luxHeroTrack,
+.luxHeroSlide,
+.luxHeroSlide picture,
+.luxHeroSlide img {
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.luxHeroSlide img {
+  width: 100%;
+  object-fit: cover;
+  object-position: center center;
+  transform: scale(1.08);
+  filter: brightness(0.76) contrast(1.03);
+}
+
+.luxHeroSlide:hover img {
+  transform: scale(1.08);
+}
+
+/* Hero text more professional */
+.heroSub {
+  color: #f2d7a1;
+  font-size: clamp(22px, 2.8vw, 40px);
+  letter-spacing: 6px;
+  text-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* Booking section cleaner */
+.bookingLuxury {
+  margin: 50px auto 90px;
+  padding: 58px 54px;
+  border-radius: 18px;
+  border: 1px solid #ded6ca;
+  border-top: 4px solid var(--gold);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.bookingLuxury::before {
+  display: none;
+}
+
+.bookingTitle {
+  font-size: clamp(42px, 4.5vw, 64px);
+}
+
+.bookingDirectText {
+  color: #5f5a52;
+  font-size: 12px;
+}
+
+/* Form fields cleaner */
+.inputGroup select,
+.datePopupInput {
+  height: 58px;
+  border-radius: 10px;
+  border: 1px solid #d6cbbb;
+  background: #fff;
+  box-shadow: none;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.datePopupInput span {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+}
+
+.inputGroup select:hover,
+.inputGroup select:focus,
+.datePopupInput:hover,
+.datePopupInput:focus {
+  box-shadow: 0 0 0 3px rgba(154, 116, 69, 0.14);
+}
+
+/* Calendar clean */
+.calendarPopup {
+  border-radius: 14px;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Preview cleaner */
+.bookingPreview {
+  border-radius: 14px;
+  background: #faf8f4;
+  box-shadow: none;
+}
+
+/* Section spacing professional */
+.aboutLuxury,
+.amenitiesLuxury,
+.reviewsSection {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+.aboutCopy h2,
+.sectionCenter h2,
+.locationDetails h2 {
+  font-size: clamp(40px, 4.5vw, 64px);
+  letter-spacing: -1px;
+}
+
+.aboutCopy p,
+.aboutText {
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+/* About images cleaner */
+.aboutImages img {
+  border-radius: 14px;
+  border: 1px solid #ded6ca;
+  outline: none;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.aboutImages img:hover {
+  transform: translateY(-4px) scale(1.01);
+}
+
+/* Room cards business level */
+.roomsLuxury {
+  min-height: auto;
+  padding-top: 90px;
+  padding-bottom: 95px;
+}
+
+.luxRoomCard {
+  border-radius: 16px;
+  border: 1px solid #ded6ca;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+  background: #fff;
+}
+
+.luxRoomCard:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.12);
+}
+
+.cardImgWrap {
+  border-radius: 12px;
+  border: 1px solid #ded6ca;
+  box-shadow: none;
+}
+
+.cardInfo h3 {
+  font-size: 28px;
+}
+
+.cardInfo p {
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* Amenities cleaner */
+.amenityGrid div,
+.reviewCard {
+  border-radius: 14px;
+  border: 1px solid #ded6ca;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.06);
+  background: #fff;
+}
+
+.amenityGrid div:hover,
+.reviewCard:hover {
+  transform: translateY(-4px);
+}
+
+/* Contact section cleaner */
+.locationLuxury {
+  border-radius: 18px;
+  background: #15171c;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+}
+
+.locationLuxury::before {
+  display: none;
+}
+
+.mapBox {
+  border-radius: 14px;
+  border: 1px solid #ded6ca;
+  outline: none;
+}
+
+/* Modal cleaner */
+.roomModal {
+  border-radius: 18px;
+}
+
+.modalHeaderImg {
+  border: 0;
+  outline: none;
+}
+
+.modalFeature {
+  border-radius: 14px;
+}
+
+/* Mobile bug fixes */
+@media (max-width: 760px) {
+  * {
+    scroll-margin-top: 90px;
+  }
+
+  .mainHeader {
+    height: 72px;
+    background: rgba(15, 17, 22, 0.82);
+  }
+
+  .luxHero {
+    height: 100vh;
+    min-height: 560px;
+  }
+
+  .luxHeroSlide img {
+    transform: scale(1.12);
+    object-position: center center;
+  }
+
+  .heroSub {
+    font-size: 14px;
+    letter-spacing: 2.5px;
+    line-height: 1.6;
+  }
+
+  .bookingLuxury {
+    margin: 32px auto 58px;
+    padding: 36px 20px;
+    width: calc(100% - 24px);
+  }
+
+  .bookingTitle {
+    font-size: 44px;
+  }
+
+  .aboutLuxury,
+  .amenitiesLuxury,
+  .reviewsSection {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .roomsLuxury {
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  .luxRoomCard {
+    min-height: 480px;
+  }
+
+  .locationLuxury {
+    margin: 48px 6%;
+    padding: 32px 22px;
+  }
+}
