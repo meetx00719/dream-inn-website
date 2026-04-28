@@ -1662,4 +1662,20 @@ button {
 .aboutCopy .sectionKicker::after {
   margin-left: auto;
   margin-right: auto;
+}.aboutCopy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical center */
+  align-items: center;       /* horizontal center */
+  text-align: center;
+  height: 100%;
+}
+.aboutCopy .sectionKicker {
+  display: block;
+  margin: 0 auto;
+}
+
+.aboutCopy .sectionKicker::after {
+  margin-left: auto;
+  margin-right: auto;
 }
