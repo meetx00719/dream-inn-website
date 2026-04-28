@@ -964,3 +964,52 @@ section {
     font-size: 32px;
   }
 }
+/* REMOVE HERO TEXT BOX */
+.heroContent,
+.heroText,
+.heroOverlayContent,
+.heroGlassBox,
+.luxHeroContent {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-radius: 0 !important;
+}
+
+/* Keep hero text centered if old JSX has text */
+.heroContent,
+.heroText,
+.heroOverlayContent,
+.heroGlassBox,
+.luxHeroContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 0 24px !important;
+  max-width: 1100px;
+  width: 100%;
+  z-index: 5;
+}
+
+/* Better readable hero text */
+.heroContent h1,
+.heroText h1,
+.heroOverlayContent h1,
+.heroGlassBox h1,
+.luxHeroContent h1 {
+  color: #fff;
+  text-shadow: 0 8px 30px rgba(0, 0, 0, 0.65);
+}
+
+.heroContent p,
+.heroText p,
+.heroOverlayContent p,
+.heroGlassBox p,
+.luxHeroContent p {
+  color: #fff;
+  text-shadow: 0 5px 22px rgba(0, 0, 0, 0.55);
+}
