@@ -20,8 +20,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: var(--desktop-scroll-offset);
+  scroll-behavior: auto;
 }
 
 body {
@@ -29,17 +28,6 @@ body {
   background: #fff;
   color: var(--dark);
   overflow-x: hidden;
-}
-
-#home,
-#booking,
-#about,
-#rooms,
-#amenities,
-#reviews,
-#location,
-#contact {
-  scroll-margin-top: var(--desktop-scroll-offset);
 }
 
 a {
@@ -1377,21 +1365,6 @@ button {
 
 /* MOBILE */
 @media (max-width: 760px) {
-  html {
-    scroll-padding-top: var(--mobile-scroll-offset);
-  }
-
-  #home,
-  #booking,
-  #about,
-  #rooms,
-  #amenities,
-  #reviews,
-  #location,
-  #contact {
-    scroll-margin-top: var(--mobile-scroll-offset);
-  }
-
   .topInfoBar {
     display: none;
   }
