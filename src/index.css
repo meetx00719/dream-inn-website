@@ -9,8 +9,8 @@
   --border: #e8dfd2;
   --header-height: 86px;
   --mobile-header-height: 76px;
-  --desktop-scroll-offset: 112px;
-  --mobile-scroll-offset: 92px;
+  --desktop-scroll-offset: 104px;
+  --mobile-scroll-offset: 90px;
 }
 
 * {
@@ -103,7 +103,14 @@ button {
 }
 
 .instagramIcon {
-  background: radial-gradient(circle at 30% 110%, #feda75, #fa7e1e 35%, #d62976 60%, #962fbf 80%, #4f5bd5);
+  background: radial-gradient(
+    circle at 30% 110%,
+    #feda75,
+    #fa7e1e 35%,
+    #d62976 60%,
+    #962fbf 80%,
+    #4f5bd5
+  );
 }
 
 /* HEADER */
@@ -207,7 +214,8 @@ button {
   padding: 16px 34px;
   min-width: 310px;
   border: 1px solid rgba(176, 138, 90, 0.36);
-  box-shadow: 0 18px 42px rgba(176, 138, 90, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 42px rgba(176, 138, 90, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .bookRoomBtn:hover,
@@ -283,7 +291,9 @@ button {
   text-transform: uppercase;
   color: var(--gold);
   text-align: center;
-  text-shadow: 0 0 10px rgba(176, 138, 90, 0.7), 0 0 28px rgba(176, 138, 90, 0.45), 0 8px 24px rgba(0, 0, 0, 0.75);
+  text-shadow: 0 0 10px rgba(176, 138, 90, 0.7),
+    0 0 28px rgba(176, 138, 90, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.75);
 }
 
 .heroPager {
@@ -316,10 +326,16 @@ button {
   width: min(1180px, calc(100% - 56px));
   margin: 42px auto 105px;
   padding: 72px 62px 66px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(251, 248, 243, 0.96)), radial-gradient(circle at top left, rgba(176, 138, 90, 0.16), transparent 32%);
+  background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(251, 248, 243, 0.96)
+    ),
+    radial-gradient(circle at top left, rgba(176, 138, 90, 0.16), transparent 32%);
   border: 1px solid rgba(176, 138, 90, 0.38);
   border-top: 6px solid var(--gold);
-  box-shadow: 0 42px 120px rgba(0, 0, 0, 0.16), inset 0 0 0 1px rgba(255, 255, 255, 0.72);
+  box-shadow: 0 42px 120px rgba(0, 0, 0, 0.16),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.72);
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 44px;
@@ -423,11 +439,6 @@ button {
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
-.bookingAt,
-.bookingHotel {
-  font-family: "Playfair Display", serif;
-}
-
 .bookingForm {
   position: relative;
   z-index: 20;
@@ -474,7 +485,8 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
   border-radius: 15px;
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .datePopupInput {
@@ -517,7 +529,8 @@ button {
 .datePopupInput:focus {
   border-color: var(--gold);
   background-color: #fff;
-  box-shadow: 0 0 0 4px rgba(176, 138, 90, 0.12), 0 18px 42px rgba(176, 138, 90, 0.16);
+  box-shadow: 0 0 0 4px rgba(176, 138, 90, 0.12),
+    0 18px 42px rgba(176, 138, 90, 0.16);
 }
 
 .checkBtn {
@@ -531,7 +544,8 @@ button {
   letter-spacing: 1.6px;
   border-radius: 999px;
   background: linear-gradient(135deg, #15110b 0%, #3b2b18 45%, #7b5a32 100%);
-  box-shadow: 0 18px 44px rgba(176, 138, 90, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 18px 44px rgba(176, 138, 90, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .datePickerWrap:has(.calendarPopup) {
@@ -627,8 +641,10 @@ button {
   padding: 20px;
   border-radius: 20px;
   border: 1px solid rgba(176, 138, 90, 0.25);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 242, 0.96)), radial-gradient(circle at top right, rgba(176, 138, 90, 0.12), transparent 35%);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 242, 0.96)),
+    radial-gradient(circle at top right, rgba(176, 138, 90, 0.12), transparent 35%);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .previewTopLine {
@@ -848,7 +864,8 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: radial-gradient(circle at top right, rgba(176, 138, 90, 0.14), transparent 31%), linear-gradient(180deg, #fbf9f6 0%, #fff 54%, #fbf9f6 100%);
+  background: radial-gradient(circle at top right, rgba(176, 138, 90, 0.14), transparent 31%),
+    linear-gradient(180deg, #fbf9f6 0%, #fff 54%, #fbf9f6 100%);
 }
 
 .roomGridLuxury {
@@ -864,7 +881,8 @@ button {
   background: linear-gradient(180deg, #fff, #fcf9f4);
   cursor: pointer;
   border: 1px solid rgba(176, 138, 90, 0.28);
-  box-shadow: 0 22px 65px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+  box-shadow: 0 22px 65px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
   overflow: hidden;
   text-align: left;
   display: flex;
@@ -977,7 +995,7 @@ button {
 /* AMENITIES */
 .amenitiesLuxury {
   padding: 105px 8%;
-  background: radial-gradient(circle at top left, rgba(176, 138, 90, 0.10), transparent 30%), #fff;
+  background: radial-gradient(circle at top left, rgba(176, 138, 90, 0.1), transparent 30%), #fff;
 }
 
 .amenityGrid {
@@ -999,7 +1017,8 @@ button {
   font-size: 15px;
   font-weight: 900;
   letter-spacing: 0.25px;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.045), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -1027,7 +1046,8 @@ button {
   background: linear-gradient(180deg, #fff, #fbf8f2);
   padding: 38px 30px;
   border: 1px solid rgba(176, 138, 90, 0.26);
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -1056,7 +1076,7 @@ button {
   margin-top: 34px;
 }
 
-/* CONTACT / LOCATION */
+/* CONTACT */
 .locationLuxury {
   margin: 110px 8%;
   display: grid;
@@ -1066,16 +1086,19 @@ button {
   padding: 72px;
   overflow: hidden;
   color: #fff;
-  background: linear-gradient(135deg, rgba(176, 138, 90, 0.22), rgba(12, 15, 20, 0.94) 40%, rgba(9, 11, 16, 0.98)), radial-gradient(circle at top left, rgba(176, 138, 90, 0.28), transparent 36%), #0d0f15;
+  background: linear-gradient(135deg, rgba(176, 138, 90, 0.22), rgba(12, 15, 20, 0.94) 40%, rgba(9, 11, 16, 0.98)),
+    radial-gradient(circle at top left, rgba(176, 138, 90, 0.28), transparent 36%),
+    #0d0f15;
   border: 1px solid rgba(176, 138, 90, 0.32);
-  box-shadow: 0 42px 120px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  box-shadow: 0 42px 120px rgba(0, 0, 0, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .locationLuxury::before {
   content: "";
   position: absolute;
   inset: 22px;
-  border: 1px solid rgba(176, 138, 90, 0.20);
+  border: 1px solid rgba(176, 138, 90, 0.2);
   pointer-events: none;
 }
 
@@ -1286,13 +1309,14 @@ button {
     opacity: 0;
     transform: translateY(18px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-/* DESKTOP / TABLET RESPONSIVE */
+/* RESPONSIVE */
 @media (min-width: 1260px) {
   .bookingForm > .inputGroup {
     transform: translateY(10px);
@@ -1351,7 +1375,7 @@ button {
   }
 }
 
-/* MOBILE - single clean block only */
+/* MOBILE */
 @media (max-width: 760px) {
   html {
     scroll-padding-top: var(--mobile-scroll-offset);

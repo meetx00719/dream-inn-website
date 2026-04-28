@@ -181,7 +181,10 @@ function App() {
   const pricingType = estimate.pricingType;
 
   useEffect(() => {
-    if (selectedRoomName && !availableRooms.some((room) => room.name === selectedRoomName)) {
+    if (
+      selectedRoomName &&
+      !availableRooms.some((room) => room.name === selectedRoomName)
+    ) {
       setSelectedRoomName("");
     }
   }, [availableRooms, selectedRoomName]);
@@ -221,14 +224,11 @@ function App() {
   }, []);
 
   const getHeaderOffset = () => {
-    const isMobile = window.innerWidth <= 760;
-    const topBar = document.querySelector(".topInfoBar");
     const header = document.querySelector(".mainHeader");
-
-    const topBarHeight = isMobile ? 0 : topBar?.offsetHeight || 0;
     const headerHeight = header?.offsetHeight || 0;
+    const isMobile = window.innerWidth <= 760;
 
-    return topBarHeight + headerHeight + (isMobile ? 16 : 22);
+    return headerHeight + (isMobile ? 14 : 18);
   };
 
   const scrollToSectionById = (id) => {
@@ -242,7 +242,8 @@ function App() {
       return;
     }
 
-    const y = section.getBoundingClientRect().top + window.scrollY - getHeaderOffset();
+    const y =
+      section.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset();
 
     window.scrollTo({
       top: Math.max(y, 0),
@@ -802,7 +803,9 @@ function BookingPreview({
         <div>
           <small>Occupancy</small>
           <strong>
-            {occupancy ? `${occupancy} Guest${occupancy === "1" ? "" : "s"}` : "Not selected"}
+            {occupancy
+              ? `${occupancy} Guest${occupancy === "1" ? "" : "s"}`
+              : "Not selected"}
           </strong>
         </div>
 
@@ -824,7 +827,9 @@ function BookingPreview({
 
         <p>
           {selectedRoom && nights > 0
-            ? `${nights} night${nights > 1 ? "s" : ""} • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
+            ? `${nights} night${
+                nights > 1 ? "s" : ""
+              } • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
             : "Live availability and final rates will be confirmed by ASI WebRes after clicking Book Now."}
         </p>
       </div>
@@ -1023,7 +1028,12 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
         aria-label={room.name}
         onClick={(event) => event.stopPropagation()}
       >
-        <button type="button" className="modalClose" onClick={onClose} aria-label="Close room details">
+        <button
+          type="button"
+          className="modalClose"
+          onClick={onClose}
+          aria-label="Close room details"
+        >
           ×
         </button>
 
