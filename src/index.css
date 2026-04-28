@@ -2023,3 +2023,7 @@ section {
     animation-duration: 0.01ms !important;
   }
 }
+section {
+  padding-top: 120px;
+  padding-bottom: 120px;
+}
