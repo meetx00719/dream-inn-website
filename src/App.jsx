@@ -36,7 +36,7 @@ const rooms = [
     maxGuests: 2,
     images: [singleRoom, singleTwo, single3],
     details:
-      "A clean and comfortable room designed for travelers who want a calm stay with essential in-room convenience.",
+      "A polished, restful room crafted for guests who value comfort, privacy, and simple everyday convenience.",
     amenities: [
       "2 Guests",
       "Cali King size bed",
@@ -59,7 +59,7 @@ const rooms = [
     maxGuests: 4,
     images: [double1, double2, double3],
     details:
-      "A practical room option with two queen size beds for friends, families, or guests who prefer additional sleeping space.",
+      "A spacious two-bed room designed for families, friends, and guests who prefer extra comfort with a refined stay experience.",
     amenities: [
       "4 Guests",
       "Two Queen Size beds",
@@ -82,7 +82,7 @@ const rooms = [
     maxGuests: 2,
     images: [jacuzziRoom, jacuzzi2, jacuzzi3],
     details:
-      "A premium room experience with a private bath, Jacuzzi, added relaxation, and a refined atmosphere.",
+      "A signature premium room with a private Jacuzzi experience, warm lighting, and a more relaxed elevated atmosphere.",
     amenities: [
       "2 Guests",
       "One Cali King Bed and Sofa",
@@ -504,7 +504,7 @@ function App() {
             </div>
 
             <button type="button" className="checkBtn" onClick={openBookingEngine}>
-              Book Now
+              Check Availability
             </button>
 
             <BookingPreview
@@ -524,7 +524,7 @@ function App() {
         <section id="about" className="aboutLuxury">
           <div className="aboutCopy">
             <span className="sectionKicker">About Us</span>
-            <h2>A Refined Stay Near LAX and SoFi Stadium</h2>
+            <h2>A Refined Stay in the Heart of Inglewood</h2>
 
             <p className="aboutText">
               Dream Inn Inglewood is a comfortable and affordable hotel near Los
@@ -554,7 +554,7 @@ function App() {
         <section id="rooms" className="roomsLuxury">
           <div className="sectionCenter">
             <span className="sectionKicker">Rooms & Suites</span>
-            <h2>Comfortable Rooms for Every Stay</h2>
+            <h2>Premium Comfort for Every Stay</h2>
           </div>
 
           <div
@@ -593,7 +593,7 @@ function App() {
         <section id="amenities" className="amenitiesLuxury">
           <div className="sectionCenter">
             <span className="sectionKicker">Hotel Amenities</span>
-            <h2>Everything You Need for a Comfortable Stay</h2>
+            <h2>Essential Comforts, Thoughtfully Presented</h2>
           </div>
 
           <div className="amenityGrid">
@@ -606,7 +606,7 @@ function App() {
         <section id="reviews" className="reviewsSection">
           <div className="sectionCenter">
             <span className="sectionKicker">Guest Experiences</span>
-            <h2>What Our Guests Say</h2>
+            <h2>Guest Experiences at Dream Inn</h2>
           </div>
 
           <div className="reviewGrid">
@@ -624,7 +624,7 @@ function App() {
 
             <div className="reviewCard">
               <p>⭐⭐⭐⭐⭐</p>
-              <p>“Affordable and comfortable. Highly recommend Dream Inn.”</p>
+              <p>“Comfortable, convenient, and a great value near everything we needed.”</p>
               <h4>— Alex R.</h4>
             </div>
           </div>
@@ -849,7 +849,7 @@ function BookingPreview({
             ? `${nights} night${
                 nights > 1 ? "s" : ""
               } • average $${averageNightlyRate}/night • ${pricingType}. Final live rates and availability are confirmed on the reservation page.`
-            : "Live availability and final rates will be confirmed by ASI WebRes after clicking Book Now."}
+            : "Live availability and final rates will be confirmed by ASI WebRes after clicking Check Availability."}
         </p>
       </div>
     </div>
