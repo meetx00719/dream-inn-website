@@ -2023,15 +2023,3 @@ section {
     animation-duration: 0.01ms !important;
   }
 }
-section {
-  padding-top: 120px;
-  padding-bottom: 120px;
-}
-.luxRoomCard {
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.luxRoomCard:hover {
-  transform: translateY(-14px) scale(1.01);
-}
