@@ -20,8 +20,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 120px;
+  scroll-behavior: auto;
   overflow-x: hidden;
 }
 
@@ -997,14 +996,6 @@ section {
     --header-height: 74px;
   }
 
-  html {
-    scroll-padding-top: 90px;
-  }
-
-  body {
-    padding-top: 74px;
-  }
-
   .topInfoBar {
     display: none;
   }
@@ -1038,8 +1029,8 @@ section {
   .luxHero,
   .luxHeroTrack,
   .luxHeroSlide {
-    min-height: calc(100vh - 74px);
-    height: calc(100vh - 74px);
+    min-height: 100vh;
+    height: 100vh;
   }
 
   .luxHero::after {
