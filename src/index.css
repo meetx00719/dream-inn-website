@@ -95,11 +95,11 @@ button {
 .instagramIcon {
   background: radial-gradient(
     circle at 30% 110%,
-    #feda75,
+    #feda75 0%,
     #fa7e1e 35%,
     #d62976 60%,
     #962fbf 80%,
-    #4f5bd
+    #4f5bdf 100%
   );
 }
 
