@@ -412,10 +412,26 @@ video {
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
 
-.aboutCopy .sectionKicker::after,
-.locationDetails .sectionKicker::after {
+.aboutCopy .sectionKicker {
+  display: block;
+  width: fit-content;
+  text-align: left;
   margin-left: 0;
   margin-right: auto;
+}
+
+.aboutCopy .sectionKicker::after {
+  margin: 12px 0 0;
+}
+
+.locationDetails .sectionKicker {
+  display: block;
+  width: fit-content;
+  text-align: left;
+}
+
+.locationDetails .sectionKicker::after {
+  margin: 12px 0 0;
 }
 
 .bookingTitle {
@@ -777,11 +793,18 @@ video {
   background: linear-gradient(90deg, transparent, rgba(176, 138, 90, 0.28), transparent);
 }
 
+.aboutLuxury::before {
+  left: 8%;
+  right: auto;
+  width: 120px;
+  background: linear-gradient(90deg, rgba(176, 138, 90, 0.62), transparent);
+}
+
 .aboutLuxury {
-  padding: 110px 8%;
+  padding: 82px 8% 96px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 86px;
+  gap: 76px;
   align-items: center;
   background: radial-gradient(circle at top right, rgba(176, 138, 90, 0.08), transparent 32%), #fff;
 }
@@ -798,7 +821,7 @@ video {
   font-family: "Playfair Display", serif;
   font-size: clamp(50px, 5vw, 78px);
   line-height: 1.02;
-  margin: 22px 0 30px;
+  margin: 18px 0 26px;
   letter-spacing: -1.9px;
   color: #10131a;
   text-wrap: balance;
@@ -1597,7 +1620,18 @@ video {
   .aboutLuxury,
   .amenitiesLuxury,
   .reviewsSection {
-    padding: 74px 6%;
+    padding: 64px 6%;
+  }
+
+  .aboutCopy .sectionKicker,
+  .locationDetails .sectionKicker {
+    width: fit-content;
+    text-align: left;
+  }
+
+  .aboutCopy .sectionKicker::after,
+  .locationDetails .sectionKicker::after {
+    margin: 10px 0 0;
   }
 
   .aboutCopy h2,
@@ -1617,7 +1651,7 @@ video {
   .aboutImages {
     grid-template-columns: 1fr;
     gap: 22px;
-    margin-top: 32px;
+    margin-top: 24px;
   }
 
   .aboutImages img,
