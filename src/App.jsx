@@ -223,31 +223,72 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
- const getHeaderOffset = () => {
-  const header = document.querySelector(".mainHeader");
-  return (header?.getBoundingClientRect().height || 0) + 16;
-};
+  const scrollAnimationRef = useRef(null);
 
-const scrollToSectionById = (id) => {
-  const section = document.getElementById(id);
-  if (!section) return;
-
-  setOpenCalendar(null);
-
-  if (id === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
+const premiumScrollTo = (targetY, duration = 850) => {
+  if (scrollAnimationRef.current) {
+    cancelAnimationFrame(scrollAnimationRef.current);
   }
 
-  const rect = section.getBoundingClientRect();
-  const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  const target = rect.top + scrollTop - getHeaderOffset();
+  const startY = window.scrollY || document.documentElement.scrollTop;
+  const distance = targetY - startY;
+  const startTime = performance.now();
 
-  window.scrollTo({
-    top: Math.max(0, target),
-    behavior: "smooth",
-  });
+  const easeInOutCubic = (t) =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+  const animate = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeInOutCubic(progress);
+
+    window.scrollTo({
+      top: startY + distance * eased,
+      left: 0,
+      behavior: "auto",
+    });
+
+    if (progress < 1) {
+      scrollAnimationRef.current = requestAnimationFrame(animate);
+    } else {
+      scrollAnimationRef.current = null;
+    }
+  };
+
+  scrollAnimationRef.current = requestAnimationFrame(animate);
 };
+
+ const getHeaderOffset = () => {
+  const header = document.querySelector(".mainHeader");
+  const topBar = document.querySelector(".topInfoBar");
+
+  const headerHeight = header?.getBoundingClientRect().height || 0;
+
+  const topBarHeight =
+    topBar && ["fixed", "sticky"].includes(getComputedStyle(topBar).position)
+      ? topBar.getBoundingClientRect().height
+      : 0;
+
+  return headerHeight + topBarHeight + 18;
+};
+
+  const scrollToSectionById = (id) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    setOpenCalendar(null);
+
+   if (id === "home") {
+  premiumScrollTo(0, 800);
+  return;
+}
+
+    const rect = section.getBoundingClientRect();
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const target = rect.top + scrollTop - getHeaderOffset();
+
+    premiumScrollTo(Math.max(0, target));
+  };
 
   const scrollToSection = (event, id) => {
     event?.preventDefault?.();
