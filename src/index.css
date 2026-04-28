@@ -1686,3 +1686,26 @@ button {
     transition-duration: 0.01ms !important;
   }
 }
+/* ===== CLEAN HERO (NO TEXT / NO OVERLAY) ===== */
+
+.luxHeroOverlay {
+  display: none !important;
+}
+
+.luxHeroText {
+  display: none !important;
+}
+
+.heroContentBox {
+  display: none !important;
+}
+
+.heroSub {
+  display: none !important;
+}
+
+/* Make image clean and bright */
+.luxHeroSlide img {
+  filter: none !important;
+  transform: none !important;
+}
