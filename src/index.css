@@ -7,10 +7,6 @@
   --text: #4a4f5a;
   --bg-soft: #fbf9f6;
   --border: #e8dfd2;
-  --header-height: 86px;
-  --mobile-header-height: 76px;
-  --desktop-scroll-offset: 104px;
-  --mobile-scroll-offset: 90px;
 }
 
 * {
@@ -21,22 +17,13 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: var(--desktop-scroll-offset);
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
 }
 
 body {
   font-family: "Inter", sans-serif;
   background: #fff;
   color: var(--dark);
-  width: 100%;
-  max-width: 100%;
   overflow-x: hidden;
-  overscroll-behavior-y: none;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: geometricPrecision;
 }
 
 a {
@@ -55,27 +42,7 @@ button {
 }
 
 .luxHotelSite {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: clip;
-}
-
-[id],
-section[id],
-.aboutLuxury,
-.roomsLuxury,
-.amenitiesLuxury,
-.reviewsSection,
-.locationLuxury,
-.bookingLuxury {
-  scroll-margin-top: var(--desktop-scroll-offset);
-}
-
-img,
-picture,
-iframe,
-video {
-  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* TOP BAR */
@@ -134,7 +101,7 @@ video {
 /* HEADER */
 
 .mainHeader {
-  height: var(--header-height);
+  height: 86px;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
   padding: 0 8%;
@@ -146,7 +113,6 @@ video {
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  transform: translateZ(0);
 }
 
 .luxLogo {
@@ -252,7 +218,6 @@ video {
   height: 100%;
   display: flex;
   transition: transform 1.15s cubic-bezier(0.19, 1, 0.22, 1);
-  will-change: transform;
 }
 
 .luxHeroSlide {
@@ -384,27 +349,6 @@ video {
   letter-spacing: 2.4px;
 }
 
-/* ABOUT + CONTACT KICKER ALIGNMENT FIX */
-.aboutCopy .sectionKicker,
-.locationDetails .sectionKicker {
-  display: block;
-  width: fit-content;
-  text-align: left;
-  margin-left: 0;
-  margin-right: auto;
-}
-
-.aboutCopy .sectionKicker::after,
-.locationDetails .sectionKicker::after {
-  content: "";
-  display: block;
-  width: 54px;
-  height: 1px;
-  margin: 12px 0 0;
-  background: linear-gradient(90deg, var(--gold), transparent);
-}
-
-
 /* ===== ONE LINE PREMIUM TITLE ===== */
 
 .bookingTitle {
@@ -494,12 +438,13 @@ video {
   width: 100%;
   color: #17130d;
   font-family: "Playfair Display", serif;
-  font-size: 18px;
+  font-size: 16px; /* smaller = no cut */
   font-weight: 700;
   text-align: center;
+
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .inputGroup select {
@@ -508,7 +453,7 @@ video {
   -webkit-appearance: none;
   color: #17130d;
   font-family: "Playfair Display", serif;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   background-image: url("data:image/svg+xml,%3Csvg width='16' height='11' viewBox='0 0 20 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2L10 10L18 2' stroke='%2317140f' stroke-width='2.8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -519,6 +464,14 @@ video {
 .inputGroup select option {
   color: #11131a;
   font-weight: 700;
+}
+
+.datePopupInput span,
+.inputGroup select {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .inputGroup select:hover,
@@ -559,16 +512,25 @@ video {
     inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-/* CALENDAR */
+/* DATE PICKER VISIBILITY FIX */
+
+.bookingLuxury,
+.bookingForm,
+.bookingForm .inputGroup,
+.datePickerWrap {
+  overflow: visible !important;
+}
 
 .datePickerWrap {
   position: relative;
-  overflow: visible;
+  z-index: 50;
 }
 
 .datePickerWrap:has(.calendarPopup) {
   z-index: 999999;
 }
+
+/* CALENDAR */
 
 .calendarPopup {
   position: absolute;
@@ -580,7 +542,7 @@ video {
   border: 1px solid #eadfce;
   box-shadow: 0 26px 78px rgba(0, 0, 0, 0.24);
   padding: 18px;
-  z-index: 999999;
+  z-index: 999999 !important;
 }
 
 .calendarHead {
@@ -986,8 +948,6 @@ video {
   display: grid;
   place-items: center;
   padding: 22px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
 }
 
 .roomModal {
@@ -997,8 +957,6 @@ video {
   background: #fff;
   animation: modalIn 0.22s ease both;
   position: relative;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
 }
 
 .modalClose {
@@ -1193,29 +1151,6 @@ video {
 /* MOBILE */
 
 @media (max-width: 760px) {
-  html {
-    scroll-padding-top: var(--mobile-scroll-offset);
-  }
-
-  [id],
-  section[id],
-  .aboutLuxury,
-  .roomsLuxury,
-  .amenitiesLuxury,
-  .reviewsSection,
-  .locationLuxury,
-  .bookingLuxury {
-    scroll-margin-top: var(--mobile-scroll-offset);
-  }
-
-  body {
-    overflow-x: hidden;
-  }
-
-  .luxHotelSite {
-    overflow-x: clip;
-  }
-
   .topInfoBar {
     display: none;
   }
@@ -1225,7 +1160,7 @@ video {
     top: 0;
     left: 0;
     width: 100%;
-    height: var(--mobile-header-height);
+    height: 76px;
     padding: 0 20px;
     background: rgba(12, 14, 18, 0.72);
     backdrop-filter: blur(16px);
@@ -1311,9 +1246,17 @@ video {
   }
 
   .inputGroup select,
-  .datePopupInput,
+  .datePopupInput {
+    font-size: 15px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
   .datePopupInput span {
-    font-size: 16px;
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .checkBtn {
@@ -1322,25 +1265,18 @@ video {
     margin-top: 4px;
   }
 
+
   .calendarPopup {
-    width: min(326px, 86vw);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: min(326px, calc(100vw - 36px));
   }
 
   .aboutLuxury,
   .amenitiesLuxury {
     padding: 70px 6%;
     grid-template-columns: 1fr;
-  }
-
-  .aboutCopy .sectionKicker,
-  .locationDetails .sectionKicker {
-    width: fit-content;
-    text-align: left;
-  }
-
-  .aboutCopy .sectionKicker::after,
-  .locationDetails .sectionKicker::after {
-    margin: 10px 0 0;
   }
 
   .roomsLuxury {
@@ -1358,17 +1294,11 @@ video {
     scroll-margin-top: 80px;
   }
 
-  #booking {
-    scroll-margin-top: 115px;
-  }
-
   .roomGridLuxury {
     display: flex;
     overflow-x: auto;
-    overflow-y: hidden;
     gap: 18px;
     scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
     scroll-padding-left: 8%;
     scroll-padding-right: 8%;
     padding: 0 8% 22px;
@@ -1376,9 +1306,6 @@ video {
     justify-content: flex-start;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior-x: contain;
-    touch-action: pan-x pan-y;
   }
 
   .roomGridLuxury::-webkit-scrollbar {
@@ -1437,24 +1364,160 @@ video {
   }
 }
 
+
+
+/* ===============================
+   BOOKING PREVIEW
+================================ */
+
+.bookingPreview {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 22px;
+  padding: 20px;
+  border-radius: 20px;
+  border: 1px solid rgba(176, 138, 90, 0.25);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(250, 247, 242, 0.96)),
+    radial-gradient(circle at top right, rgba(176, 138, 90, 0.12), transparent 35%);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.previewTopLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #8a7a60;
+}
+
+.previewTopLine span {
+  font-weight: 900;
+}
+
+.previewTopLine strong {
+  color: var(--gold);
+  font-weight: 900;
+  text-align: right;
+}
+
+.previewGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.previewGrid div {
+  padding: 14px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(176, 138, 90, 0.14);
+}
+
+.previewGrid small {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Inter", sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #9a8a70;
+}
+
+.previewGrid strong {
+  display: block;
+  font-family: "Playfair Display", serif;
+  font-size: 16px;
+  line-height: 1.25;
+  color: #11131a;
+}
+
+.previewPriceBox {
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(176, 138, 90, 0.08);
+  border: 1px solid rgba(176, 138, 90, 0.25);
+}
+
+.previewPriceBox div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+
+.previewPriceBox span {
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #7a6a55;
+}
+
+.previewPriceBox strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+.previewPriceBox p {
+  font-size: 12px;
+  color: #6a5c48;
+  line-height: 1.55;
+}
+
+/* MOBILE BOOKING PREVIEW */
+@media (max-width: 760px) {
+  .bookingPreview {
+    margin-top: 18px;
+    padding: 16px;
+  }
+
+  .previewTopLine {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .previewTopLine strong {
+    text-align: left;
+  }
+
+  .previewGrid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .previewGrid strong {
+    font-size: 16px;
+  }
+
+  .previewPriceBox div {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .previewPriceBox strong {
+    font-size: 20px;
+  }
+}
+
 /* FINAL SAFETY: remove mobile menu completely */
 .mobileMenu,
 .mobileMenuBtn {
   display: none !important;
-}
-
-/* ACCESSIBILITY: reduce animation for users who prefer less motion */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
-  }
 }
