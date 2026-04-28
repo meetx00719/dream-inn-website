@@ -225,10 +225,7 @@ function App() {
 
   const getHeaderOffset = () => {
     const header = document.querySelector(".mainHeader");
-    const headerHeight = header?.offsetHeight || 0;
-    const isMobile = window.innerWidth <= 760;
-
-    return headerHeight + (isMobile ? 14 : 18);
+    return (header?.offsetHeight || 0) + 10;
   };
 
   const scrollToSectionById = (id) => {
@@ -242,8 +239,7 @@ function App() {
       return;
     }
 
-    const y =
-      section.getBoundingClientRect().top + window.pageYOffset - getHeaderOffset();
+    const y = section.offsetTop - getHeaderOffset();
 
     window.scrollTo({
       top: Math.max(y, 0),
@@ -349,7 +345,7 @@ function App() {
 
       <header className="mainHeader">
         <a
-          href="#home"
+          href="#"
           className="luxLogo"
           onClick={(e) => scrollToSection(e, "home")}
         >
@@ -360,7 +356,7 @@ function App() {
           {navLinks.map((link) => (
             <a
               key={link.id}
-              href={`#${link.id}`}
+              href="#"
               onClick={(e) => scrollToSection(e, link.id)}
             >
               {link.label}
@@ -368,7 +364,7 @@ function App() {
           ))}
         </nav>
 
-        <a href="#rooms" className="bookRoomBtn" onClick={scrollToRooms}>
+        <a href="#" className="bookRoomBtn" onClick={scrollToRooms}>
           Explore Rooms
         </a>
       </header>
@@ -520,7 +516,7 @@ function App() {
               Imperial Hwy, Inglewood, CA 90303.
             </p>
 
-            <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
+            <a href="#" className="learnBtn" onClick={scrollToRooms}>
               Explore Rooms
             </a>
           </div>
