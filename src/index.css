@@ -20,14 +20,23 @@
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--desktop-scroll-offset);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: "Inter", sans-serif;
   background: #fff;
   color: var(--dark);
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  overscroll-behavior-y: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
 }
 
 a {
@@ -46,7 +55,27 @@ button {
 }
 
 .luxHotelSite {
-  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+[id],
+section[id],
+.aboutLuxury,
+.roomsLuxury,
+.amenitiesLuxury,
+.reviewsSection,
+.locationLuxury,
+.bookingLuxury {
+  scroll-margin-top: var(--desktop-scroll-offset);
+}
+
+img,
+picture,
+iframe,
+video {
+  max-width: 100%;
 }
 
 /* TOP BAR */
@@ -116,6 +145,7 @@ button {
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transform: translateZ(0);
 }
 
 .luxLogo {
@@ -227,6 +257,7 @@ button {
   height: 100%;
   display: flex;
   transition: transform 1.15s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform;
 }
 
 .luxHeroSlide {
@@ -822,7 +853,7 @@ button {
 .sectionCenter {
   text-align: center;
   max-width: 860px;
-  margin: 0 auto 54px;
+  margin: 0 auto 46px;
   position: relative;
 }
 
@@ -847,7 +878,7 @@ button {
 /* ROOMS */
 .roomsLuxury {
   min-height: auto;
-  padding: 105px 8% 105px;
+  padding: 58px 8% 96px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -865,7 +896,7 @@ button {
 }
 
 .luxRoomCard {
-  min-height: 540px;
+  min-height: 520px;
   background: linear-gradient(180deg, #fff, #fcf9f4);
   cursor: pointer;
   border: 1px solid rgba(176, 138, 90, 0.28);
@@ -1150,6 +1181,8 @@ button {
   display: grid;
   place-items: center;
   padding: 22px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .roomModal {
@@ -1159,6 +1192,8 @@ button {
   background: #fff;
   animation: modalIn 0.22s ease both;
   position: relative;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modalClose {
@@ -1365,6 +1400,29 @@ button {
 
 /* MOBILE */
 @media (max-width: 760px) {
+  html {
+    scroll-padding-top: var(--mobile-scroll-offset);
+  }
+
+  [id],
+  section[id],
+  .aboutLuxury,
+  .roomsLuxury,
+  .amenitiesLuxury,
+  .reviewsSection,
+  .locationLuxury,
+  .bookingLuxury {
+    scroll-margin-top: var(--mobile-scroll-offset);
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .luxHotelSite {
+    overflow-x: clip;
+  }
+
   .topInfoBar {
     display: none;
   }
@@ -1413,6 +1471,7 @@ button {
   .luxHero {
     min-height: 560px;
     height: 78vh;
+    padding-top: var(--mobile-header-height);
   }
 
   .heroSub {
@@ -1532,7 +1591,7 @@ button {
 
   .sectionCenter {
     padding: 0 6%;
-    margin: 0 auto 34px;
+    margin: 0 auto 30px;
   }
 
   .aboutLuxury,
@@ -1573,15 +1632,17 @@ button {
 
   .roomsLuxury {
     min-height: auto;
-    padding: 74px 0 82px;
+    padding: 46px 0 78px;
     overflow: hidden;
   }
 
   .roomGridLuxury {
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 18px;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
     scroll-padding-left: 8%;
     scroll-padding-right: 8%;
     padding: 0 8% 22px;
@@ -1589,6 +1650,9 @@ button {
     justify-content: flex-start;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
   }
 
   .roomGridLuxury::-webkit-scrollbar {
@@ -1671,5 +1735,21 @@ button {
   .reviewBtn {
     width: 100%;
     min-width: 0;
+  }
+}
+
+/* ACCESSIBILITY: reduce animation for users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
