@@ -165,6 +165,7 @@ section {
 
   /* premium dark gradient */
   background: linear-gradient(180deg, #111116, #2a2a31);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
