@@ -3280,79 +3280,83 @@ section {
   }
 }
 /* ===== MOBILE DREAM INN LOGO FIX ===== */
+/* ===== MOBILE PREMIUM LOGO + HEADER ANIMATION ===== */
 
-@media (max-width: 760px) {
-  .luxLogo {
-    font-family: "Playfair Display", Georgia, serif !important;
-    font-size: 31px !important;
-    font-weight: 800 !important;
-    letter-spacing: -0.5px !important;
-    line-height: 1 !important;
-
-    color: #ffffff !important;
-    background: none !important;
-    -webkit-text-fill-color: #ffffff !important;
-
-    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
-  }
-
-  .luxLogo span {
-    color: #f2d09a !important;
-    background: none !important;
-    -webkit-text-fill-color: #f2d09a !important;
-  }
-
-  .luxLogo::after {
-    display: none !important;
-  }
-}
-/* ===== MOBILE HERO CENTER LOGO ===== */
-/* MOBILE LOGO CENTER ONLY ON HERO TOP */
 @media (max-width: 760px) {
   .mainHeader {
-    justify-content: center !important;
+    transition:
+      background 0.45s ease,
+      backdrop-filter 0.45s ease,
+      box-shadow 0.45s ease,
+      border-color 0.45s ease !important;
+  }
+
+  .mainHeader:has(.mobileHeroLogo) {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-bottom-color: transparent !important;
+  }
+
+  .mainHeader:has(.mobileScrolledLogo) {
+    background: rgba(15, 15, 18, 0.72) !important;
+    backdrop-filter: blur(18px) saturate(130%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(130%) !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
   }
 
   .luxLogo {
     position: absolute !important;
-    transform: none !important;
-    margin: 0 auto !important;
-    text-align: center !important;
-
-    color: #fff !important;
-    background: none !important;
-    -webkit-text-fill-color: #fff !important;
-    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
+    top: 50% !important;
+    font-family: "Playfair Display", Georgia, serif !important;
+    transition:
+      left 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.48s cubic-bezier(0.22, 1, 0.36, 1),
+      font-size 0.48s ease,
+      letter-spacing 0.48s ease,
+      text-shadow 0.48s ease !important;
   }
 
-  .luxLogo span {
-    color: #f2d09a !important;
+  .luxLogo.mobileHeroLogo {
+    left: 50% !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
+    font-size: 36px !important;
+    letter-spacing: -0.7px !important;
     background: none !important;
-    -webkit-text-fill-color: #f2d09a !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    text-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.45),
+      0 0 18px rgba(202, 164, 106, 0.18) !important;
+  }
+
+  .luxLogo.mobileHeroLogo span {
+    background: linear-gradient(135deg, #ffe2aa, #caa46a, #9f7137) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    text-shadow: none !important;
+  }
+
+  .luxLogo.mobileScrolledLogo {
+    left: 5% !important;
+    transform: translateY(-50%) scale(0.92) !important;
+    font-size: 30px !important;
+    letter-spacing: -0.4px !important;
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+    color: #ffffff !important;
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.34) !important;
+  }
+
+  .luxLogo.mobileScrolledLogo span {
+    background: linear-gradient(135deg, #f4d39d, #bd8b4b) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .luxLogo::after {
     display: none !important;
-  }
-
-  body:not(:has(#home:hover)) .luxLogo {
-    margin: 0 !important;
-  }
-}
-/* ===== MOBILE HERO DYNAMIC LOGO ===== */
-
-@media (max-width: 760px) {
-  .luxLogo {
-    position: absolute;
-    left: 6%;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .luxLogo.centerLogo {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
   }
 }
