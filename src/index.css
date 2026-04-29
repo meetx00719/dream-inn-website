@@ -3314,7 +3314,7 @@ section {
   }
 
   .luxLogo {
-    position: static !important;
+    position: absolute !important;
     transform: none !important;
     margin: 0 auto !important;
     text-align: center !important;
@@ -3337,5 +3337,22 @@ section {
 
   body:not(:has(#home:hover)) .luxLogo {
     margin: 0 !important;
+  }
+}
+/* ===== MOBILE HERO DYNAMIC LOGO ===== */
+
+@media (max-width: 760px) {
+  .luxLogo {
+    position: absolute;
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .luxLogo.centerLogo {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 }
