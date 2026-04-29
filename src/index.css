@@ -3278,3 +3278,30 @@ section {
     font-size: 13px;
   }
 }
+/* ===== MOBILE DREAM INN LOGO FIX ===== */
+
+@media (max-width: 760px) {
+  .luxLogo {
+    font-family: "Playfair Display", Georgia, serif !important;
+    font-size: 31px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1 !important;
+
+    color: #ffffff !important;
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .luxLogo span {
+    color: #f2d09a !important;
+    background: none !important;
+    -webkit-text-fill-color: #f2d09a !important;
+  }
+
+  .luxLogo::after {
+    display: none !important;
+  }
+}
