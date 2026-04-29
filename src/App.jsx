@@ -183,11 +183,20 @@ function App() {
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [hideFloatingBookBtn, setHideFloatingBookBtn] = useState(true);
+  const [isHeroTop, setIsHeroTop] = useState(true);
 
   const bookingRef = useRef(null);
   const scrollAnimationRef = useRef(null);
 
   const today = useMemo(() => formatDate(new Date()), []);
+  useEffect(() => {
+  const handleScroll = () => {
+    setIsHeroTop(window.scrollY < 80); // hero area threshold
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
   const availableRooms = useMemo(() => {
     return Number(occupancy) > 2
@@ -432,8 +441,8 @@ function App() {
 
       <header className="mainHeader">
         <a
-          href="#home"
-          className="luxLogo"
+  href="#home"
+  className={`luxLogo ${isHeroTop ? "centerLogo" : ""}`}
           onClick={(event) => scrollToSection(event, "home")}
           aria-label="Dream Inn Home"
         >
