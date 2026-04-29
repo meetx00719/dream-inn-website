@@ -442,7 +442,7 @@ function App() {
       <header className="mainHeader">
         <a
   href="#home"
-  className={`luxLogo ${isHeroVisible ? "centerLogo" : "smallLogo"}`}
+  className={`luxLogo ${isHeroTop ? "centerLogo" : ""}`}
           onClick={(event) => scrollToSection(event, "home")}
           aria-label="Dream Inn Home"
         >

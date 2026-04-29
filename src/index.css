@@ -3279,65 +3279,80 @@ section {
     font-size: 13px;
   }
 }
-
-/* ===== MOBILE LOGO FIX (NO OVERLAP) ===== */
+/* ===== MOBILE DREAM INN LOGO FIX ===== */
 
 @media (max-width: 760px) {
-
-  /* HEADER BASE */
-  .mainHeader {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    padding: 0 5%;
-
-    transition: all 0.4s ease;
-  }
-
-  /* HERO STATE */
-  .mainHeader.heroHeader {
-    background: transparent !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-  }
-
-  /* SCROLLED STATE */
-  .mainHeader.scrolledHeader {
-    background: rgba(15, 15, 18, 0.75) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
-  }
-
-  /* LOGO BASE */
   .luxLogo {
-    position: relative !important;
-    top: auto !important;
+    font-family: "Playfair Display", Georgia, serif !important;
+    font-size: 31px !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1 !important;
 
+    color: #ffffff !important;
+    background: none !important;
+    -webkit-text-fill-color: #ffffff !important;
+
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .luxLogo span {
+    color: #f2d09a !important;
+    background: none !important;
+    -webkit-text-fill-color: #f2d09a !important;
+  }
+
+  .luxLogo::after {
+    display: none !important;
+  }
+}
+/* ===== MOBILE HERO CENTER LOGO ===== */
+/* MOBILE LOGO CENTER ONLY ON HERO TOP */
+@media (max-width: 760px) {
+  .mainHeader {
+    justify-content: center !important;
+  }
+
+  .luxLogo {
+    position: absolute !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+
+    color: #fff !important;
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .luxLogo span {
+    color: #f2d09a !important;
+    background: none !important;
+    -webkit-text-fill-color: #f2d09a !important;
+  }
+
+  .luxLogo::after {
+    display: none !important;
+  }
+
+  body:not(:has(#home:hover)) .luxLogo {
+    margin: 0 !important;
+  }
+}
+/* ===== MOBILE HERO DYNAMIC LOGO ===== */
+
+@media (max-width: 760px) {
+  .luxLogo {
+    position: absolute;
+    left: 6%;
+    top: 50%;
+    transform: translateY(-50%);
     transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* CENTER (HERO) */
   .luxLogo.centerLogo {
-    position: absolute !important;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(1.08);
-    font-size: 34px;
-  }
-
-  /* NORMAL (SCROLLED) */
-  .luxLogo.smallLogo {
-    position: relative !important;
-    left: 0 !important;
-    transform: none !important;
-    font-size: 28px;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 }
