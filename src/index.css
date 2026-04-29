@@ -3356,3 +3356,89 @@ section {
     text-align: center;
   }
 }
+@media (max-width: 760px) {
+  .topInfoBar {
+    display: none !important;
+  }
+
+  .mainHeader {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 74px;
+    z-index: 99999;
+    padding: 0 18px;
+    transition: background 0.35s ease, backdrop-filter 0.35s ease,
+      box-shadow 0.35s ease;
+  }
+
+  .mainHeader.heroLogoHeader {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+
+  .mainHeader.blurHeader {
+    background: rgba(12, 12, 14, 0.72) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .luxLogo {
+    position: absolute !important;
+    z-index: 100000;
+    font-family: "Playfair Display", serif;
+    font-weight: 800;
+    color: #fff !important;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.35s ease;
+  }
+
+  .luxLogo span {
+    color: #d7a85f !important;
+  }
+
+  .luxLogo.centerLogo {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    font-size: 34px !important;
+    text-shadow: 0 6px 22px rgba(0, 0, 0, 0.45);
+    animation: mobileGoldGlow 2.6s ease-in-out infinite;
+  }
+
+  .luxLogo.smallLogo {
+    left: 18px !important;
+    top: 50% !important;
+    transform: translateY(-50%) scale(0.82) !important;
+    font-size: 28px !important;
+    text-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    animation: none !important;
+  }
+
+  .desktopNav {
+    display: none !important;
+  }
+
+  .luxHero {
+    padding-top: 0 !important;
+  }
+
+  @keyframes mobileGoldGlow {
+    0%,
+    100% {
+      text-shadow: 0 6px 22px rgba(0, 0, 0, 0.45),
+        0 0 0 rgba(215, 168, 95, 0);
+    }
+
+    50% {
+      text-shadow: 0 6px 22px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(215, 168, 95, 0.55);
+    }
+  }
+}

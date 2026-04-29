@@ -189,14 +189,17 @@ function App() {
   const scrollAnimationRef = useRef(null);
 
   const today = useMemo(() => formatDate(new Date()), []);
-  useEffect(() => {
-  const handleScroll = () => {
-    setIsHeroTop(window.scrollY < 80); // hero area threshold
-  };
 
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsHeroTop(window.scrollY < 45);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const availableRooms = useMemo(() => {
     return Number(occupancy) > 2
@@ -439,10 +442,10 @@ function App() {
         </div>
       </div>
 
-      <header className="mainHeader">
+      <header className={`mainHeader ${isHeroTop ? "heroLogoHeader" : "blurHeader"}`}>
         <a
-  href="#home"
-  className={`luxLogo ${isHeroTop ? "centerLogo" : ""}`}
+          href="#home"
+          className={`luxLogo ${isHeroTop ? "centerLogo" : "smallLogo"}`}
           onClick={(event) => scrollToSection(event, "home")}
           aria-label="Dream Inn Home"
         >
