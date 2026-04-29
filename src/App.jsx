@@ -26,6 +26,22 @@ const heroSlides = [
   { image: hero2, mobileImage: hero2Mobile },
 ];
 
+const amenities = [
+  { icon: "wifi", label: "Free Wi-Fi" },
+  { icon: "tv", label: "Cable TV" },
+  { icon: "parking", label: "Free Parking" },
+  { icon: "iron", label: "Iron & Ironing Board (on request)" },
+  { icon: "nosmoke", label: "Non-Smoking Property" },
+  { icon: "direct", label: "Direct Booking" },
+  { icon: "desk", label: "24/7 Front Desk" },
+  { icon: "clean", label: "Daily Housekeeping" },
+  { icon: "ac", label: "Air Conditioning" },
+  { icon: "heater", label: "Heater" },
+  { icon: "atm", label: "ATM on-site" },
+  { icon: "ice", label: "Ice Machine on-site" },
+  { icon: "vending", label: "Vending Soda" },
+];
+
 const parkingPolicy =
   "One car per room. Additional vehicles require extra parking fee.";
 
@@ -38,19 +54,19 @@ const rooms = [
     details:
       "A clean and comfortable room with essential in-room convenience for a simple stay.",
     amenities: [
-      "2 Guests",
-      "Cali King size bed",
-      "Private bathroom",
-      "Free Wi-Fi",
-      "Cable TV",
-      "Microwave",
-      "Refrigerator",
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "Cali King size bed" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
     ],
     policies: [
-      "Valid ID required at check-in",
-      "$100 security deposit required",
-      "Non-smoking room",
-      parkingPolicy,
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
     ],
   },
   {
@@ -61,19 +77,19 @@ const rooms = [
     details:
       "A practical room with two queen size beds for friends, families, or guests needing more space.",
     amenities: [
-      "4 Guests",
-      "Two Queen Size beds",
-      "Private bathroom",
-      "Free Wi-Fi",
-      "Cable TV",
-      "Microwave",
-      "Refrigerator",
+      { icon: "👤", text: "4 Guests" },
+      { icon: "🛏", text: "Two Queen Size Beds" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
     ],
     policies: [
-      "Valid ID required at check-in",
-      "$100 security deposit required",
-      "Non-smoking room",
-      parkingPolicy,
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
     ],
   },
   {
@@ -84,50 +100,70 @@ const rooms = [
     details:
       "A comfortable room with a private Jacuzzi for guests looking for a relaxing stay.",
     amenities: [
-      "2 Guests",
-      "One Cali King Bed and Sofa",
-      "Jacuzzi",
-      "Private bathroom",
-      "Free Wi-Fi",
-      "Cable TV",
-      "Microwave",
-      "Refrigerator",
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "King Size Bed" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
+      { icon: "🛁", text: "Jacuzzi Tub" },
     ],
     policies: [
-      "Valid ID required at check-in",
-      "$100 security deposit required",
-      "Non-smoking room",
-      "No children allowed in Jacuzzi room",
-      parkingPolicy,
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
     ],
   },
 ];
 
-const amenities = [
-  "Free Wi-Fi",
-  "Cable TV",
-  "Microwave",
-  "Refrigerator",
-  "Free Parking",
-  "Non-Smoking Property",
-  "Direct Booking",
-  "24/7 Front Desk",
-  "Daily Housekeeping",
-  "Air Conditioning",
-  "Heater",
+const reviews = [
+  {
+    name: "Raylen P.",
+    rating: 5,
+    text: "Clean room, friendly front desk, and very convenient location near LAX. Great value for the price.",
+  },
+  {
+    name: "Maria G.",
+    rating: 5,
+    text: "The room was comfortable and the check-in process was smooth. I would stay here again.",
+  },
+  {
+    name: "James R.",
+    rating: 4,
+    text: "Good location near SoFi Stadium. Parking was convenient and the room had everything I needed.",
+  },
+  {
+    name: "David L.",
+    rating: 5,
+    text: "Very clean and quiet place. Staff was helpful and the check-in was quick. Perfect for short stays.",
+  },
+  {
+    name: "Sophia M.",
+    rating: 4,
+    text: "Nice budget-friendly hotel. Rooms were neat and Wi-Fi worked well. Close to airport which is a plus.",
+  },
+  {
+    name: "Carlos T.",
+    rating: 4,
+    text: "Great experience overall. Comfortable bed, clean bathroom, and good customer service. Will come again.",
+  },
 ];
 
 const navLinks = [
   { id: "home", label: "Home" },
-  { id: "booking", label: "Book" },
   { id: "about", label: "About" },
-  { id: "rooms", label: "Rooms" },
   { id: "amenities", label: "Amenities" },
-  { id: "location", label: "Contact" },
+  { id: "reviews", label: "Reviews" },
+  { id: "location", label: "Contact us" },
 ];
 
 const ASI_BOOKING_ACTION =
   "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f&Operation=Date";
+
+const GOOGLE_REVIEWS_URL =
+  "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D";
 
 const TAX_RATE = 0.14;
 
@@ -146,6 +182,7 @@ function App() {
   const [selectedRoomName, setSelectedRoomName] = useState("");
   const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
+  const [hideFloatingBookBtn, setHideFloatingBookBtn] = useState(true);
 
   const bookingRef = useRef(null);
   const scrollAnimationRef = useRef(null);
@@ -205,6 +242,39 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const handleFloatingButton = () => {
+      const hero = document.getElementById("home");
+      const booking = document.getElementById("booking");
+
+      if (!hero || !booking) return;
+
+      const viewportMiddle = window.scrollY + window.innerHeight / 2;
+
+      const heroTop = hero.offsetTop;
+      const heroBottom = heroTop + hero.offsetHeight;
+
+      const bookingTop = booking.offsetTop;
+      const bookingBottom = bookingTop + booking.offsetHeight;
+
+      const isOnHero = viewportMiddle >= heroTop && viewportMiddle <= heroBottom;
+      const isOnBooking =
+        viewportMiddle >= bookingTop && viewportMiddle <= bookingBottom;
+
+      setHideFloatingBookBtn(isOnHero || isOnBooking);
+    };
+
+    handleFloatingButton();
+
+    window.addEventListener("scroll", handleFloatingButton, { passive: true });
+    window.addEventListener("resize", handleFloatingButton);
+
+    return () => {
+      window.removeEventListener("scroll", handleFloatingButton);
+      window.removeEventListener("resize", handleFloatingButton);
+    };
+  }, []);
+
+  useEffect(() => {
     return () => {
       if (scrollAnimationRef.current) {
         cancelAnimationFrame(scrollAnimationRef.current);
@@ -248,11 +318,13 @@ function App() {
     const headerHeight = header?.getBoundingClientRect().height || 0;
 
     const topBarHeight =
-      topBar && ["fixed", "sticky"].includes(getComputedStyle(topBar).position)
+      topBar &&
+      ["fixed", "sticky"].includes(getComputedStyle(topBar).position) &&
+      getComputedStyle(topBar).display !== "none"
         ? topBar.getBoundingClientRect().height
         : 0;
 
-    return headerHeight + topBarHeight + 24;
+    return Math.max(0, headerHeight + topBarHeight - 180);
   };
 
   const scrollToSectionById = (id) => {
@@ -262,7 +334,7 @@ function App() {
     setOpenCalendar(null);
 
     if (id === "home") {
-      premiumScrollTo(0, 800);
+      premiumScrollTo(0, 900);
       return;
     }
 
@@ -284,7 +356,6 @@ function App() {
 
   const getNextDay = (dateString) => {
     const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
-
     date.setDate(date.getDate() + 1);
     return formatDate(date);
   };
@@ -364,11 +435,12 @@ function App() {
           href="#home"
           className="luxLogo"
           onClick={(event) => scrollToSection(event, "home")}
+          aria-label="Dream Inn Home"
         >
           Dream<span>Inn</span>
         </a>
 
-        <nav className="desktopNav">
+        <nav className="desktopNav" aria-label="Main navigation">
           {navLinks.map((link) => (
             <a
               key={link.id}
@@ -379,14 +451,6 @@ function App() {
             </a>
           ))}
         </nav>
-
-        <a
-          href="#booking"
-          className="bookRoomBtn"
-          onClick={(event) => scrollToSection(event, "booking")}
-        >
-          Book Now
-        </a>
       </header>
 
       <main>
@@ -420,7 +484,7 @@ function App() {
 
             <div className="heroButtons">
               <button type="button" onClick={() => scrollToSectionById("booking")}>
-                Check Availability
+                Book Now
               </button>
 
               <button type="button" onClick={() => scrollToSectionById("rooms")}>
@@ -429,7 +493,7 @@ function App() {
             </div>
           </div>
 
-          <div className="heroPager">
+          <div className="heroPager" aria-label="Hero slider controls">
             {heroSlides.map((_, index) => (
               <button
                 key={index}
@@ -482,6 +546,7 @@ function App() {
                 onFocus={() => setOpenCalendar(null)}
                 onClick={() => setOpenCalendar(null)}
                 onChange={(event) => setOccupancy(event.target.value)}
+                aria-label="Select occupancy"
               >
                 <option value="" disabled>
                   Occupancy
@@ -499,6 +564,7 @@ function App() {
                 onFocus={() => setOpenCalendar(null)}
                 onClick={() => setOpenCalendar(null)}
                 onChange={(event) => setSelectedRoomName(event.target.value)}
+                aria-label="Select room type"
               >
                 <option value="" disabled>
                   Rooms
@@ -549,7 +615,7 @@ function App() {
             </p>
 
             <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
-              View Rooms
+              Explore Rooms
             </a>
           </div>
 
@@ -610,17 +676,53 @@ function App() {
             <h2>Hotel Amenities</h2>
           </div>
 
-          <div className="amenityGrid">
+          <ul className="amenityList">
             {amenities.map((item) => (
-              <div key={item}>{item}</div>
+              <li key={item.label}>
+                <i className={`icon ${item.icon}`}></i>
+                <span>{item.label}</span>
+              </li>
             ))}
+          </ul>
+        </section>
+
+        <section id="reviews" className="reviewsLuxury">
+          <div className="sectionCenter">
+            <span className="sectionKicker">Guest Reviews</span>
+            <h2>What our Guests Say</h2>
+          </div>
+
+          <div className="reviewGrid">
+            {reviews.map((review) => (
+              <article className="reviewCard" key={review.name}>
+                <div className="reviewStars">
+                  {"★".repeat(review.rating)}
+                  <span>{"★".repeat(5 - review.rating)}</span>
+                </div>
+
+                <p>“{review.text}”</p>
+
+                <h4>{review.name}</h4>
+              </article>
+            ))}
+          </div>
+
+          <div className="googleReviewBtnWrap">
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="googleReviewBtn"
+            >
+              See More Reviews on Google
+            </a>
           </div>
         </section>
 
         <section id="location" className="locationLuxury">
           <div className="locationDetails">
-            <span className="sectionKicker">Contact</span>
-            <h2>Contact Dream Inn</h2>
+            <span className="sectionKicker">Contact Us</span>
+            <h2>Dream Inn</h2>
 
             <p>📍 3201 W Imperial Hwy, Inglewood, CA 90303</p>
 
@@ -662,6 +764,17 @@ function App() {
           }}
         />
       )}
+
+      <button
+        type="button"
+        className={`floatingBookBtn ${
+          hideFloatingBookBtn ? "hideFloatingBtn" : ""
+        }`}
+        onClick={() => scrollToSectionById("booking")}
+        aria-label="Book now"
+      >
+        Book Now
+      </button>
 
       <footer className="luxFooter">
         <div className="footerContent">
@@ -835,7 +948,7 @@ function BookingPreview({
           {selectedRoom && nights > 0
             ? `${nights} night${
                 nights > 1 ? "s" : ""
-              } • average $${averageNightlyRate}/night +taxes • ${pricingType}. Final rates and availability are confirmed on the reservation page.`
+              } • average $${averageNightlyRate}/night + taxes • ${pricingType}. Final rates and availability are confirmed on the reservation page.`
             : "Live availability and final rates will be confirmed after clicking Check Availability."}
         </p>
       </div>
@@ -897,6 +1010,7 @@ function DatePicker({
       <button
         type="button"
         className="datePopupInput"
+        aria-label={`Select ${placeholder}`}
         onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
@@ -916,6 +1030,7 @@ function DatePicker({
           <div className="calendarHead">
             <button
               type="button"
+              aria-label="Previous month"
               onClick={() => setViewDate(new Date(year, month - 1, 1))}
             >
               ‹
@@ -927,6 +1042,7 @@ function DatePicker({
 
             <button
               type="button"
+              aria-label="Next month"
               onClick={() => setViewDate(new Date(year, month + 1, 1))}
             >
               ›
@@ -960,6 +1076,7 @@ function DatePicker({
                   onClick={() => selectDate(day)}
                   disabled={disabled}
                   className={value === dateValue ? "selected" : ""}
+                  aria-label={`Select ${formatAsiDate(dateValue)}`}
                 >
                   {day}
                 </button>
@@ -974,7 +1091,19 @@ function DatePicker({
 
 function RoomCard({ room, onSeeMore }) {
   return (
-    <article className="luxRoomCard" onClick={onSeeMore} tabIndex="0" role="button">
+    <article
+      className="luxRoomCard"
+      onClick={onSeeMore}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSeeMore();
+        }
+      }}
+      tabIndex="0"
+      role="button"
+      aria-label={`View details for ${room.name}`}
+    >
       <div className="cardImgWrap">
         <img src={room.images[0]} alt={room.name} />
       </div>
@@ -1022,8 +1151,19 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
 
   return (
     <div className="modalOverlay" onClick={onClose}>
-      <div className="roomModal" onClick={(event) => event.stopPropagation()}>
-        <button type="button" className="modalClose" onClick={onClose}>
+      <div
+        className="roomModal"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${room.name} details`}
+      >
+        <button
+          type="button"
+          className="modalClose"
+          onClick={onClose}
+          aria-label="Close room details"
+        >
           ×
         </button>
 
@@ -1037,11 +1177,21 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             />
           ))}
 
-          <button type="button" className="modalArrow modalArrowLeft" onClick={prevSlide}>
+          <button
+            type="button"
+            className="modalArrow modalArrowLeft"
+            onClick={prevSlide}
+            aria-label="Previous room image"
+          >
             ‹
           </button>
 
-          <button type="button" className="modalArrow modalArrowRight" onClick={nextSlide}>
+          <button
+            type="button"
+            className="modalArrow modalArrowRight"
+            onClick={nextSlide}
+            aria-label="Next room image"
+          >
             ›
           </button>
 
@@ -1057,18 +1207,26 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
           <div className="modalGrid">
             <div className="modalFeature">
               <h4>Room Amenities</h4>
-              <ul>
+
+              <ul className="modalList">
                 {room.amenities.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
                 ))}
               </ul>
             </div>
 
             <div className="modalFeature">
               <h4>Room Policies</h4>
-              <ul>
+
+              <ul className="modalList">
                 {room.policies.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
                 ))}
               </ul>
             </div>
