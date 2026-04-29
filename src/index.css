@@ -3307,19 +3307,35 @@ section {
   }
 }
 /* ===== MOBILE HERO CENTER LOGO ===== */
-
+/* MOBILE LOGO CENTER ONLY ON HERO TOP */
 @media (max-width: 760px) {
-  .luxLogo {
-    position: absolute;
-    left: 6%;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: all 0.4s ease;
+  .mainHeader {
+    justify-content: center !important;
   }
 
-  .luxLogo.centerLogo {
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    text-align: center;
+  .luxLogo {
+    position: static !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+
+    color: #fff !important;
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+    text-shadow: 0 5px 18px rgba(0, 0, 0, 0.38) !important;
+  }
+
+  .luxLogo span {
+    color: #f2d09a !important;
+    background: none !important;
+    -webkit-text-fill-color: #f2d09a !important;
+  }
+
+  .luxLogo::after {
+    display: none !important;
+  }
+
+  body:not(:has(#home:hover)) .luxLogo {
+    margin: 0 !important;
   }
 }
