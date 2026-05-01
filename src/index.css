@@ -1820,3 +1820,47 @@ section {
     height: 32px;
   }
 }
+/* FIX HERO KICKER UI */
+.luxHeroContent .sectionKicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: fit-content;
+  margin: 0 auto 18px;
+  color: #c99a5b;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  line-height: 1;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+}
+
+.luxHeroContent .sectionKicker::before,
+.luxHeroContent .sectionKicker::after {
+  content: "";
+  display: block;
+  width: 92px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(201, 154, 91, 0.95),
+    transparent
+  );
+}
+
+@media (max-width: 760px) {
+  .luxHeroContent .sectionKicker {
+    gap: 12px;
+    font-size: 10.5px;
+    letter-spacing: 4.5px;
+    margin-bottom: 14px;
+  }
+
+  .luxHeroContent .sectionKicker::before,
+  .luxHeroContent .sectionKicker::after {
+    width: 42px;
+  }
+}
