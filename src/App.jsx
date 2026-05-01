@@ -21,8 +21,7 @@ import double3 from "./assets/double3.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
-import dream1 from "./assets/dream1.jpg";
-
+import dream1 from "./assets/single.jpg";
 const heroSlides = [
   { image: hero1, mobileImage: hero1Mobile },
   { image: hero2, mobileImage: hero2Mobile },
