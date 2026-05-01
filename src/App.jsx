@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -20,6 +21,7 @@ import double3 from "./assets/double3.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
+import dream1 from "./assets/dream1.jpg";
 
 const heroSlides = [
   { image: hero1, mobileImage: hero1Mobile },
@@ -61,6 +63,30 @@ const rooms = [
       { icon: "📺", text: "Cable TV" },
       { icon: "🍽", text: "Microwave" },
       { icon: "🧊", text: "Refrigerator" },
+    ],
+    policies: [
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
+    ],
+  },
+  {
+    name: "Dream Room",
+    roomId: "-1",
+    maxGuests: 2,
+    images: [dream1, singleTwo, single3],
+    details:
+      "A premium single king room designed for a relaxing stay with ambient dream lighting and modern comfort.",
+    amenities: [
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "California King Bed" },
+      { icon: "🛁", text: "Private Bathroom" },
+      { icon: "💡", text: "Dream Ambient Lighting" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🧊", text: "Refrigerator" },
+      { icon: "❄️", text: "Air Conditioning" },
     ],
     policies: [
       { icon: "🪪", text: "Valid ID required at check-in" },
@@ -118,6 +144,49 @@ const rooms = [
   },
 ];
 
+const LOCAL_ROOMS = [
+  {
+    id: "single",
+    name: "Single Bed Room",
+    roomId: "-1",
+    bed: "Cali King size bed",
+    maxAdults: 2,
+    maxChildren: 1,
+    weekday: 89,
+    weekend: 119,
+  },
+  {
+    id: "dream",
+    name: "Dream Room",
+    roomId: "-1",
+    bed: "California King Bed · Dream Ambient Lighting",
+    maxAdults: 2,
+    maxChildren: 1,
+    weekday: 99,
+    weekend: 129,
+  },
+  {
+    id: "double",
+    name: "Double Bed Room",
+    roomId: "-1",
+    bed: "Two Queen Size Beds",
+    maxAdults: 4,
+    maxChildren: 5,
+    weekday: 109,
+    weekend: 149,
+  },
+  {
+    id: "jacuzzi",
+    name: "Jacuzzi Room",
+    roomId: "-1",
+    bed: "King Size Bed · Jacuzzi Tub",
+    maxAdults: 2,
+    maxChildren: 0,
+    weekday: 139,
+    weekend: 179,
+  },
+];
+
 const reviews = [
   {
     name: "Raylen P.",
@@ -154,6 +223,7 @@ const reviews = [
 const navLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
+  { id: "gallery", label: "Gallery" },
   { id: "amenities", label: "Amenities" },
   { id: "reviews", label: "Reviews" },
   { id: "location", label: "Contact us" },
@@ -165,30 +235,77 @@ const ASI_BOOKING_ACTION =
 const GOOGLE_REVIEWS_URL =
   "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D";
 
-const TAX_RATE = 0.14;
+const TAX_RATE = 0.155;
 
-const RATE_TABLE = {
-  "Single Bed Room": { weekday: 89, weekend: 119 },
-  "Double Bed Room": { weekday: 109, weekend: 149 },
-  "Jacuzzi Room": { weekday: 139, weekend: 179 },
+const INITIAL_BOOKING = {
+  checkIn: "",
+  checkOut: "",
+  adults: 1,
+  children: 0,
+  rooms: 1,
+  selectedRoomId: "",
 };
 
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [occupancy, setOccupancy] = useState("");
-  const [selectedRoomName, setSelectedRoomName] = useState("");
-  const [openCalendar, setOpenCalendar] = useState(null);
   const [activeDot, setActiveDot] = useState(0);
   const [hideFloatingBookBtn, setHideFloatingBookBtn] = useState(true);
   const [isHeroTop, setIsHeroTop] = useState(true);
+  const [booking, setBooking] = useState(INITIAL_BOOKING);
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [occupancyOpen, setOccupancyOpen] = useState(false);
 
-  const bookingRef = useRef(null);
   const scrollAnimationRef = useRef(null);
+  const heroBookingRef = useRef(null);
+  const calendarRef = useRef(null);
+  const occupancyRef = useRef(null);
 
   const today = useMemo(() => formatDate(new Date()), []);
+  const totalGuests = booking.adults + booking.children;
+
+  const visibleRooms = useMemo(() => {
+    const adults = Number(booking.adults);
+    const children = Number(booking.children);
+    const requestedRooms = Number(booking.rooms);
+
+    if (children > 2) {
+      return LOCAL_ROOMS.filter((room) => room.id === "double");
+    }
+
+    if (requestedRooms === 2 && adults <= 4) {
+      return LOCAL_ROOMS.filter(
+        (room) =>
+          room.id === "single" || room.id === "dream" || room.id === "double"
+      );
+    }
+
+    return LOCAL_ROOMS.filter(
+      (room) => room.maxAdults >= adults && room.maxChildren >= children
+    );
+  }, [booking.adults, booking.children, booking.rooms]);
+
+  const selectedBookingRoom =
+    visibleRooms.find((room) => room.id === booking.selectedRoomId) || null;
+
+  const previewRoom = selectedBookingRoom || visibleRooms[0] || LOCAL_ROOMS[0];
+
+  const livePreview = useMemo(() => {
+    return calculateStay(previewRoom, booking.checkIn, booking.checkOut);
+  }, [previewRoom, booking.checkIn, booking.checkOut]);
+
+  useEffect(() => {
+    if (
+      booking.selectedRoomId &&
+      !visibleRooms.some((room) => room.id === booking.selectedRoomId)
+    ) {
+      setBooking((prev) => ({ ...prev, selectedRoomId: "" }));
+    }
+
+    if (!booking.selectedRoomId && visibleRooms.length === 1) {
+      setBooking((prev) => ({ ...prev, selectedRoomId: visibleRooms[0].id }));
+    }
+  }, [booking.selectedRoomId, visibleRooms]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -201,47 +318,27 @@ function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const availableRooms = useMemo(() => {
-    return Number(occupancy) > 2
-      ? rooms.filter((room) => room.name === "Double Bed Room")
-      : rooms;
-  }, [occupancy]);
-
-  const selectedRoomObject =
-    availableRooms.find((room) => room.name === selectedRoomName) || null;
-
-  const estimate = calculateEstimatedRate(selectedRoomName, checkIn, checkOut);
-
-  useEffect(() => {
-    if (
-      selectedRoomName &&
-      !availableRooms.some((room) => room.name === selectedRoomName)
-    ) {
-      setSelectedRoomName("");
-    }
-
-    if (!selectedRoomName && availableRooms.length === 1) {
-      setSelectedRoomName(availableRooms[0].name);
-    }
-  }, [availableRooms, selectedRoomName]);
-
   useEffect(() => {
     setActiveDot(0);
-  }, [availableRooms.length]);
+  }, [rooms.length]);
 
   useEffect(() => {
-    const closeCalendar = (event) => {
-      if (bookingRef.current && !bookingRef.current.contains(event.target)) {
-        setOpenCalendar(null);
+    const closeOnOutsideClick = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        setCalendarOpen(false);
+      }
+
+      if (occupancyRef.current && !occupancyRef.current.contains(event.target)) {
+        setOccupancyOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", closeCalendar);
-    document.addEventListener("touchstart", closeCalendar);
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("touchstart", closeOnOutsideClick);
 
     return () => {
-      document.removeEventListener("mousedown", closeCalendar);
-      document.removeEventListener("touchstart", closeCalendar);
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("touchstart", closeOnOutsideClick);
     };
   }, []);
 
@@ -256,23 +353,14 @@ function App() {
   useEffect(() => {
     const handleFloatingButton = () => {
       const hero = document.getElementById("home");
-      const booking = document.getElementById("booking");
-
-      if (!hero || !booking) return;
+      if (!hero) return;
 
       const viewportMiddle = window.scrollY + window.innerHeight / 2;
-
       const heroTop = hero.offsetTop;
       const heroBottom = heroTop + hero.offsetHeight;
-
-      const bookingTop = booking.offsetTop;
-      const bookingBottom = bookingTop + booking.offsetHeight;
-
       const isOnHero = viewportMiddle >= heroTop && viewportMiddle <= heroBottom;
-      const isOnBooking =
-        viewportMiddle >= bookingTop && viewportMiddle <= bookingBottom;
 
-      setHideFloatingBookBtn(isOnHero || isOnBooking);
+      setHideFloatingBookBtn(isOnHero);
     };
 
     handleFloatingButton();
@@ -293,6 +381,48 @@ function App() {
       }
     };
   }, []);
+
+  const updateBooking = (key, value) => {
+    setBooking((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const updateAdults = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      adults: Math.min(6, Math.max(1, prev.adults + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const updateChildren = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      children: Math.min(5, Math.max(0, prev.children + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const updateRooms = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      rooms: Math.min(3, Math.max(1, prev.rooms + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const handleCalendarDateSelect = (dateValue) => {
+    setBooking((prev) => {
+      if (!prev.checkIn || prev.checkOut) {
+        return { ...prev, checkIn: dateValue, checkOut: "" };
+      }
+
+      if (dateValue <= prev.checkIn) {
+        return { ...prev, checkIn: dateValue, checkOut: "" };
+      }
+
+      return { ...prev, checkOut: dateValue };
+    });
+  };
 
   const premiumScrollTo = (targetY, duration = 850) => {
     if (scrollAnimationRef.current) {
@@ -343,7 +473,8 @@ function App() {
     const section = document.getElementById(id);
     if (!section) return;
 
-    setOpenCalendar(null);
+    setCalendarOpen(false);
+    setOccupancyOpen(false);
 
     if (id === "home") {
       premiumScrollTo(0, 900);
@@ -366,34 +497,25 @@ function App() {
     scrollToSectionById("rooms");
   };
 
-  const getNextDay = (dateString) => {
-    const date = dateString ? new Date(`${dateString}T00:00:00`) : new Date();
-    date.setDate(date.getDate() + 1);
-    return formatDate(date);
-  };
-
-  const handleCheckIn = (value) => {
-    setCheckIn(value);
-
-    const minimumCheckout = getNextDay(value);
-
-    if (!checkOut || checkOut < minimumCheckout) {
-      setCheckOut("");
-    }
-
-    setOpenCalendar("checkout");
+  const scrollToHeroBooking = () => {
+    heroBookingRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
   };
 
   const openBookingEngine = () => {
-    if (!checkIn || !checkOut || !occupancy) {
-      alert("Please select Check In, Check Out, and Occupancy before booking.");
+    if (!booking.checkIn || !booking.checkOut) {
+      alert("Please select check-in and check-out dates.");
       return;
     }
 
-    if (estimate.nights <= 0) {
-      alert("Check Out date must be after Check In date.");
+    if (livePreview.nights < 1) {
+      alert("Check-out date must be after check-in date.");
       return;
     }
+
+    const roomForSubmit = selectedBookingRoom || previewRoom;
 
     const form = document.createElement("form");
     form.method = "POST";
@@ -402,12 +524,12 @@ function App() {
     form.style.display = "none";
 
     const fields = {
-      txtcheckindate: formatAsiDate(checkIn),
-      txtcheckoutdate: formatAsiDate(checkOut),
-      txtadult: occupancy,
-      txtChildren: "0",
+      txtcheckindate: formatAsiDate(booking.checkIn),
+      txtcheckoutdate: formatAsiDate(booking.checkOut),
+      txtadult: String(booking.adults),
+      txtChildren: String(booking.children),
       txtPromocode: "",
-      txtRoomId: selectedRoomObject?.roomId || "-1",
+      txtRoomId: roomForSubmit?.roomId || "-1",
     };
 
     Object.entries(fields).forEach(([name, value]) => {
@@ -442,7 +564,9 @@ function App() {
         </div>
       </div>
 
-      <header className={`mainHeader ${isHeroTop ? "heroLogoHeader" : "blurHeader"}`}>
+      <header
+        className={`mainHeader ${isHeroTop ? "heroLogoHeader" : "blurHeader"}`}
+      >
         <a
           href="#home"
           className={`luxLogo ${isHeroTop ? "centerLogo" : "smallLogo"}`}
@@ -453,15 +577,21 @@ function App() {
         </a>
 
         <nav className="desktopNav" aria-label="Main navigation">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={(event) => scrollToSection(event, link.id)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.id === "gallery" ? (
+              <Link key={link.id} to="/gallery">
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(event) => scrollToSection(event, link.id)}
+              >
+                {link.label}
+              </a>
+            )
+          )}
         </nav>
       </header>
 
@@ -474,7 +604,10 @@ function App() {
             {heroSlides.map((slide, index) => (
               <article className="luxHeroSlide" key={index}>
                 <picture>
-                  <source media="(max-width: 760px)" srcSet={slide.mobileImage} />
+                  <source
+                    media="(max-width: 760px)"
+                    srcSet={slide.mobileImage}
+                  />
                   <img src={slide.image} alt="Dream Inn hotel exterior" />
                 </picture>
               </article>
@@ -495,8 +628,8 @@ function App() {
             </p>
 
             <div className="heroButtons">
-              <button type="button" onClick={() => scrollToSectionById("booking")}>
-                Book Now
+              <button type="button" onClick={scrollToHeroBooking}>
+                Check Availability
               </button>
 
               <button type="button" onClick={() => scrollToSectionById("rooms")}>
@@ -504,6 +637,28 @@ function App() {
               </button>
             </div>
           </div>
+
+          <HeroBookingPanel
+            bookingRef={heroBookingRef}
+            calendarRef={calendarRef}
+            occupancyRef={occupancyRef}
+            booking={booking}
+            updateBooking={updateBooking}
+            updateAdults={updateAdults}
+            updateChildren={updateChildren}
+            updateRooms={updateRooms}
+            today={today}
+            visibleRooms={visibleRooms}
+            previewRoom={previewRoom}
+            livePreview={livePreview}
+            totalGuests={totalGuests}
+            calendarOpen={calendarOpen}
+            setCalendarOpen={setCalendarOpen}
+            occupancyOpen={occupancyOpen}
+            setOccupancyOpen={setOccupancyOpen}
+            handleCalendarDateSelect={handleCalendarDateSelect}
+            openBookingEngine={openBookingEngine}
+          />
 
           <div className="heroPager" aria-label="Hero slider controls">
             {heroSlides.map((_, index) => (
@@ -516,96 +671,6 @@ function App() {
               />
             ))}
           </div>
-        </section>
-
-        <section id="booking" className="bookingLuxury" ref={bookingRef}>
-          <div className="bookingHeader">
-            <span className="sectionKicker centerKicker">Book Direct</span>
-
-            <h2 className="bookingTitle">
-              <span>Dream Inn</span>
-            </h2>
-
-            <p className="bookingDirectText">
-              No extra commission. No hidden charges.
-            </p>
-          </div>
-
-          <form className="bookingForm" onSubmit={(event) => event.preventDefault()}>
-            <DatePicker
-              id="checkin"
-              value={checkIn}
-              min={today}
-              placeholder="Check In"
-              onChange={handleCheckIn}
-              openCalendar={openCalendar}
-              setOpenCalendar={setOpenCalendar}
-            />
-
-            <DatePicker
-              id="checkout"
-              value={checkOut}
-              min={checkIn ? getNextDay(checkIn) : getNextDay(today)}
-              placeholder="Check Out"
-              onChange={setCheckOut}
-              openCalendar={openCalendar}
-              setOpenCalendar={setOpenCalendar}
-            />
-
-            <div className="inputGroup" data-label="Occupancy">
-              <select
-                value={occupancy}
-                onFocus={() => setOpenCalendar(null)}
-                onClick={() => setOpenCalendar(null)}
-                onChange={(event) => setOccupancy(event.target.value)}
-                aria-label="Select occupancy"
-              >
-                <option value="" disabled>
-                  Occupancy
-                </option>
-                <option value="1">1 Guest</option>
-                <option value="2">2 Guests</option>
-                <option value="3">3 Guests</option>
-                <option value="4">4 Guests</option>
-              </select>
-            </div>
-
-            <div className="inputGroup" data-label="Rooms">
-              <select
-                value={selectedRoomName}
-                onFocus={() => setOpenCalendar(null)}
-                onClick={() => setOpenCalendar(null)}
-                onChange={(event) => setSelectedRoomName(event.target.value)}
-                aria-label="Select room type"
-              >
-                <option value="" disabled>
-                  Rooms
-                </option>
-
-                {availableRooms.map((room) => (
-                  <option key={room.name} value={room.name}>
-                    {room.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <button type="button" className="checkBtn" onClick={openBookingEngine}>
-              Check Availability
-            </button>
-
-            <BookingPreview
-              checkIn={checkIn}
-              checkOut={checkOut}
-              occupancy={occupancy}
-              selectedRoom={selectedRoomObject}
-              availableRooms={availableRooms}
-              nights={estimate.nights}
-              estimatedTotal={estimate.total}
-              averageNightlyRate={estimate.avgNightlyRate}
-              pricingType={estimate.pricingType}
-            />
-          </form>
         </section>
 
         <section id="about" className="aboutLuxury">
@@ -658,12 +723,10 @@ function App() {
                 container.scrollLeft / Math.max(cardWidth + gap, 1)
               );
 
-              setActiveDot(
-                Math.min(Math.max(index, 0), availableRooms.length - 1)
-              );
+              setActiveDot(Math.min(Math.max(index, 0), rooms.length - 1));
             }}
           >
-            {availableRooms.map((room) => (
+            {rooms.map((room) => (
               <RoomCard
                 key={room.name}
                 room={room}
@@ -673,7 +736,7 @@ function App() {
           </div>
 
           <div className="roomDots">
-            {availableRooms.map((_, index) => (
+            {rooms.map((_, index) => (
               <span
                 key={index}
                 className={activeDot === index ? "dot active" : "dot"}
@@ -765,14 +828,18 @@ function App() {
           room={selectedRoom}
           onClose={() => setSelectedRoom(null)}
           onCheckAvailability={() => {
-            const roomName = selectedRoom.name;
+            const relatedRoom = LOCAL_ROOMS.find(
+              (item) => item.name === selectedRoom.name
+            );
+
+            setBooking((prev) => ({
+              ...prev,
+              selectedRoomId: relatedRoom?.id || prev.selectedRoomId,
+            }));
 
             setSelectedRoom(null);
-            setSelectedRoomName(roomName);
 
-            setTimeout(() => {
-              scrollToSectionById("booking");
-            }, 120);
+            setTimeout(scrollToHeroBooking, 120);
           }}
         />
       )}
@@ -782,7 +849,7 @@ function App() {
         className={`floatingBookBtn ${
           hideFloatingBookBtn ? "hideFloatingBtn" : ""
         }`}
-        onClick={() => scrollToSectionById("booking")}
+        onClick={scrollToHeroBooking}
         aria-label="Book now"
       >
         Book Now
@@ -799,304 +866,362 @@ function App() {
   );
 }
 
-function calculateEstimatedRate(roomName, checkIn, checkOut) {
-  if (!roomName || !checkIn || !checkOut || !RATE_TABLE[roomName]) {
-    return {
-      nights: 0,
-      subtotal: 0,
-      taxes: 0,
-      total: 0,
-      avgNightlyRate: 0,
-      pricingType: "",
-    };
-  }
-
-  const start = new Date(`${checkIn}T00:00:00`);
-  const end = new Date(`${checkOut}T00:00:00`);
-
-  if (end <= start) {
-    return {
-      nights: 0,
-      subtotal: 0,
-      taxes: 0,
-      total: 0,
-      avgNightlyRate: 0,
-      pricingType: "",
-    };
-  }
-
-  let nights = 0;
-  let subtotal = 0;
-  let weekdayNights = 0;
-  let weekendNights = 0;
-
-  const current = new Date(start);
-
-  while (current < end) {
-    const day = current.getDay();
-    const isWeekend = day === 5 || day === 6;
-    const nightlyRate = isWeekend
-      ? RATE_TABLE[roomName].weekend
-      : RATE_TABLE[roomName].weekday;
-
-    subtotal += nightlyRate;
-    nights += 1;
-
-    if (isWeekend) weekendNights += 1;
-    else weekdayNights += 1;
-
-    current.setDate(current.getDate() + 1);
-  }
-
-  const taxes = Math.round(subtotal * TAX_RATE);
-  const total = subtotal + taxes;
-  const avgNightlyRate = nights ? Math.round(subtotal / nights) : 0;
-
-  let pricingType = "Weekday pricing";
-  if (weekdayNights && weekendNights) pricingType = "Weekday + weekend pricing";
-  if (!weekdayNights && weekendNights) pricingType = "Weekend pricing";
-
-  return {
-    nights,
-    subtotal,
-    taxes,
-    total,
-    avgNightlyRate,
-    pricingType,
-  };
-}
-
-function formatAsiDate(dateString) {
-  if (!dateString) return "";
-
-  const date = new Date(`${dateString}T00:00:00`);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = date.getFullYear();
-
-  return `${month}/${day}/${year}`;
-}
-
-function formatDisplayDate(dateString) {
-  if (!dateString) return "Not selected";
-
-  return new Date(`${dateString}T00:00:00`).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-function formatDate(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-function BookingPreview({
-  checkIn,
-  checkOut,
-  occupancy,
-  selectedRoom,
-  availableRooms,
-  nights,
-  estimatedTotal,
-  averageNightlyRate,
-  pricingType,
+function HeroBookingPanel({
+  bookingRef,
+  calendarRef,
+  occupancyRef,
+  booking,
+  updateBooking,
+  updateAdults,
+  updateChildren,
+  updateRooms,
+  today,
+  visibleRooms,
+  previewRoom,
+  livePreview,
+  totalGuests,
+  calendarOpen,
+  setCalendarOpen,
+  occupancyOpen,
+  setOccupancyOpen,
+  handleCalendarDateSelect,
+  openBookingEngine,
 }) {
-  const hasBasicSearch = checkIn && checkOut && occupancy;
-
-  const roomsText =
-    availableRooms.length === 1
-      ? "Auto-selected based on occupancy"
-      : "Choose your preferred room type";
-
   return (
-    <div className="bookingPreview">
-      <div className="previewTopLine">
-        <span>Reservation Preview</span>
-        <strong>{hasBasicSearch ? "Ready to Check" : "Complete Search Details"}</strong>
+    <aside className="heroBookingPanel" ref={bookingRef}>
+      <div className="heroBookingHeader">
+        <span>Book Direct</span>
+        <h2>Reserve Your Stay</h2>
+        <p>No extra commission. No hidden charges.</p>
       </div>
 
-      <div className="previewGrid">
-        <div>
-          <small>Check In</small>
-          <strong>{formatDisplayDate(checkIn)}</strong>
+      <form
+        className="heroBookingForm"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <div className="singleDatePicker" ref={calendarRef}>
+          <button
+            type="button"
+            className={`bookingFieldBox bookingDateRangeBox ${
+              calendarOpen ? "active" : ""
+            }`}
+            onClick={() => {
+              setCalendarOpen((prev) => !prev);
+              setOccupancyOpen(false);
+            }}
+          >
+            <small>Check-in — Check-out</small>
+            <strong>
+              {booking.checkIn && booking.checkOut
+                ? `${formatDisplayDate(booking.checkIn)} → ${formatDisplayDate(
+                    booking.checkOut
+                  )}`
+                : booking.checkIn
+                ? `${formatDisplayDate(booking.checkIn)} → Select check-out`
+                : "Select stay dates"}
+            </strong>
+          </button>
+
+          {calendarOpen && (
+            <RangeCalendar
+              checkIn={booking.checkIn}
+              checkOut={booking.checkOut}
+              today={today}
+              previewRoom={previewRoom}
+              onSelectDate={handleCalendarDateSelect}
+              onClose={() => setCalendarOpen(false)}
+            />
+          )}
         </div>
 
-        <div>
-          <small>Check Out</small>
-          <strong>{formatDisplayDate(checkOut)}</strong>
+        <div className="occupancyWrapper" ref={occupancyRef}>
+          <button
+            type="button"
+            className={`bookingFieldBox bookingOccupancyBox ${
+              occupancyOpen ? "active" : ""
+            }`}
+            onClick={() => {
+              setOccupancyOpen((prev) => !prev);
+              setCalendarOpen(false);
+            }}
+          >
+            <small>Occupancy</small>
+            <strong>
+              {booking.adults} Adult{booking.adults > 1 ? "s" : ""}
+              {booking.children > 0
+                ? ` · ${booking.children} Child${
+                    booking.children > 1 ? "ren" : ""
+                  }`
+                : ""}
+              {` · ${booking.rooms} Room${booking.rooms > 1 ? "s" : ""}`}
+            </strong>
+          </button>
+
+          {occupancyOpen && (
+            <div className="occupancyDropdown">
+              <div className="occupancyRow">
+                <div>
+                  <strong>Adults</strong>
+                  <span>Max 6 adults</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateAdults(-1)}>
+                    −
+                  </button>
+                  <b>{booking.adults}</b>
+                  <button type="button" onClick={() => updateAdults(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="occupancyRow">
+                <div>
+                  <strong>Children</strong>
+                  <span>Max 5 children · age 0–17</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateChildren(-1)}>
+                    −
+                  </button>
+                  <b>{booking.children}</b>
+                  <button type="button" onClick={() => updateChildren(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="occupancyRow">
+                <div>
+                  <strong>Rooms</strong>
+                  <span>Max 3 rooms</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateRooms(-1)}>
+                    −
+                  </button>
+                  <b>{booking.rooms}</b>
+                  <button type="button" onClick={() => updateRooms(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        <div>
-          <small>Occupancy</small>
+        <div className="inputGroup heroRoomSelect" data-label="Rooms">
+          <select
+            value={booking.selectedRoomId}
+            onFocus={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onClick={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onChange={(event) => updateBooking("selectedRoomId", event.target.value)}
+            aria-label="Select room type"
+          >
+            <option value="">Rooms</option>
+
+            {visibleRooms.map((room) => (
+              <option key={room.id} value={room.id}>
+                {room.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="bookingFieldBox bookingEstimateBox">
+          <small>Live Estimate</small>
+
           <strong>
-            {occupancy
-              ? `${occupancy} Guest${occupancy === "1" ? "" : "s"}`
-              : "Not selected"}
+            {booking.checkIn && booking.checkOut
+              ? formatPrice(livePreview.total)
+              : "Live Estimate"}
           </strong>
+
+          <span>
+            {booking.checkIn && booking.checkOut
+              ? `${livePreview.nights} night${
+                  livePreview.nights === 1 ? "" : "s"
+                } · ${totalGuests} guest${totalGuests === 1 ? "" : "s"}`
+              : "Auto price"}
+          </span>
         </div>
 
-        <div>
-          <small>Room</small>
-          <strong>{selectedRoom?.name || roomsText}</strong>
-        </div>
-      </div>
-
-      <div className="previewPriceBox">
-        <div>
-          <span>Estimated Stay</span>
-          <strong>
-            {selectedRoom && nights > 0
-              ? `$${estimatedTotal.toLocaleString()}`
-              : "Select dates + room"}
-          </strong>
-        </div>
-
-        <p>
-          {selectedRoom && nights > 0
-            ? `${nights} night${
-                nights > 1 ? "s" : ""
-              } • average $${averageNightlyRate}/night + taxes • ${pricingType}. Final rates and availability are confirmed on the reservation page.`
-            : "Live availability and final rates will be confirmed after clicking Check Availability."}
-        </p>
-      </div>
-    </div>
+        <button type="button" className="checkBtn" onClick={openBookingEngine}>
+          Check Availability
+        </button>
+      </form>
+    </aside>
   );
 }
 
-function DatePicker({
-  id,
-  value,
-  min,
-  placeholder,
-  onChange,
-  openCalendar,
-  setOpenCalendar,
+function RangeCalendar({
+  checkIn,
+  checkOut,
+  today,
+  onSelectDate,
+  onClose,
+  previewRoom,
 }) {
-  const open = openCalendar === id;
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const [slideDirection, setSlideDirection] = useState("next");
 
   const [viewDate, setViewDate] = useState(() => {
-    const base = min ? new Date(`${min}T00:00:00`) : new Date();
+    const base = checkIn ? parseDate(checkIn) : new Date();
     return new Date(base.getFullYear(), base.getMonth(), 1);
   });
 
-  useEffect(() => {
-    if (min && !value) {
-      const base = new Date(`${min}T00:00:00`);
-      setViewDate(new Date(base.getFullYear(), base.getMonth(), 1));
-    }
-  }, [min, value]);
-
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth();
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const monthName = viewDate.toLocaleString("default", { month: "long" });
-
-  const minDate = min ? new Date(`${min}T00:00:00`) : new Date();
-  minDate.setHours(0, 0, 0, 0);
-
-  const days = Array.from({ length: firstDay + daysInMonth }, (_, index) =>
-    index < firstDay ? null : index - firstDay + 1
-  );
-
-  const selectDate = (day) => {
-    const selectedDate = new Date(year, month, day);
-    selectedDate.setHours(0, 0, 0, 0);
-
-    if (selectedDate < minDate) return;
-
-    onChange(formatDate(selectedDate));
-
-    if (id !== "checkin") {
-      setOpenCalendar(null);
-    }
+  const changeMonth = (direction) => {
+    setSlideDirection(direction);
+    setViewDate(
+      (prev) =>
+        new Date(
+          prev.getFullYear(),
+          prev.getMonth() + (direction === "next" ? 1 : -1),
+          1
+        )
+    );
   };
 
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchMove = (event) => {
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    if (Math.abs(distance) < 55) return;
+    changeMonth(distance > 0 ? "next" : "prev");
+  };
+
+  const minDate = parseDate(today);
+  const previewStay = calculateStay(previewRoom, checkIn, checkOut);
+
+  const months = [
+    new Date(viewDate.getFullYear(), viewDate.getMonth(), 1),
+    new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1),
+  ];
+
   return (
-    <div className="inputGroup datePickerWrap" data-label={placeholder}>
-      <button
-        type="button"
-        className="datePopupInput"
-        aria-label={`Select ${placeholder}`}
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          setOpenCalendar(open ? null : id);
-        }}
+    <div
+      className="rangeCalendar premiumRangeCalendar"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="rangeCalendarHead">
+        <button type="button" onClick={() => changeMonth("prev")}>
+          ‹
+        </button>
+
+        <strong>Select Your Stay</strong>
+
+        <button type="button" onClick={() => changeMonth("next")}>
+          ›
+        </button>
+      </div>
+
+      <div
+        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
+        className={`twoMonthCalendar ${
+          slideDirection === "next" ? "slideNext" : "slidePrev"
+        }`}
       >
-        <span>{value ? formatAsiDate(value) : placeholder}</span>
-      </button>
+        {months.map((monthDate) => {
+          const calendarDays = buildCalendarDays(monthDate);
+          const monthName = monthDate.toLocaleString("en-US", {
+            month: "long",
+          });
+          const year = monthDate.getFullYear();
 
-      {open && (
-        <div
-          className="calendarPopup"
-          onClick={(event) => event.stopPropagation()}
-          onMouseDown={(event) => event.stopPropagation()}
-          onTouchStart={(event) => event.stopPropagation()}
-        >
-          <div className="calendarHead">
-            <button
-              type="button"
-              aria-label="Previous month"
-              onClick={() => setViewDate(new Date(year, month - 1, 1))}
-            >
-              ‹
-            </button>
+          return (
+            <div className="singleMonth" key={`${monthName}-${year}`}>
+              <h4>
+                {monthName} {year}
+              </h4>
 
-            <strong>
-              {monthName} {year}
-            </strong>
+              <div className="rangeCalendarWeek">
+                <span>Su</span>
+                <span>Mo</span>
+                <span>Tu</span>
+                <span>We</span>
+                <span>Th</span>
+                <span>Fr</span>
+                <span>Sa</span>
+              </div>
 
-            <button
-              type="button"
-              aria-label="Next month"
-              onClick={() => setViewDate(new Date(year, month + 1, 1))}
-            >
-              ›
-            </button>
-          </div>
+              <div className="rangeCalendarGrid">
+                {calendarDays.map((date, index) => {
+                  if (!date) {
+                    return <span key={`blank-${monthName}-${index}`} />;
+                  }
 
-          <div className="calendarWeek">
-            <span>Su</span>
-            <span>Mo</span>
-            <span>Tu</span>
-            <span>We</span>
-            <span>Th</span>
-            <span>Fr</span>
-            <span>Sa</span>
-          </div>
+                  const dateValue = formatDate(date);
+                  const dateOnly = new Date(date);
+                  dateOnly.setHours(0, 0, 0, 0);
 
-          <div className="calendarGrid">
-            {days.map((day, index) => {
-              if (!day) {
-                return <span key={`blank-${year}-${month}-${index}`} />;
-              }
+                  const disabled = dateOnly < minDate;
+                  const isCheckIn =
+                    checkIn && isSameDate(date, parseDate(checkIn));
+                  const isCheckOut =
+                    checkOut && isSameDate(date, parseDate(checkOut));
+                  const inRange = isBetween(date, checkIn, checkOut);
 
-              const dateObj = new Date(year, month, day);
-              const dateValue = formatDate(dateObj);
-              const disabled = dateObj < minDate;
+                  return (
+                    <button
+                      type="button"
+                      key={dateValue}
+                      disabled={disabled}
+                      className={[
+                        isCheckIn ? "isCheckIn" : "",
+                        isCheckOut ? "isCheckOut" : "",
+                        inRange ? "inRange" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      onClick={() => onSelectDate(dateValue)}
+                    >
+                      {date.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
-              return (
-                <button
-                  type="button"
-                  key={`${year}-${month}-${day}`}
-                  onClick={() => selectDate(day)}
-                  disabled={disabled}
-                  className={value === dateValue ? "selected" : ""}
-                  aria-label={`Select ${formatAsiDate(dateValue)}`}
-                >
-                  {day}
-                </button>
-              );
-            })}
-          </div>
+      <div className="rangeCalendarFooter">
+        <div>
+          <small>Selected Stay</small>
+          <strong>
+            {checkIn && checkOut
+              ? `${previewStay.nights} night${
+                  previewStay.nights === 1 ? "" : "s"
+                } · ${formatPrice(previewStay.total)}`
+              : checkIn
+              ? "Now select check-out date"
+              : "Select check-in date"}
+          </strong>
         </div>
-      )}
+
+        <button type="button" onClick={onClose}>
+          Done
+        </button>
+      </div>
     </div>
   );
 }
@@ -1158,7 +1283,9 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
   };
 
   const prevSlide = () => {
-    setActive((current) => (current - 1 + room.images.length) % room.images.length);
+    setActive(
+      (current) => (current - 1 + room.images.length) % room.images.length
+    );
   };
 
   return (
@@ -1244,13 +1371,118 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             </div>
           </div>
 
-          <button type="button" className="modalBookBtn" onClick={onCheckAvailability}>
+          <button
+            type="button"
+            className="modalBookBtn"
+            onClick={onCheckAvailability}
+          >
             Check Availability
           </button>
         </div>
       </div>
     </div>
   );
+}
+
+function formatPrice(value) {
+  return `$${Number(value || 0).toFixed(2)}`;
+}
+
+function formatDate(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function parseDate(dateString) {
+  return new Date(`${dateString}T00:00:00`);
+}
+
+function formatDisplayDate(dateString) {
+  if (!dateString) return "Select date";
+
+  return parseDate(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function formatAsiDate(dateString) {
+  if (!dateString) return "";
+
+  const date = parseDate(dateString);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
+function calculateStay(room, checkIn, checkOut) {
+  if (!room || !checkIn || !checkOut) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  const start = parseDate(checkIn);
+  const end = parseDate(checkOut);
+
+  if (
+    Number.isNaN(start.getTime()) ||
+    Number.isNaN(end.getTime()) ||
+    end <= start
+  ) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  let nights = 0;
+  let subtotal = 0;
+  const current = new Date(start);
+
+  while (current < end) {
+    const day = current.getDay();
+    subtotal += day === 5 || day === 6 ? room.weekend : room.weekday;
+    nights += 1;
+    current.setDate(current.getDate() + 1);
+  }
+
+  const taxes = subtotal * TAX_RATE;
+  const total = subtotal + taxes;
+
+  return {
+    nights,
+    subtotal,
+    taxes,
+    total,
+    averageRate: nights ? subtotal / nights : 0,
+  };
+}
+
+function buildCalendarDays(viewDate) {
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  return Array.from({ length: firstDayIndex + daysInMonth }, (_, index) => {
+    if (index < firstDayIndex) return null;
+    return new Date(year, month, index - firstDayIndex + 1);
+  });
+}
+
+function isSameDate(a, b) {
+  if (!a || !b) return false;
+  return formatDate(a) === formatDate(b);
+}
+
+function isBetween(date, start, end) {
+  if (!date || !start || !end) return false;
+
+  const current = new Date(date);
+  current.setHours(0, 0, 0, 0);
+
+  return current > parseDate(start) && current < parseDate(end);
 }
 
 export default App;
