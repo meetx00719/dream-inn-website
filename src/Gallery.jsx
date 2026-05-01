@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -37,13 +36,13 @@ export default function Gallery() {
   return (
     <div className="galleryPage">
       <header className="galleryHeader">
-        <Link to="/" className="luxLogo galleryLogo">
+        <a href="/" className="luxLogo galleryLogo">
           Dream<span>Inn</span>
-        </Link>
+        </a>
 
-        <Link to="/" className="galleryBackBtn">
+        <a href="/" className="galleryBackBtn">
           ← Back to Home
-        </Link>
+        </a>
       </header>
 
       <main className="galleryPageMain">
@@ -58,7 +57,10 @@ export default function Gallery() {
         <section className="galleryLuxury galleryPageSection">
           <div className="galleryGrid">
             {galleryImages.map((item, index) => (
-              <article className={`galleryCard galleryCard${index + 1}`} key={item.title}>
+              <article
+                className={`galleryCard galleryCard${index + 1}`}
+                key={item.title}
+              >
                 <img src={item.image} alt={item.title} />
                 <span>{item.title}</span>
               </article>

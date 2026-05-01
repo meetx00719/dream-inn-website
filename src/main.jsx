@@ -1,12 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+
 import App from "./App.jsx";
 import Gallery from "./Gallery.jsx";
 
+const path = window.location.pathname;
+
+function RouterSwitch() {
+  if (path === "/gallery") {
+    return <Gallery />;
+  }
+
+  return <App />;
+}
+
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/gallery" element={<Gallery />} />
-    </Routes>
-  </BrowserRouter>
+  <StrictMode>
+    <RouterSwitch />
+  </StrictMode>
 );

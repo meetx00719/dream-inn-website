@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -21,7 +20,9 @@ import double3 from "./assets/double3.jpg";
 import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
+
 import dream1 from "./assets/single.jpg";
+
 const heroSlides = [
   { image: hero1, mobileImage: hero1Mobile },
   { image: hero2, mobileImage: hero2Mobile },
@@ -578,9 +579,9 @@ function App() {
         <nav className="desktopNav" aria-label="Main navigation">
           {navLinks.map((link) =>
             link.id === "gallery" ? (
-              <Link key={link.id} to="/gallery">
+              <a key={link.id} href="/gallery">
                 {link.label}
-              </Link>
+              </a>
             ) : (
               <a
                 key={link.id}
@@ -1023,7 +1024,9 @@ function HeroBookingPanel({
               setCalendarOpen(false);
               setOccupancyOpen(false);
             }}
-            onChange={(event) => updateBooking("selectedRoomId", event.target.value)}
+            onChange={(event) =>
+              updateBooking("selectedRoomId", event.target.value)
+            }
             aria-label="Select room type"
           >
             <option value="">Rooms</option>
