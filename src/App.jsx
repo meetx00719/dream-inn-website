@@ -21,7 +21,7 @@ import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
 
-import dream1 from "./assets/single.jpg";
+import dream1 from "./assets/dream1.jpg";
 
 const heroSlides = [
   { image: hero1, mobileImage: hero1Mobile },
@@ -72,7 +72,7 @@ const rooms = [
     ],
   },
   {
-    name: "Dream Room",
+    name: "Dream King Room",
     roomId: "-1",
     maxGuests: 2,
     images: [dream1, singleTwo, single3],
@@ -584,10 +584,14 @@ function App() {
               </a>
             ) : (
               <a
-                key={link.id}
-                href={`#${link.id}`}
-                onClick={(event) => scrollToSection(event, link.id)}
-              >
+  key={link.id}
+  href="/gallery"
+  onClick={(e) => {
+    e.preventDefault();
+    window.history.pushState({}, "", "/gallery");
+    window.location.reload();
+  }}
+>
                 {link.label}
               </a>
             )

@@ -5,10 +5,10 @@ import "./index.css";
 import App from "./App.jsx";
 import Gallery from "./Gallery.jsx";
 
-const path = window.location.pathname;
-
 function RouterSwitch() {
-  if (path === "/gallery") {
+  const path = window.location.pathname;
+
+  if (path === "/gallery" || path === "/gallery/") {
     return <Gallery />;
   }
 
