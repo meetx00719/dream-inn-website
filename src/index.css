@@ -1864,3 +1864,102 @@ section {
     width: 42px;
   }
 }
+/* HERO BOOKING FIELD UI FIX */
+.heroBookingPanel .bookingFieldBox,
+.heroRoomSelectBox {
+  min-height: 92px;
+  padding: 22px 28px;
+  border-radius: 32px;
+  border: 1px solid rgba(139, 101, 62, 0.24);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 36px rgba(22, 18, 14, 0.06);
+}
+
+.heroBookingPanel .bookingFieldBox small,
+.heroRoomSelectBox small {
+  display: block;
+  margin-bottom: 9px;
+  color: #8a6743;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.heroBookingPanel .bookingFieldBox strong,
+.heroRoomSelectBox select {
+  color: #111116;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.7px;
+}
+
+.heroRoomSelectBox {
+  position: relative;
+}
+
+.heroRoomSelectBox select {
+  width: 100%;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  padding: 0 34px 0 0;
+}
+
+.heroRoomSelectBox::after {
+  content: "";
+  position: absolute;
+  right: 29px;
+  bottom: 37px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 9px solid #8a6743;
+  pointer-events: none;
+}
+
+/* OCCUPANCY DROPDOWN DONE BUTTON */
+.occupancyDoneBtn {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b6874f, #85633b);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(133, 99, 59, 0.22);
+}
+
+/* MOBILE FIX */
+@media (max-width: 760px) {
+  .heroBookingPanel .bookingFieldBox,
+  .heroRoomSelectBox {
+    min-height: 82px;
+    padding: 18px 22px;
+    border-radius: 26px;
+  }
+
+  .heroBookingPanel .bookingFieldBox small,
+  .heroRoomSelectBox small {
+    font-size: 11px;
+    letter-spacing: 3.6px;
+  }
+
+  .heroBookingPanel .bookingFieldBox strong,
+  .heroRoomSelectBox select {
+    font-size: 21px;
+  }
+
+  .heroRoomSelectBox::after {
+    right: 23px;
+    bottom: 32px;
+  }
+}

@@ -1,0 +1,566 @@
+ {calendarOpen && (
+            <RangeCalendar
+              checkIn={booking.checkIn}
+              checkOut={booking.checkOut}
+              today={today}
+              previewRoom={previewRoom}
+              onSelectDate={handleCalendarDateSelect}
+              onClose={() => setCalendarOpen(false)}
+            />
+          )}
+        </div>
+
+        <div className="occupancyWrapper" ref={occupancyRef}>
+          <button
+            type="button"
+            className={`bookingFieldBox bookingOccupancyBox ${
+              occupancyOpen ? "active" : ""
+            }`}
+            onClick={() => {
+              setOccupancyOpen((prev) => !prev);
+              setCalendarOpen(false);
+            }}
+          >
+            <small>Occupancy</small>
+            <strong>
+              {booking.adults} Adult{booking.adults > 1 ? "s" : ""}
+              {booking.children > 0
+                ? ` · ${booking.children} Child${
+                    booking.children > 1 ? "ren" : ""
+                  }`
+                : ""}
+              {` · ${booking.rooms} Room${booking.rooms > 1 ? "s" : ""}`}
+            </strong>
+          </button>
+
+          {occupancyOpen && (
+            <div className="occupancyDropdown">
+              <div className="occupancyRow">
+                <div>
+                  <strong>Adults</strong>
+                  <span>Max 6 adults</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateAdults(-1)}>
+                    −
+                  </button>
+                  <b>{booking.adults}</b>
+                  <button type="button" onClick={() => updateAdults(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="occupancyRow">
+                <div>
+                  <strong>Children</strong>
+                  <span>Max 5 children · age 0–17</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateChildren(-1)}>
+                    −
+                  </button>
+                  <b>{booking.children}</b>
+                  <button type="button" onClick={() => updateChildren(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="occupancyRow">
+                <div>
+                  <strong>Rooms</strong>
+                  <span>Max 3 rooms</span>
+                </div>
+
+                <div className="counterControl">
+                  <button type="button" onClick={() => updateRooms(-1)}>
+                    −
+                  </button>
+                  <b>{booking.rooms}</b>
+                  <button type="button" onClick={() => updateRooms(1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="inputGroup heroRoomSelect" data-label="Rooms">
+          <select
+            value={booking.selectedRoomId}
+            onFocus={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onClick={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onChange={(event) =>
+              updateBooking("selectedRoomId", event.target.value)
+            }
+            aria-label="Select room type"
+          >
+            <option value="">Rooms</option>
+
+            {visibleRooms.map((room) => (
+              <option key={room.id} value={room.id}>
+                {room.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="bookingFieldBox bookingEstimateBox">
+          <small>Live Estimate</small>
+
+          <strong>
+            {booking.checkIn && booking.checkOut
+              ? formatPrice(livePreview.total)
+              : "Live Estimate"}
+          </strong>
+
+          <span>
+            {booking.checkIn && booking.checkOut
+              ? `${livePreview.nights} night${
+                  livePreview.nights === 1 ? "" : "s"
+                } · ${totalGuests} guest${totalGuests === 1 ? "" : "s"}`
+              : "Auto price"}
+          </span>
+        </div>
+
+        <button type="button" className="checkBtn" onClick={openBookingEngine}>
+          Check Availability
+        </button>
+      </form>
+    </aside>
+  );
+}
+
+function RangeCalendar({
+  checkIn,
+  checkOut,
+  today,
+  onSelectDate,
+  onClose,
+  previewRoom,
+}) {
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const [slideDirection, setSlideDirection] = useState("next");
+
+  const [viewDate, setViewDate] = useState(() => {
+    const base = checkIn ? parseDate(checkIn) : new Date();
+    return new Date(base.getFullYear(), base.getMonth(), 1);
+  });
+
+  const changeMonth = (direction) => {
+    setSlideDirection(direction);
+    setViewDate(
+      (prev) =>
+        new Date(
+          prev.getFullYear(),
+          prev.getMonth() + (direction === "next" ? 1 : -1),
+          1
+        )
+    );
+  };
+
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchMove = (event) => {
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    if (Math.abs(distance) < 55) return;
+    changeMonth(distance > 0 ? "next" : "prev");
+  };
+
+  const minDate = parseDate(today);
+  const previewStay = calculateStay(previewRoom, checkIn, checkOut);
+
+  const months = [
+    new Date(viewDate.getFullYear(), viewDate.getMonth(), 1),
+    new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1),
+  ];
+
+  return (
+    <div
+      className="rangeCalendar premiumRangeCalendar"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="rangeCalendarHead">
+        <button type="button" onClick={() => changeMonth("prev")}>
+          ‹
+        </button>
+
+        <strong>Select Your Stay</strong>
+
+        <button type="button" onClick={() => changeMonth("next")}>
+          ›
+        </button>
+      </div>
+
+      <div
+        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
+        className={`twoMonthCalendar ${
+          slideDirection === "next" ? "slideNext" : "slidePrev"
+        }`}
+      >
+        {months.map((monthDate) => {
+          const calendarDays = buildCalendarDays(monthDate);
+          const monthName = monthDate.toLocaleString("en-US", {
+            month: "long",
+          });
+          const year = monthDate.getFullYear();
+
+          return (
+            <div className="singleMonth" key={`${monthName}-${year}`}>
+              <h4>
+                {monthName} {year}
+              </h4>
+
+              <div className="rangeCalendarWeek">
+                <span>Su</span>
+                <span>Mo</span>
+                <span>Tu</span>
+                <span>We</span>
+                <span>Th</span>
+                <span>Fr</span>
+                <span>Sa</span>
+              </div>
+
+              <div className="rangeCalendarGrid">
+                {calendarDays.map((date, index) => {
+                  if (!date) {
+                    return <span key={`blank-${monthName}-${index}`} />;
+                  }
+
+                  const dateValue = formatDate(date);
+                  const dateOnly = new Date(date);
+                  dateOnly.setHours(0, 0, 0, 0);
+
+                  const disabled = dateOnly < minDate;
+                  const isCheckIn =
+                    checkIn && isSameDate(date, parseDate(checkIn));
+                  const isCheckOut =
+                    checkOut && isSameDate(date, parseDate(checkOut));
+                  const inRange = isBetween(date, checkIn, checkOut);
+
+                  return (
+                    <button
+                      type="button"
+                      key={dateValue}
+                      disabled={disabled}
+                      className={[
+                        isCheckIn ? "isCheckIn" : "",
+                        isCheckOut ? "isCheckOut" : "",
+                        inRange ? "inRange" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      onClick={() => onSelectDate(dateValue)}
+                    >
+                      {date.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="rangeCalendarFooter">
+        <div>
+          <small>Selected Stay</small>
+          <strong>
+            {checkIn && checkOut
+              ? `${previewStay.nights} night${
+                  previewStay.nights === 1 ? "" : "s"
+                } · ${formatPrice(previewStay.total)}`
+              : checkIn
+              ? "Now select check-out date"
+              : "Select check-in date"}
+          </strong>
+        </div>
+
+        <button type="button" onClick={onClose}>
+          Done
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RoomCard({ room, onSeeMore }) {
+  return (
+    <article
+      className="luxRoomCard"
+      onClick={onSeeMore}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSeeMore();
+        }
+      }}
+      tabIndex="0"
+      role="button"
+      aria-label={`View details for ${room.name}`}
+    >
+      <div className="cardImgWrap">
+        <img src={room.images[0]} alt={room.name} />
+      </div>
+
+      <div className="cardInfo">
+        <h3>{room.name}</h3>
+        <p>{room.details}</p>
+        <span className="viewDetails">View Details ↗</span>
+      </div>
+    </article>
+  );
+}
+
+function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    const timer = setInterval(() => {
+      setActive((current) => (current + 1) % room.images.length);
+    }, 5000);
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      clearInterval(timer);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [room.images.length, onClose]);
+
+  const nextSlide = () => {
+    setActive((current) => (current + 1) % room.images.length);
+  };
+
+  const prevSlide = () => {
+    setActive(
+      (current) => (current - 1 + room.images.length) % room.images.length
+    );
+  };
+
+  return (
+    <div className="modalOverlay" onClick={onClose}>
+      <div
+        className="roomModal"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${room.name} details`}
+      >
+        <button
+          type="button"
+          className="modalClose"
+          onClick={onClose}
+          aria-label="Close room details"
+        >
+          ×
+        </button>
+
+        <div className="modalHeaderImg">
+          {room.images.map((image, index) => (
+            <img
+              key={`${room.name}-${index}`}
+              src={image}
+              alt={room.name}
+              className={index === active ? "active" : ""}
+            />
+          ))}
+
+          <button
+            type="button"
+            className="modalArrow modalArrowLeft"
+            onClick={prevSlide}
+            aria-label="Previous room image"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            className="modalArrow modalArrowRight"
+            onClick={nextSlide}
+            aria-label="Next room image"
+          >
+            ›
+          </button>
+
+          <div className="imageCounter">
+            {active + 1}/{room.images.length}
+          </div>
+        </div>
+
+        <div className="modalBody">
+          <h2>{room.name}</h2>
+          <p>{room.details}</p>
+
+          <div className="modalGrid">
+            <div className="modalFeature">
+              <h4>Room Amenities</h4>
+
+              <ul className="modalList">
+                {room.amenities.map((item) => (
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="modalFeature">
+              <h4>Room Policies</h4>
+
+              <ul className="modalList">
+                {room.policies.map((item) => (
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="modalBookBtn"
+            onClick={onCheckAvailability}
+          >
+            Check Availability
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function formatPrice(value) {
+  return `$${Number(value || 0).toFixed(2)}`;
+}
+
+function formatDate(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function parseDate(dateString) {
+  return new Date(`${dateString}T00:00:00`);
+}
+
+function formatDisplayDate(dateString) {
+  if (!dateString) return "Select date";
+
+  return parseDate(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function formatAsiDate(dateString) {
+  if (!dateString) return "";
+
+  const date = parseDate(dateString);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
+function calculateStay(room, checkIn, checkOut) {
+  if (!room || !checkIn || !checkOut) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  const start = parseDate(checkIn);
+  const end = parseDate(checkOut);
+
+  if (
+    Number.isNaN(start.getTime()) ||
+    Number.isNaN(end.getTime()) ||
+    end <= start
+  ) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  let nights = 0;
+  let subtotal = 0;
+  const current = new Date(start);
+
+  while (current < end) {
+    const day = current.getDay();
+    subtotal += day === 5 || day === 6 ? room.weekend : room.weekday;
+    nights += 1;
+    current.setDate(current.getDate() + 1);
+  }
+
+  const taxes = subtotal * TAX_RATE;
+  const total = subtotal + taxes;
+
+  return {
+    nights,
+    subtotal,
+    taxes,
+    total,
+    averageRate: nights ? subtotal / nights : 0,
+  };
+}
+
+function buildCalendarDays(viewDate) {
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  return Array.from({ length: firstDayIndex + daysInMonth }, (_, index) => {
+    if (index < firstDayIndex) return null;
+    return new Date(year, month, index - firstDayIndex + 1);
+  });
+}
+
+function isSameDate(a, b) {
+  if (!a || !b) return false;
+  return formatDate(a) === formatDate(b);
+}
+
+function isBetween(date, start, end) {
+  if (!date || !start || !end) return false;
+
+  const current = new Date(date);
+  current.setHours(0, 0, 0, 0);
+
+  return current > parseDate(start) && current < parseDate(end);
+}
+
+export default App;
