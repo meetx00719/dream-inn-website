@@ -157,7 +157,7 @@ const LOCAL_ROOMS = [
   },
   {
     id: "dream",
-    name: "Dream Room",
+    name: "Dream King Room",
     roomId: "-1",
     bed: "California King Bed · Dream Ambient Lighting",
     maxAdults: 2,
@@ -584,14 +584,10 @@ function App() {
               </a>
             ) : (
               <a
-  key={link.id}
-  href="/gallery"
-  onClick={(e) => {
-    e.preventDefault();
-    window.history.pushState({}, "", "/gallery");
-    window.location.reload();
-  }}
->
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(event) => scrollToSection(event, link.id)}
+              >
                 {link.label}
               </a>
             )
