@@ -1812,3 +1812,112 @@ iframe {
     grid-template-columns: 1fr;
   }
 }
+/* FINAL MOBILE OVERLAP FIX */
+
+@media (max-width: 760px) {
+  .luxHotelSite {
+    padding-bottom: 90px;
+  }
+
+  .heroBookingPanel {
+    margin-bottom: 24px !important;
+    overflow: visible !important;
+  }
+
+  .bookingTrustStrip {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: calc(100% - 28px) !important;
+    margin: 18px auto 22px !important;
+    z-index: 2 !important;
+  }
+
+  .bookingTrustStrip span {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 13px 16px;
+  }
+
+  .rangeCalendar {
+    position: fixed !important;
+    top: 52% !important;
+    left: 14px !important;
+    right: 14px !important;
+    width: auto !important;
+    max-height: 78svh !important;
+    overflow-y: auto !important;
+    transform: translateY(-50%) !important;
+    padding: 18px !important;
+    border-radius: 28px !important;
+    z-index: 999999 !important;
+  }
+
+  .rangeCalendarFooter {
+    position: sticky;
+    bottom: -18px;
+    background: #fff;
+    padding: 16px 0 0;
+    z-index: 5;
+  }
+
+  .twoMonthCalendar {
+    grid-template-columns: 1fr !important;
+  }
+
+  .floatingCtas {
+    position: fixed !important;
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 14px !important;
+    z-index: 9999999 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .floatingCallBtn,
+  .floatingBookBtn {
+    width: 100% !important;
+    min-height: 54px !important;
+    padding: 0 14px !important;
+    border-radius: 999px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    color: #fff !important;
+    text-align: center !important;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.28) !important;
+  }
+
+  .floatingCallBtn {
+    background: linear-gradient(135deg, #b6874f, #85633b) !important;
+  }
+
+  .floatingBookBtn {
+    background: linear-gradient(135deg, #111116, #2b2522) !important;
+  }
+
+  .hideFloatingBtn {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .rangeCalendar {
+    top: 51% !important;
+    max-height: 76svh !important;
+  }
+
+  .floatingCallBtn,
+  .floatingBookBtn {
+    font-size: 14px !important;
+  }
+}
