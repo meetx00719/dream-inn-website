@@ -28,24 +28,24 @@ const heroSlides = [
   { image: hero2, mobileImage: hero2Mobile },
 ];
 
+const parkingPolicy =
+  "One car per room. Additional vehicles require extra parking fee.";
+
 const amenities = [
   { icon: "wifi", label: "Free Wi-Fi" },
   { icon: "tv", label: "Cable TV" },
   { icon: "parking", label: "Free Parking" },
-  { icon: "iron", label: "Iron & Ironing Board (on request)" },
+  { icon: "iron", label: "Iron & Ironing Board on request" },
   { icon: "nosmoke", label: "Non-Smoking Property" },
-  { icon: "direct", label: "Direct Booking" },
+  { icon: "direct", label: "Book Direct & Save" },
   { icon: "desk", label: "24/7 Front Desk" },
   { icon: "clean", label: "Daily Housekeeping" },
   { icon: "ac", label: "Air Conditioning" },
   { icon: "heater", label: "Heater" },
-  { icon: "atm", label: "ATM on-site" },
-  { icon: "ice", label: "Ice Machine on-site" },
+  { icon: "atm", label: "ATM On-site" },
+  { icon: "ice", label: "Ice Machine On-site" },
   { icon: "vending", label: "Vending Soda" },
 ];
-
-const parkingPolicy =
-  "One car per room. Additional vehicles require extra parking fee.";
 
 const rooms = [
   {
@@ -77,7 +77,7 @@ const rooms = [
     maxGuests: 2,
     images: [dream1, singleTwo, single3],
     details:
-      "A premium single king room designed for a relaxing stay with ambient dream lighting and modern comfort.",
+      "A premium king room designed for a relaxing stay with ambient dream lighting and modern comfort.",
     amenities: [
       { icon: "👤", text: "2 Guests" },
       { icon: "🛏", text: "California King Bed" },
@@ -140,6 +140,7 @@ const rooms = [
       { icon: "💳", text: "$100 security deposit required" },
       { icon: "🚭", text: "Non-smoking room" },
       { icon: "🚗", text: parkingPolicy },
+      { icon: "⚠️", text: "Jacuzzi room: no children allowed" },
     ],
   },
 ];
@@ -154,6 +155,9 @@ const LOCAL_ROOMS = [
     maxChildren: 1,
     weekday: 89,
     weekend: 119,
+    otaWeekday: 109,
+    otaWeekend: 149,
+    urgency: "Only 2 left tonight",
   },
   {
     id: "dream",
@@ -164,6 +168,9 @@ const LOCAL_ROOMS = [
     maxChildren: 1,
     weekday: 99,
     weekend: 129,
+    otaWeekday: 119,
+    otaWeekend: 159,
+    urgency: "Limited rooms available",
   },
   {
     id: "double",
@@ -174,6 +181,9 @@ const LOCAL_ROOMS = [
     maxChildren: 5,
     weekday: 109,
     weekend: 149,
+    otaWeekday: 139,
+    otaWeekend: 179,
+    urgency: "Best for families",
   },
   {
     id: "jacuzzi",
@@ -184,6 +194,9 @@ const LOCAL_ROOMS = [
     maxChildren: 0,
     weekday: 139,
     weekend: 179,
+    otaWeekday: 169,
+    otaWeekend: 209,
+    urgency: "Only 1 left",
   },
 ];
 
@@ -223,7 +236,7 @@ const reviews = [
 const navLinks = [
   { id: "home", label: "Home" },
   { id: "about", label: "About" },
-  { id: "gallery", label: "Gallery" },
+  { id: "rooms", label: "Rooms" },
   { id: "amenities", label: "Amenities" },
   { id: "reviews", label: "Reviews" },
   { id: "location", label: "Contact us" },
@@ -233,7 +246,7 @@ const ASI_BOOKING_ACTION =
   "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f&Operation=Date";
 
 const GOOGLE_REVIEWS_URL =
-  "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu&g_ep=EgoyMDI2MDQyNi4wIKXMDSoASAFQAw%3D%3D";
+  "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu";
 
 const TAX_RATE = 0.155;
 
@@ -317,10 +330,6 @@ function App() {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    setActiveDot(0);
-  }, [rooms.length]);
 
   useEffect(() => {
     const closeOnOutsideClick = (event) => {
@@ -466,7 +475,7 @@ function App() {
         ? topBar.getBoundingClientRect().height
         : 0;
 
-    return Math.max(0, headerHeight + topBarHeight - 180);
+    return Math.max(0, headerHeight + topBarHeight - 160);
   };
 
   const scrollToSectionById = (id) => {
@@ -577,21 +586,15 @@ function App() {
         </a>
 
         <nav className="desktopNav" aria-label="Main navigation">
-          {navLinks.map((link) =>
-            link.id === "gallery" ? (
-              <a key={link.id} href="/gallery">
-                {link.label}
-              </a>
-            ) : (
-              <a
-                key={link.id}
-                href={`#${link.id}`}
-                onClick={(event) => scrollToSection(event, link.id)}
-              >
-                {link.label}
-              </a>
-            )
-          )}
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(event) => scrollToSection(event, link.id)}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
       </header>
 
@@ -618,13 +621,13 @@ function App() {
             <span className="sectionKicker">Dream Inn Inglewood</span>
 
             <h1>
-              Comfortable Stay <br />
-              Near LAX &amp; SoFi
+              Stay Near LAX <br />
+              &amp; SoFi Stadium
             </h1>
 
             <p>
-              Clean rooms, convenient location, free Wi-Fi, and direct booking
-              with no hidden charges.
+              Book direct for clean rooms, free parking, free Wi-Fi, and no
+              hidden commission fees.
             </p>
 
             <div className="heroButtons">
@@ -632,9 +635,9 @@ function App() {
                 Check Availability
               </button>
 
-              <button type="button" onClick={() => scrollToSectionById("rooms")}>
-                View Rooms
-              </button>
+              <a className="callHeroBtn" href="tel:+13104120912">
+                Call Now
+              </a>
             </div>
           </div>
 
@@ -660,6 +663,12 @@ function App() {
             openBookingEngine={openBookingEngine}
           />
 
+          <div className="bookingTrustStrip">
+            <span>🔥 Only a few rooms left tonight</span>
+            <span>✅ Book direct & save</span>
+            <span>⭐ 1000+ Happy Guests</span>
+          </div>
+
           <div className="heroPager" aria-label="Hero slider controls">
             {heroSlides.map((_, index) => (
               <button
@@ -670,6 +679,35 @@ function App() {
                 aria-label={`Go to slide ${index + 1}`}
               />
             ))}
+          </div>
+        </section>
+
+        <section className="conversionSection">
+          <div className="conversionGrid">
+            <article>
+              <span>Why Stay Here?</span>
+              <h3>Perfect Location</h3>
+              <p>5 min → SoFi Stadium</p>
+              <p>10 min → LAX Airport</p>
+              <p>Free parking included</p>
+            </article>
+
+            <article>
+              <span>Book Direct</span>
+              <h3>Best Value</h3>
+              <p>
+                <del>OTA Price $149</del>
+              </p>
+              <p className="savePrice">Website Price from $119</p>
+              <p>No extra commission. No hidden charges.</p>
+            </article>
+
+            <article>
+              <span>Guest Trust</span>
+              <h3>1000+ Happy Guests</h3>
+              <p>Clean rooms, fast check-in, free Wi-Fi, and friendly service.</p>
+              <a href="tel:+13104120912">Call Now for Best Deal</a>
+            </article>
           </div>
         </section>
 
@@ -765,6 +803,7 @@ function App() {
           <div className="sectionCenter">
             <span className="sectionKicker">Guest Reviews</span>
             <h2>What our Guests Say</h2>
+            <p className="reviewTrustLine">⭐ Trusted by 1000+ happy guests</p>
           </div>
 
           <div className="reviewGrid">
@@ -811,6 +850,12 @@ function App() {
             <p>
               ☎ <a href="tel:+13104120912">+1 (310) 412-0912</a>
             </p>
+
+            <div className="locationMiniBenefits">
+              <span>5 min → SoFi Stadium</span>
+              <span>10 min → LAX Airport</span>
+              <span>Free Parking</span>
+            </div>
           </div>
 
           <div className="mapBox">
@@ -844,16 +889,22 @@ function App() {
         />
       )}
 
-      <button
-        type="button"
-        className={`floatingBookBtn ${
-          hideFloatingBookBtn ? "hideFloatingBtn" : ""
-        }`}
-        onClick={scrollToHeroBooking}
-        aria-label="Book now"
-      >
-        Book Now
-      </button>
+      <div className="floatingCtas">
+        <a href="tel:+13104120912" className="floatingCallBtn">
+          Call Now
+        </a>
+
+        <button
+          type="button"
+          className={`floatingBookBtn ${
+            hideFloatingBookBtn ? "hideFloatingBtn" : ""
+          }`}
+          onClick={scrollToHeroBooking}
+          aria-label="Book now"
+        >
+          Book Now
+        </button>
+      </div>
 
       <footer className="luxFooter">
         <div className="footerContent">
@@ -887,12 +938,21 @@ function HeroBookingPanel({
   handleCalendarDateSelect,
   openBookingEngine,
 }) {
+  const directRate = getTodayRate(previewRoom, false);
+  const otaRate = getTodayRate(previewRoom, true);
+  const savings = Math.max(0, otaRate - directRate);
+
   return (
     <aside className="heroBookingPanel" ref={bookingRef}>
       <div className="heroBookingHeader">
         <span>Book Direct</span>
         <h2>Reserve Your Stay</h2>
         <p>No extra commission. No hidden charges.</p>
+      </div>
+
+      <div className="urgencyBanner">
+        <b>🔥 {previewRoom?.urgency || "Limited availability tonight"}</b>
+        <span>12 people checked availability in the last 24 hours</span>
       </div>
 
       <form
@@ -1009,6 +1069,14 @@ function HeroBookingPanel({
                   </button>
                 </div>
               </div>
+
+              <button
+                type="button"
+                className="occupancyDoneBtn"
+                onClick={() => setOccupancyOpen(false)}
+              >
+                Done
+              </button>
             </div>
           )}
         </div>
@@ -1029,7 +1097,7 @@ function HeroBookingPanel({
             }
             aria-label="Select room type"
           >
-            <option value="">Rooms</option>
+            <option value="">Auto-select best room</option>
 
             {visibleRooms.map((room) => (
               <option key={room.id} value={room.id}>
@@ -1037,6 +1105,20 @@ function HeroBookingPanel({
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="priceCompareBox">
+          <div>
+            <small>OTA Price</small>
+            <del>{formatPrice(otaRate)}</del>
+          </div>
+
+          <div>
+            <small>Website Price</small>
+            <strong>{formatPrice(directRate)}</strong>
+          </div>
+
+          <span>Save up to {formatPrice(savings)} direct</span>
         </div>
 
         <div className="bookingFieldBox bookingEstimateBox">
@@ -1052,14 +1134,18 @@ function HeroBookingPanel({
             {booking.checkIn && booking.checkOut
               ? `${livePreview.nights} night${
                   livePreview.nights === 1 ? "" : "s"
-                } · ${totalGuests} guest${totalGuests === 1 ? "" : "s"}`
-              : "Auto price"}
+                } · ${totalGuests} guest${totalGuests === 1 ? "" : "s"} · Tax included`
+              : "Select dates to see total"}
           </span>
         </div>
 
         <button type="button" className="checkBtn" onClick={openBookingEngine}>
           Check Availability
         </button>
+
+        <a href="tel:+13104120912" className="bookingCallLink">
+          Prefer to book by phone? Call +1 (310) 412-0912
+        </a>
       </form>
     </aside>
   );
@@ -1384,6 +1470,18 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
       </div>
     </div>
   );
+}
+
+function getTodayRate(room, ota = false) {
+  if (!room) return 0;
+  const today = new Date();
+  const isWeekend = today.getDay() === 5 || today.getDay() === 6;
+
+  if (ota) {
+    return isWeekend ? room.otaWeekend : room.otaWeekday;
+  }
+
+  return isWeekend ? room.weekend : room.weekday;
 }
 
 function formatPrice(value) {
