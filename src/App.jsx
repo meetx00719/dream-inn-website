@@ -1,1591 +1,2379 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import "./index.css";
-
-import hero1 from "./assets/hero1.jpg";
-import hero2 from "./assets/hero2.jpg";
-import hero1Mobile from "./assets/hero1-mobile.jpg";
-import hero2Mobile from "./assets/hero2-mobile.jpg";
-
-import about1 from "./assets/about1.jpg";
-import about2 from "./assets/about2.jpg";
-
-import singleRoom from "./assets/single.jpg";
-import singleTwo from "./assets/singleTwo.jpg";
-import single3 from "./assets/single3.jpg";
-
-import double1 from "./assets/double1.jpg";
-import double2 from "./assets/double2.jpg";
-import double3 from "./assets/double3.jpg";
-
-import jacuzziRoom from "./assets/jacuzzi.jpg";
-import jacuzzi2 from "./assets/jacuzzi2.jpg";
-import jacuzzi3 from "./assets/jacuzzi3.jpg";
-
-import dream1 from "./assets/dream1.jpg";
-
-const heroSlides = [
-  { image: hero1, mobileImage: hero1Mobile },
-  { image: hero2, mobileImage: hero2Mobile },
-];
-
-const parkingPolicy =
-  "One car per room. Additional vehicles require extra parking fee.";
-
-const amenities = [
-  { icon: "wifi", label: "Free Wi-Fi" },
-  { icon: "tv", label: "Cable TV" },
-  { icon: "parking", label: "Free Parking" },
-  { icon: "iron", label: "Iron & Ironing Board on request" },
-  { icon: "nosmoke", label: "Non-Smoking Property" },
-  { icon: "direct", label: "Book Direct & Save" },
-  { icon: "desk", label: "24/7 Front Desk" },
-  { icon: "clean", label: "Daily Housekeeping" },
-  { icon: "ac", label: "Air Conditioning" },
-  { icon: "heater", label: "Heater" },
-  { icon: "atm", label: "ATM On-site" },
-  { icon: "ice", label: "Ice Machine On-site" },
-  { icon: "vending", label: "Vending Soda" },
-];
-
-const rooms = [
-  {
-    name: "Single Bed Room",
-    roomId: "-1",
-    maxGuests: 2,
-    images: [singleRoom, singleTwo, single3],
-    details:
-      "A clean and comfortable room with essential in-room convenience for a simple stay.",
-    amenities: [
-      { icon: "👤", text: "2 Guests" },
-      { icon: "🛏", text: "Cali King size bed" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚭", text: "Non-smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-    ],
-  },
-  {
-    name: "Dream King Room",
-    roomId: "-1",
-    maxGuests: 2,
-    images: [dream1, singleTwo, single3],
-    details:
-      "A premium king room designed for a relaxing stay with ambient dream lighting and modern comfort.",
-    amenities: [
-      { icon: "👤", text: "2 Guests" },
-      { icon: "🛏", text: "California King Bed" },
-      { icon: "🛁", text: "Private Bathroom" },
-      { icon: "💡", text: "Dream Ambient Lighting" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🧊", text: "Refrigerator" },
-      { icon: "❄️", text: "Air Conditioning" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚭", text: "Non-smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-    ],
-  },
-  {
-    name: "Double Bed Room",
-    roomId: "-1",
-    maxGuests: 4,
-    images: [double1, double2, double3],
-    details:
-      "A practical room with two queen size beds for friends, families, or guests needing more space.",
-    amenities: [
-      { icon: "👤", text: "4 Guests" },
-      { icon: "🛏", text: "Two Queen Size Beds" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚭", text: "Non-smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-    ],
-  },
-  {
-    name: "Jacuzzi Room",
-    roomId: "-1",
-    maxGuests: 2,
-    images: [jacuzziRoom, jacuzzi2, jacuzzi3],
-    details:
-      "A comfortable room with a private Jacuzzi for guests looking for a relaxing stay.",
-    amenities: [
-      { icon: "👤", text: "2 Guests" },
-      { icon: "🛏", text: "King Size Bed" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-      { icon: "🛁", text: "Jacuzzi Tub" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚭", text: "Non-smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-      { icon: "⚠️", text: "Jacuzzi room: no children allowed" },
-    ],
-  },
-];
-
-const LOCAL_ROOMS = [
-  {
-    id: "single",
-    name: "Single Bed Room",
-    roomId: "-1",
-    bed: "Cali King size bed",
-    maxAdults: 2,
-    maxChildren: 1,
-    weekday: 89,
-    weekend: 119,
-    otaWeekday: 109,
-    otaWeekend: 149,
-    urgency: "Only 2 left tonight",
-  },
-  {
-    id: "dream",
-    name: "Dream King Room",
-    roomId: "-1",
-    bed: "California King Bed · Dream Ambient Lighting",
-    maxAdults: 2,
-    maxChildren: 1,
-    weekday: 99,
-    weekend: 129,
-    otaWeekday: 119,
-    otaWeekend: 159,
-    urgency: "Limited rooms available",
-  },
-  {
-    id: "double",
-    name: "Double Bed Room",
-    roomId: "-1",
-    bed: "Two Queen Size Beds",
-    maxAdults: 4,
-    maxChildren: 5,
-    weekday: 109,
-    weekend: 149,
-    otaWeekday: 139,
-    otaWeekend: 179,
-    urgency: "Best for families",
-  },
-  {
-    id: "jacuzzi",
-    name: "Jacuzzi Room",
-    roomId: "-1",
-    bed: "King Size Bed · Jacuzzi Tub",
-    maxAdults: 2,
-    maxChildren: 0,
-    weekday: 139,
-    weekend: 179,
-    otaWeekday: 169,
-    otaWeekend: 209,
-    urgency: "Only 1 left",
-  },
-];
-
-const reviews = [
-  {
-    name: "Raylen P.",
-    rating: 5,
-    text: "Clean room, friendly front desk, and very convenient location near LAX. Great value for the price.",
-  },
-  {
-    name: "Maria G.",
-    rating: 5,
-    text: "The room was comfortable and the check-in process was smooth. I would stay here again.",
-  },
-  {
-    name: "James R.",
-    rating: 4,
-    text: "Good location near SoFi Stadium. Parking was convenient and the room had everything I needed.",
-  },
-  {
-    name: "David L.",
-    rating: 5,
-    text: "Very clean and quiet place. Staff was helpful and the check-in was quick. Perfect for short stays.",
-  },
-  {
-    name: "Sophia M.",
-    rating: 4,
-    text: "Nice budget-friendly hotel. Rooms were neat and Wi-Fi worked well. Close to airport which is a plus.",
-  },
-  {
-    name: "Carlos T.",
-    rating: 4,
-    text: "Great experience overall. Comfortable bed, clean bathroom, and good customer service. Will come again.",
-  },
-];
-
-const navLinks = [
-  { id: "home", label: "Home" },
-  { id: "about", label: "About" },
-  { id: "rooms", label: "Rooms" },
-  { id: "amenities", label: "Amenities" },
-  { id: "reviews", label: "Reviews" },
-  { id: "location", label: "Contact us" },
-];
-
-const ASI_BOOKING_ACTION =
-  "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f&Operation=Date";
-
-const GOOGLE_REVIEWS_URL =
-  "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu";
-
-const TAX_RATE = 0.155;
-
-const INITIAL_BOOKING = {
-  checkIn: "",
-  checkOut: "",
-  adults: 1,
-  children: 0,
-  rooms: 1,
-  selectedRoomId: "",
-};
-
-function App() {
-  const [activeHero, setActiveHero] = useState(0);
-  const [selectedRoom, setSelectedRoom] = useState(null);
-  const [activeDot, setActiveDot] = useState(0);
-  const [hideFloatingBookBtn, setHideFloatingBookBtn] = useState(true);
-  const [isHeroTop, setIsHeroTop] = useState(true);
-  const [booking, setBooking] = useState(INITIAL_BOOKING);
-  const [calendarOpen, setCalendarOpen] = useState(false);
-  const [occupancyOpen, setOccupancyOpen] = useState(false);
-
-  const scrollAnimationRef = useRef(null);
-  const heroBookingRef = useRef(null);
-  const calendarRef = useRef(null);
-  const occupancyRef = useRef(null);
-
-  const today = useMemo(() => formatDate(new Date()), []);
-  const totalGuests = booking.adults + booking.children;
-
-  const visibleRooms = useMemo(() => {
-    const adults = Number(booking.adults);
-    const children = Number(booking.children);
-    const requestedRooms = Number(booking.rooms);
-
-    if (children > 2) {
-      return LOCAL_ROOMS.filter((room) => room.id === "double");
-    }
-
-    if (requestedRooms === 2 && adults <= 4) {
-      return LOCAL_ROOMS.filter(
-        (room) =>
-          room.id === "single" || room.id === "dream" || room.id === "double"
-      );
-    }
-
-    return LOCAL_ROOMS.filter(
-      (room) => room.maxAdults >= adults && room.maxChildren >= children
-    );
-  }, [booking.adults, booking.children, booking.rooms]);
-
-  const selectedBookingRoom =
-    visibleRooms.find((room) => room.id === booking.selectedRoomId) || null;
-
-  const previewRoom = selectedBookingRoom || visibleRooms[0] || LOCAL_ROOMS[0];
-
-  const livePreview = useMemo(() => {
-    return calculateStay(previewRoom, booking.checkIn, booking.checkOut);
-  }, [previewRoom, booking.checkIn, booking.checkOut]);
-
-  useEffect(() => {
-    if (
-      booking.selectedRoomId &&
-      !visibleRooms.some((room) => room.id === booking.selectedRoomId)
-    ) {
-      setBooking((prev) => ({ ...prev, selectedRoomId: "" }));
-    }
-
-    if (!booking.selectedRoomId && visibleRooms.length === 1) {
-      setBooking((prev) => ({ ...prev, selectedRoomId: visibleRooms[0].id }));
-    }
-  }, [booking.selectedRoomId, visibleRooms]);
-
-  useEffect(() => {
-    const handleScroll = () => setIsHeroTop(window.scrollY < 45);
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const closeOnOutsideClick = (event) => {
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        setCalendarOpen(false);
-      }
-
-      if (occupancyRef.current && !occupancyRef.current.contains(event.target)) {
-        setOccupancyOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", closeOnOutsideClick);
-    document.addEventListener("touchstart", closeOnOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", closeOnOutsideClick);
-      document.removeEventListener("touchstart", closeOnOutsideClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveHero((current) => (current + 1) % heroSlides.length);
-    }, 5400);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleFloatingButton = () => {
-      const hero = document.getElementById("home");
-      if (!hero) return;
-
-      const viewportMiddle = window.scrollY + window.innerHeight / 2;
-      const heroTop = hero.offsetTop;
-      const heroBottom = heroTop + hero.offsetHeight;
-      const isOnHero = viewportMiddle >= heroTop && viewportMiddle <= heroBottom;
-
-      setHideFloatingBookBtn(isOnHero);
-    };
-
-    handleFloatingButton();
-
-    window.addEventListener("scroll", handleFloatingButton, { passive: true });
-    window.addEventListener("resize", handleFloatingButton);
-
-    return () => {
-      window.removeEventListener("scroll", handleFloatingButton);
-      window.removeEventListener("resize", handleFloatingButton);
-    };
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (scrollAnimationRef.current) {
-        cancelAnimationFrame(scrollAnimationRef.current);
-      }
-    };
-  }, []);
-
-  const updateBooking = (key, value) => {
-    setBooking((prev) => ({ ...prev, [key]: value }));
-  };
-
-  const updateAdults = (change) => {
-    setBooking((prev) => ({
-      ...prev,
-      adults: Math.min(6, Math.max(1, prev.adults + change)),
-      selectedRoomId: "",
-    }));
-  };
-
-  const updateChildren = (change) => {
-    setBooking((prev) => ({
-      ...prev,
-      children: Math.min(5, Math.max(0, prev.children + change)),
-      selectedRoomId: "",
-    }));
-  };
-
-  const updateRooms = (change) => {
-    setBooking((prev) => ({
-      ...prev,
-      rooms: Math.min(3, Math.max(1, prev.rooms + change)),
-      selectedRoomId: "",
-    }));
-  };
-
-  const handleCalendarDateSelect = (dateValue) => {
-    setBooking((prev) => {
-      if (!prev.checkIn || prev.checkOut) {
-        return { ...prev, checkIn: dateValue, checkOut: "" };
-      }
-
-      if (dateValue <= prev.checkIn) {
-        return { ...prev, checkIn: dateValue, checkOut: "" };
-      }
-
-      return { ...prev, checkOut: dateValue };
-    });
-  };
-
-  const premiumScrollTo = (targetY, duration = 850) => {
-    if (scrollAnimationRef.current) {
-      cancelAnimationFrame(scrollAnimationRef.current);
-    }
-
-    const startY = window.scrollY || document.documentElement.scrollTop;
-    const distance = targetY - startY;
-    const startTime = performance.now();
-
-    const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const animate = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = easeInOutCubic(progress);
-
-      window.scrollTo(0, startY + distance * eased);
-
-      if (progress < 1) {
-        scrollAnimationRef.current = requestAnimationFrame(animate);
-      } else {
-        scrollAnimationRef.current = null;
-      }
-    };
-
-    scrollAnimationRef.current = requestAnimationFrame(animate);
-  };
-
-  const getHeaderOffset = () => {
-    const header = document.querySelector(".mainHeader");
-    const topBar = document.querySelector(".topInfoBar");
-
-    const headerHeight = header?.getBoundingClientRect().height || 0;
-
-    const topBarHeight =
-      topBar &&
-      ["fixed", "sticky"].includes(getComputedStyle(topBar).position) &&
-      getComputedStyle(topBar).display !== "none"
-        ? topBar.getBoundingClientRect().height
-        : 0;
-
-    return Math.max(0, headerHeight + topBarHeight - 160);
-  };
-
-  const scrollToSectionById = (id) => {
-    const section = document.getElementById(id);
-    if (!section) return;
-
-    setCalendarOpen(false);
-    setOccupancyOpen(false);
-
-    if (id === "home") {
-      premiumScrollTo(0, 900);
-      return;
-    }
-
-    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
-    const target = sectionTop - getHeaderOffset();
-
-    premiumScrollTo(Math.max(0, target), 900);
-  };
-
-  const scrollToSection = (event, id) => {
-    event?.preventDefault?.();
-    scrollToSectionById(id);
-  };
-
-  const scrollToRooms = (event) => {
-    event?.preventDefault?.();
-    scrollToSectionById("rooms");
-  };
-
-  const scrollToHeroBooking = () => {
-    heroBookingRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  };
-
-  const openBookingEngine = () => {
-    if (!booking.checkIn || !booking.checkOut) {
-      alert("Please select check-in and check-out dates.");
-      return;
-    }
-
-    if (livePreview.nights < 1) {
-      alert("Check-out date must be after check-in date.");
-      return;
-    }
-
-    const roomForSubmit = selectedBookingRoom || previewRoom;
-
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = ASI_BOOKING_ACTION;
-    form.target = "_blank";
-    form.style.display = "none";
-
-    const fields = {
-      txtcheckindate: formatAsiDate(booking.checkIn),
-      txtcheckoutdate: formatAsiDate(booking.checkOut),
-      txtadult: String(booking.adults),
-      txtChildren: String(booking.children),
-      txtPromocode: "",
-      txtRoomId: roomForSubmit?.roomId || "-1",
-    };
-
-    Object.entries(fields).forEach(([name, value]) => {
-      const input = document.createElement("input");
-      input.type = "hidden";
-      input.id = name;
-      input.name = name;
-      input.value = value;
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-  };
-
-  return (
-    <div className="luxHotelSite">
-      <div className="topInfoBar">
-        <div className="topContact">
-          <span>📍 3201 W Imperial Hwy, Inglewood, CA 90303</span>
-          <span>☎ +1 310 412 0912</span>
-        </div>
-
-        <div className="topSocials">
-          <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
-            f
-          </a>
-          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-            ◎
-          </a>
-        </div>
-      </div>
-
-      <header
-        className={`mainHeader ${isHeroTop ? "heroLogoHeader" : "blurHeader"}`}
-      >
-        <a
-          href="#home"
-          className={`luxLogo ${isHeroTop ? "centerLogo" : "smallLogo"}`}
-          onClick={(event) => scrollToSection(event, "home")}
-          aria-label="Dream Inn Home"
-        >
-          Dream<span>Inn</span>
-        </a>
-
-        <nav className="desktopNav" aria-label="Main navigation">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={(event) => scrollToSection(event, link.id)}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
-      </header>
-
-      <main>
-        <section id="home" className="luxHero">
-          <div
-            className="luxHeroTrack"
-            style={{ transform: `translateX(-${activeHero * 100}%)` }}
-          >
-            {heroSlides.map((slide, index) => (
-              <article className="luxHeroSlide" key={index}>
-                <picture>
-                  <source
-                    media="(max-width: 760px)"
-                    srcSet={slide.mobileImage}
-                  />
-                  <img src={slide.image} alt="Dream Inn hotel exterior" />
-                </picture>
-              </article>
-            ))}
-          </div>
-
-          <div className="luxHeroContent">
-            <span className="sectionKicker">Dream Inn Inglewood</span>
-
-            <h1>
-              Stay Near LAX <br />
-              &amp; SoFi Stadium
-            </h1>
-
-            <p>
-              Book direct for clean rooms, free parking, free Wi-Fi, and no
-              hidden commission fees.
-            </p>
-
-            <div className="heroButtons">
-              <button type="button" onClick={scrollToHeroBooking}>
-                Check Availability
-              </button>
-
-              <a className="callHeroBtn" href="tel:+13104120912">
-                Call Now
-              </a>
-            </div>
-          </div>
-
-          <HeroBookingPanel
-            bookingRef={heroBookingRef}
-            calendarRef={calendarRef}
-            occupancyRef={occupancyRef}
-            booking={booking}
-            updateBooking={updateBooking}
-            updateAdults={updateAdults}
-            updateChildren={updateChildren}
-            updateRooms={updateRooms}
-            today={today}
-            visibleRooms={visibleRooms}
-            previewRoom={previewRoom}
-            livePreview={livePreview}
-            totalGuests={totalGuests}
-            calendarOpen={calendarOpen}
-            setCalendarOpen={setCalendarOpen}
-            occupancyOpen={occupancyOpen}
-            setOccupancyOpen={setOccupancyOpen}
-            handleCalendarDateSelect={handleCalendarDateSelect}
-            openBookingEngine={openBookingEngine}
-          />
-
-          <div className="heroPager" aria-label="Hero slider controls">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                className={index === activeHero ? "active" : ""}
-                onClick={() => setActiveHero(index)}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="conversionSection">
-          <div className="conversionGrid">
-            <article>
-              <span>Why Stay Here?</span>
-              <h3>Perfect Location</h3>
-              <p>5 min → SoFi Stadium</p>
-              <p>10 min → LAX Airport</p>
-              <p>Free parking included</p>
-            </article>
-
-            <article>
-              <span>Book Direct</span>
-              <h3>Best Value</h3>
-              <p>
-                <del>OTA Price $149</del>
-              </p>
-              <p className="savePrice">Website Price from $119</p>
-              <p>No extra commission. No hidden charges.</p>
-            </article>
-
-            <article>
-              <span>Guest Trust</span>
-              <h3>1000+ Happy Guests</h3>
-              <p>Clean rooms, fast check-in, free Wi-Fi, and friendly service.</p>
-              <a href="tel:+13104120912">Call Now for Best Deal</a>
-            </article>
-          </div>
-
-          <div className="bookingTrustStrip">
-            <span>🔥 Only a few rooms left tonight</span>
-            <span>✅ Book direct & save</span>
-            <span>⭐ 1000+ Happy Guests</span>
-          </div>
-        </section>
-
-        <section id="about" className="aboutLuxury">
-          <div className="aboutCopy">
-            <span className="sectionKicker">About Us</span>
-
-            <h2>Simple, Comfortable Stay in Inglewood</h2>
-
-            <p className="aboutText">
-              Dream Inn Inglewood is located near Los Angeles International
-              Airport and SoFi Stadium. Our hotel is ideal for travelers,
-              business guests, and visitors attending events in Los Angeles.
-            </p>
-
-            <p className="aboutText">
-              We offer clean rooms, free Wi-Fi, cable TV, microwave,
-              refrigerator, and convenient access to nearby Los Angeles
-              attractions.
-            </p>
-
-            <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
-              Explore Rooms
-            </a>
-          </div>
-
-          <div className="aboutImages">
-            <img src={about1} alt="Dream Inn hotel exterior" />
-            <img src={about2} alt="Dream Inn room interior" />
-          </div>
-        </section>
-
-        <section id="rooms" className="roomsLuxury">
-          <div className="sectionCenter">
-            <span className="sectionKicker">Rooms</span>
-            <h2>Choose Your Room</h2>
-          </div>
-
-          <div
-            className="roomGridLuxury"
-            onScroll={(event) => {
-              const container = event.currentTarget;
-              const firstCard = container.querySelector(".luxRoomCard");
-              if (!firstCard) return;
-
-              const cardWidth = firstCard.getBoundingClientRect().width;
-              const gap =
-                parseFloat(window.getComputedStyle(container).gap || "0") || 0;
-
-              const index = Math.round(
-                container.scrollLeft / Math.max(cardWidth + gap, 1)
-              );
-
-              setActiveDot(Math.min(Math.max(index, 0), rooms.length - 1));
-            }}
-          >
-            {rooms.map((room) => (
-              <RoomCard
-                key={room.name}
-                room={room}
-                onSeeMore={() => setSelectedRoom(room)}
-              />
-            ))}
-          </div>
-
-          <div className="roomDots">
-            {rooms.map((_, index) => (
-              <span
-                key={index}
-                className={activeDot === index ? "dot active" : "dot"}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section id="amenities" className="amenitiesLuxury">
-          <div className="sectionCenter">
-            <span className="sectionKicker">Amenities</span>
-            <h2>Hotel Amenities</h2>
-          </div>
-
-          <ul className="amenityList">
-            {amenities.map((item) => (
-              <li key={item.label}>
-                <i className={`icon ${item.icon}`}></i>
-                <span>{item.label}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section id="reviews" className="reviewsLuxury">
-          <div className="sectionCenter">
-            <span className="sectionKicker">Guest Reviews</span>
-            <h2>What our Guests Say</h2>
-            <p className="reviewTrustLine">⭐ Trusted by 1000+ happy guests</p>
-          </div>
-
-          <div className="reviewGrid">
-            {reviews.map((review) => (
-              <article className="reviewCard" key={review.name}>
-                <div className="reviewStars">
-                  {"★".repeat(review.rating)}
-                  <span>{"★".repeat(5 - review.rating)}</span>
-                </div>
-
-                <p>“{review.text}”</p>
-
-                <h4>{review.name}</h4>
-              </article>
-            ))}
-          </div>
-
-          <div className="googleReviewBtnWrap">
-            <a
-              href={GOOGLE_REVIEWS_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="googleReviewBtn"
-            >
-              See More Reviews on Google
-            </a>
-          </div>
-        </section>
-
-        <section id="location" className="locationLuxury">
-          <div className="locationDetails">
-            <span className="sectionKicker">Contact Us</span>
-            <h2>Dream Inn</h2>
-
-            <p>📍 3201 W Imperial Hwy, Inglewood, CA 90303</p>
-
-            <p>
-              📧{" "}
-              <a href="mailto:dreaminn3201@gmail.com">
-                dreaminn3201@gmail.com
-              </a>
-            </p>
-
-            <p>
-              ☎ <a href="tel:+13104120912">+1 (310) 412-0912</a>
-            </p>
-
-            <div className="locationMiniBenefits">
-              <span>5 min → SoFi Stadium</span>
-              <span>10 min → LAX Airport</span>
-              <span>Free Parking</span>
-            </div>
-          </div>
-
-          <div className="mapBox">
-            <iframe
-              title="Dream Inn Map"
-              src="https://www.google.com/maps?q=3201%20W%20Imperial%20Hwy%2C%20Inglewood%2C%20CA%2090303&output=embed"
-              loading="lazy"
-            />
-          </div>
-        </section>
-      </main>
-
-      {selectedRoom && (
-        <RoomDetailsModal
-          room={selectedRoom}
-          onClose={() => setSelectedRoom(null)}
-          onCheckAvailability={() => {
-            const relatedRoom = LOCAL_ROOMS.find(
-              (item) => item.name === selectedRoom.name
-            );
-
-            setBooking((prev) => ({
-              ...prev,
-              selectedRoomId: relatedRoom?.id || prev.selectedRoomId,
-            }));
-
-            setSelectedRoom(null);
-
-            setTimeout(scrollToHeroBooking, 120);
-          }}
-        />
-      )}
-
-      <div
-        className={`floatingCtas ${
-          hideFloatingBookBtn ? "hideFloatingCtas" : ""
-        }`}
-      >
-        <a href="tel:+13104120912" className="floatingCallBtn">
-          Call Now
-        </a>
-
-        <button
-          type="button"
-          className="floatingBookBtn"
-          onClick={scrollToHeroBooking}
-          aria-label="Book now"
-        >
-          Book Now
-        </button>
-      </div>
-
-      <footer className="luxFooter">
-        <div className="footerContent">
-          <h3>Dream Inn</h3>
-          <p>3201 W Imperial Hwy, Inglewood, CA 90303</p>
-          <p>© 2026 Dream Inn Inglewood. All rights reserved.</p>
-        </div>
-      </footer>
-    </div>
-  );
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap");
+
+:root {
+  --ink: #111116;
+  --text: #55545d;
+  --muted: #83818b;
+  --ivory: #fbf7ef;
+  --ivory-2: #f5eee3;
+  --white: #ffffff;
+  --gold: #b6874f;
+  --gold-light: #d8b57a;
+  --gold-dark: #85633b;
+  --border: rgba(135, 99, 59, 0.22);
+  --shadow-soft: 0 18px 45px rgba(17, 17, 22, 0.1);
+  --shadow-premium: 0 28px 80px rgba(17, 17, 22, 0.16);
+  --header-height: 78px;
+  --safe-width: 1180px;
+  --section-y: 96px;
 }
 
-function HeroBookingPanel({
-  bookingRef,
-  calendarRef,
-  occupancyRef,
-  booking,
-  updateBooking,
-  updateAdults,
-  updateChildren,
-  updateRooms,
-  today,
-  visibleRooms,
-  previewRoom,
-  livePreview,
-  totalGuests,
-  calendarOpen,
-  setCalendarOpen,
-  occupancyOpen,
-  setOccupancyOpen,
-  handleCalendarDateSelect,
-  openBookingEngine,
-}) {
-  const directRate = getTodayRate(previewRoom, false);
-  const otaRate = getTodayRate(previewRoom, true);
-  const savings = Math.max(0, otaRate - directRate);
-
-  const selectedRoomLabel =
-    visibleRooms.find((room) => room.id === booking.selectedRoomId)?.name ||
-    "Select room type";
-
-  return (
-    <aside className="heroBookingPanel" ref={bookingRef}>
-      <div className="heroBookingHeader">
-        <span>Book Direct</span>
-        <h2>Reserve Your Stay</h2>
-        <p>No extra commission. No hidden charges.</p>
-      </div>
-
-      <form
-        className="heroBookingForm"
-        onSubmit={(event) => event.preventDefault()}
-      >
-        <div className="singleDatePicker" ref={calendarRef}>
-          <button
-            type="button"
-            className={`bookingFieldBox bookingDateRangeBox ${
-              calendarOpen ? "active" : ""
-            }`}
-            onClick={() => {
-              setCalendarOpen((prev) => !prev);
-              setOccupancyOpen(false);
-            }}
-          >
-            <small>Check-in — Check-out</small>
-            <strong>
-              {booking.checkIn && booking.checkOut
-                ? `${formatDisplayDate(booking.checkIn)} → ${formatDisplayDate(
-                    booking.checkOut
-                  )}`
-                : booking.checkIn
-                ? `${formatDisplayDate(booking.checkIn)} → Select check-out`
-                : "Select stay dates"}
-            </strong>
-          </button>
-
-          {calendarOpen && (
-            <RangeCalendar
-              checkIn={booking.checkIn}
-              checkOut={booking.checkOut}
-              today={today}
-              previewRoom={previewRoom}
-              onSelectDate={handleCalendarDateSelect}
-              onClose={() => setCalendarOpen(false)}
-            />
-          )}
-        </div>
-
-        <div className="occupancyWrapper" ref={occupancyRef}>
-          <button
-            type="button"
-            className={`bookingFieldBox bookingOccupancyBox ${
-              occupancyOpen ? "active" : ""
-            }`}
-            onClick={() => {
-              setOccupancyOpen((prev) => !prev);
-              setCalendarOpen(false);
-            }}
-          >
-            <small>Occupancy</small>
-            <strong>
-              {booking.adults} Adult{booking.adults > 1 ? "s" : ""}
-              {booking.children > 0
-                ? ` · ${booking.children} Child${
-                    booking.children > 1 ? "ren" : ""
-                  }`
-                : ""}
-              {` · ${booking.rooms} Room${booking.rooms > 1 ? "s" : ""}`}
-            </strong>
-          </button>
-
-          {occupancyOpen && (
-            <div className="occupancyDropdown">
-              <div className="occupancyRow">
-                <div>
-                  <strong>Adults</strong>
-                  <span>Max 6 adults</span>
-                </div>
-
-                <div className="counterControl">
-                  <button type="button" onClick={() => updateAdults(-1)}>
-                    −
-                  </button>
-                  <b>{booking.adults}</b>
-                  <button type="button" onClick={() => updateAdults(1)}>
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <div className="occupancyRow">
-                <div>
-                  <strong>Children</strong>
-                  <span>Max 5 children · age 0–17</span>
-                </div>
-
-                <div className="counterControl">
-                  <button type="button" onClick={() => updateChildren(-1)}>
-                    −
-                  </button>
-                  <b>{booking.children}</b>
-                  <button type="button" onClick={() => updateChildren(1)}>
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <div className="occupancyRow">
-                <div>
-                  <strong>Rooms</strong>
-                  <span>Max 3 rooms</span>
-                </div>
-
-                <div className="counterControl">
-                  <button type="button" onClick={() => updateRooms(-1)}>
-                    −
-                  </button>
-                  <b>{booking.rooms}</b>
-                  <button type="button" onClick={() => updateRooms(1)}>
-                    +
-                  </button>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="occupancyDoneBtn"
-                onClick={() => setOccupancyOpen(false)}
-              >
-                Done
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="bookingFieldBox roomSelectBox">
-          <small>Rooms</small>
-          <strong>{selectedRoomLabel}</strong>
-
-          <select
-            value={booking.selectedRoomId}
-            onFocus={() => {
-              setCalendarOpen(false);
-              setOccupancyOpen(false);
-            }}
-            onClick={() => {
-              setCalendarOpen(false);
-              setOccupancyOpen(false);
-            }}
-            onChange={(event) =>
-              updateBooking("selectedRoomId", event.target.value)
-            }
-            aria-label="Select room type"
-          >
-            <option value="">Select room type</option>
-
-            {visibleRooms.map((room) => (
-              <option key={room.id} value={room.id}>
-                {room.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="priceCompareBox">
-          <div>
-            <small>OTA Price</small>
-            <del>{formatPrice(otaRate)}</del>
-          </div>
-
-          <div>
-            <small>Website Price</small>
-            <strong>{formatPrice(directRate)}</strong>
-          </div>
-
-          <span>Save up to {formatPrice(savings)} direct</span>
-        </div>
-
-        <div className="bookingFieldBox bookingEstimateBox">
-          <small>Live Estimate</small>
-
-          <strong>
-            {booking.checkIn && booking.checkOut
-              ? formatPrice(livePreview.total)
-              : "Live Estimate"}
-          </strong>
-
-          <span>
-            {booking.checkIn && booking.checkOut
-              ? `${livePreview.nights} night${
-                  livePreview.nights === 1 ? "" : "s"
-                } · ${totalGuests} guest${
-                  totalGuests === 1 ? "" : "s"
-                } · Tax included`
-              : "Select dates to see total"}
-          </span>
-        </div>
-
-        <button type="button" className="checkBtn" onClick={openBookingEngine}>
-          Check Availability
-        </button>
-
-        <a href="tel:+13104120912" className="bookingCallLink">
-          Prefer to book by phone? Call +1 (310) 412-0912
-        </a>
-      </form>
-    </aside>
-  );
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-function RangeCalendar({
-  checkIn,
-  checkOut,
-  today,
-  onSelectDate,
-  onClose,
-  previewRoom,
-}) {
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-  const [slideDirection, setSlideDirection] = useState("next");
-
-  const [viewDate, setViewDate] = useState(() => {
-    const base = checkIn ? parseDate(checkIn) : new Date();
-    return new Date(base.getFullYear(), base.getMonth(), 1);
-  });
-
-  const changeMonth = (direction) => {
-    setSlideDirection(direction);
-    setViewDate(
-      (prev) =>
-        new Date(
-          prev.getFullYear(),
-          prev.getMonth() + (direction === "next" ? 1 : -1),
-          1
-        )
-    );
-  };
-
-  const handleTouchStart = (event) => {
-    touchStartX.current = event.touches[0].clientX;
-    touchEndX.current = event.touches[0].clientX;
-  };
-
-  const handleTouchMove = (event) => {
-    touchEndX.current = event.touches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const distance = touchStartX.current - touchEndX.current;
-    if (Math.abs(distance) < 55) return;
-    changeMonth(distance > 0 ? "next" : "prev");
-  };
-
-  const minDate = parseDate(today);
-  const previewStay = calculateStay(previewRoom, checkIn, checkOut);
-
-  const months = [
-    new Date(viewDate.getFullYear(), viewDate.getMonth(), 1),
-    new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1),
-  ];
-
-  return (
-    <div
-      className="rangeCalendar premiumRangeCalendar"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      <div className="rangeCalendarHead">
-        <button type="button" onClick={() => changeMonth("prev")}>
-          ‹
-        </button>
-
-        <strong>Select Your Stay</strong>
-
-        <button type="button" onClick={() => changeMonth("next")}>
-          ›
-        </button>
-      </div>
-
-      <div
-        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
-        className={`twoMonthCalendar ${
-          slideDirection === "next" ? "slideNext" : "slidePrev"
-        }`}
-      >
-        {months.map((monthDate) => {
-          const calendarDays = buildCalendarDays(monthDate);
-          const monthName = monthDate.toLocaleString("en-US", {
-            month: "long",
-          });
-          const year = monthDate.getFullYear();
-
-          return (
-            <div className="singleMonth" key={`${monthName}-${year}`}>
-              <h4>
-                {monthName} {year}
-              </h4>
-
-              <div className="rangeCalendarWeek">
-                <span>Su</span>
-                <span>Mo</span>
-                <span>Tu</span>
-                <span>We</span>
-                <span>Th</span>
-                <span>Fr</span>
-                <span>Sa</span>
-              </div>
-
-              <div className="rangeCalendarGrid">
-                {calendarDays.map((date, index) => {
-                  if (!date) {
-                    return <span key={`blank-${monthName}-${index}`} />;
-                  }
-
-                  const dateValue = formatDate(date);
-                  const dateOnly = new Date(date);
-                  dateOnly.setHours(0, 0, 0, 0);
-
-                  const disabled = dateOnly < minDate;
-                  const isCheckIn =
-                    checkIn && isSameDate(date, parseDate(checkIn));
-                  const isCheckOut =
-                    checkOut && isSameDate(date, parseDate(checkOut));
-                  const inRange = isBetween(date, checkIn, checkOut);
-
-                  return (
-                    <button
-                      type="button"
-                      key={dateValue}
-                      disabled={disabled}
-                      className={[
-                        isCheckIn ? "isCheckIn" : "",
-                        isCheckOut ? "isCheckOut" : "",
-                        inRange ? "inRange" : "",
-                      ]
-                        .filter(Boolean)
-                        .join(" ")}
-                      onClick={() => onSelectDate(dateValue)}
-                    >
-                      {date.getDate()}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      <div className="rangeCalendarFooter">
-        <div>
-          <small>Selected Stay</small>
-          <strong>
-            {checkIn && checkOut
-              ? `${previewStay.nights} night${
-                  previewStay.nights === 1 ? "" : "s"
-                } · ${formatPrice(previewStay.total)}`
-              : checkIn
-              ? "Now select check-out date"
-              : "Select check-in date"}
-          </strong>
-        </div>
-
-        <button type="button" onClick={onClose}>
-          Done
-        </button>
-      </div>
-    </div>
-  );
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  overflow-x: hidden;
 }
 
-function RoomCard({ room, onSeeMore }) {
-  return (
-    <article
-      className="luxRoomCard"
-      onClick={onSeeMore}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          onSeeMore();
-        }
-      }}
-      tabIndex="0"
-      role="button"
-      aria-label={`View details for ${room.name}`}
-    >
-      <div className="cardImgWrap">
-        <img src={room.images[0]} alt={room.name} />
-      </div>
-
-      <div className="cardInfo">
-        <h3>{room.name}</h3>
-        <p>{room.details}</p>
-        <span className="viewDetails">View Details ↗</span>
-      </div>
-    </article>
-  );
+html {
+  scroll-behavior: auto;
+  background: var(--white);
 }
 
-function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-
-    const timer = setInterval(() => {
-      setActive((current) => (current + 1) % room.images.length);
-    }, 5000);
-
-    const handleEscape = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      clearInterval(timer);
-      document.body.style.overflow = previousOverflow;
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [room.images.length, onClose]);
-
-  const nextSlide = () => {
-    setActive((current) => (current + 1) % room.images.length);
-  };
-
-  const prevSlide = () => {
-    setActive(
-      (current) => (current - 1 + room.images.length) % room.images.length
-    );
-  };
-
-  return (
-    <div className="modalOverlay" onClick={onClose}>
-      <div
-        className="roomModal"
-        onClick={(event) => event.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label={`${room.name} details`}
-      >
-        <button
-          type="button"
-          className="modalClose"
-          onClick={onClose}
-          aria-label="Close room details"
-        >
-          ×
-        </button>
-
-        <div className="modalHeaderImg">
-          {room.images.map((image, index) => (
-            <img
-              key={`${room.name}-${index}`}
-              src={image}
-              alt={room.name}
-              className={index === active ? "active" : ""}
-            />
-          ))}
-
-          <button
-            type="button"
-            className="modalArrow modalArrowLeft"
-            onClick={prevSlide}
-            aria-label="Previous room image"
-          >
-            ‹
-          </button>
-
-          <button
-            type="button"
-            className="modalArrow modalArrowRight"
-            onClick={nextSlide}
-            aria-label="Next room image"
-          >
-            ›
-          </button>
-
-          <div className="imageCounter">
-            {active + 1}/{room.images.length}
-          </div>
-        </div>
-
-        <div className="modalBody">
-          <h2>{room.name}</h2>
-          <p>{room.details}</p>
-
-          <div className="modalGrid">
-            <div className="modalFeature">
-              <h4>Room Amenities</h4>
-
-              <ul className="modalList">
-                {room.amenities.map((item) => (
-                  <li key={item.text}>
-                    <span>{item.icon}</span>
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="modalFeature">
-              <h4>Room Policies</h4>
-
-              <ul className="modalList">
-                {room.policies.map((item) => (
-                  <li key={item.text}>
-                    <span>{item.icon}</span>
-                    {item.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            className="modalBookBtn"
-            onClick={onCheckAvailability}
-          >
-            Check Availability
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
 }
 
-function getTodayRate(room, ota = false) {
-  if (!room) return 0;
-
-  const today = new Date();
-  const isWeekend = today.getDay() === 5 || today.getDay() === 6;
-
-  if (ota) return isWeekend ? room.otaWeekend : room.otaWeekday;
-
-  return isWeekend ? room.weekend : room.weekday;
+button,
+select,
+input,
+textarea {
+  font: inherit;
 }
 
-function formatPrice(value) {
-  return `$${Number(value || 0).toFixed(2)}`;
+button {
+  border: 0;
 }
 
-function formatDate(date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-    2,
-    "0"
-  )}-${String(date.getDate()).padStart(2, "0")}`;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-function parseDate(dateString) {
-  return new Date(`${dateString}T00:00:00`);
+img,
+picture,
+iframe {
+  display: block;
+  max-width: 100%;
 }
 
-function formatDisplayDate(dateString) {
-  if (!dateString) return "Select date";
-
-  return parseDate(dateString).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+.luxHotelSite {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: clip;
 }
 
-function formatAsiDate(dateString) {
-  if (!dateString) return "";
+/* TOP BAR */
 
-  const date = parseDate(dateString);
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const year = date.getFullYear();
-
-  return `${month}/${day}/${year}`;
+.topInfoBar {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px clamp(18px, 6vw, 78px);
+  background: linear-gradient(90deg, #101014, #1b1714);
+  color: rgba(255, 255, 255, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 12.5px;
+  font-weight: 600;
+  z-index: 1002;
+  position: relative;
 }
 
-function calculateStay(room, checkIn, checkOut) {
-  if (!room || !checkIn || !checkOut) {
-    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+.topContact,
+.topSocials {
+  display: flex;
+  align-items: center;
+}
+
+.topContact {
+  flex-wrap: wrap;
+  gap: 18px 26px;
+}
+
+.topSocials {
+  gap: 9px;
+}
+
+.topSocials a {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* HEADER */
+
+.mainHeader {
+  height: var(--header-height);
+  padding: 0 clamp(18px, 6vw, 78px);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(17, 17, 22, 0.07);
+  box-shadow: 0 10px 34px rgba(17, 17, 22, 0.055);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+}
+
+.luxLogo {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(34px, 3.2vw, 42px);
+  font-weight: 800;
+  line-height: 1;
+  position: relative;
+  background: linear-gradient(180deg, #111116, #2a2a31);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxLogo span {
+  background: linear-gradient(135deg, #caa46a, #a8793c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.luxLogo::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 42%;
+  height: 2px;
+  background: linear-gradient(90deg, #caa46a, transparent);
+  border-radius: 999px;
+}
+
+.desktopNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.3vw, 30px);
+}
+
+.desktopNav a {
+  position: relative;
+  padding: 28px 0;
+  color: #2a2a31;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.35px;
+  text-transform: uppercase;
+}
+
+.desktopNav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 21px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), #8f1f22);
+  transition: width 0.25s ease;
+}
+
+.desktopNav a:hover {
+  color: var(--gold-dark);
+}
+
+.desktopNav a:hover::after {
+  width: 100%;
+}
+
+/* HERO */
+
+.luxHero {
+  position: relative;
+  min-height: calc(100svh - 116px);
+  height: 760px;
+  overflow: hidden;
+  background: #111;
+}
+
+.luxHeroTrack {
+  height: 100%;
+  display: flex;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxHeroSlide {
+  min-width: 100%;
+  height: 100%;
+}
+
+.luxHeroSlide picture,
+.luxHeroSlide img {
+  width: 100%;
+  height: 100%;
+}
+
+.luxHeroSlide img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.luxHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.44), rgba(0, 0, 0, 0.22)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.5));
+}
+
+.luxHeroContent {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: clamp(18px, 6vw, 78px);
+  transform: translateY(-50%);
+  width: min(600px, calc(100% - 620px));
+  color: #fff;
+}
+
+.sectionKicker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 16px;
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.sectionKicker::before,
+.sectionKicker::after {
+  content: "";
+  width: 54px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.luxHeroContent .sectionKicker {
+  width: fit-content;
+  letter-spacing: 8px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+}
+
+.luxHeroContent h1 {
+  margin-bottom: 22px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(54px, 5.4vw, 86px);
+  line-height: 0.98;
+  letter-spacing: -2.8px;
+}
+
+.luxHeroContent p {
+  max-width: 560px;
+  margin-bottom: 34px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(16px, 1.35vw, 19px);
+  line-height: 1.75;
+  font-weight: 500;
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 13px;
+}
+
+.heroButtons button,
+.heroButtons a {
+  min-height: 52px;
+  padding: 0 27px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13.5px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroButtons button:first-child,
+.heroButtons a:first-child {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff;
+}
+
+.heroButtons button:last-child,
+.heroButtons a:last-child {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+}
+
+.heroPager {
+  position: absolute;
+  z-index: 4;
+  left: clamp(18px, 6vw, 78px);
+  bottom: 46px;
+  display: flex;
+  gap: 10px;
+}
+
+.heroPager button {
+  width: 42px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.36);
+  cursor: pointer;
+}
+
+.heroPager button.active {
+  width: 58px;
+  background: #fff;
+}
+
+/* BOOKING PANEL */
+
+.heroBookingPanel {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  right: clamp(18px, 6vw, 78px);
+  transform: translateY(-50%);
+  width: min(470px, 92vw);
+  max-height: calc(100% - 40px);
+  overflow-y: auto;
+  padding: 22px;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.66);
+  box-shadow: 0 34px 90px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.heroBookingPanel::-webkit-scrollbar {
+  width: 0;
+}
+
+.heroBookingHeader {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.heroBookingHeader span {
+  color: var(--gold-dark);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+}
+
+.heroBookingHeader h2 {
+  margin-top: 8px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(34px, 3vw, 44px);
+  line-height: 1;
+  color: #111;
+  letter-spacing: -1px;
+}
+
+.heroBookingHeader p {
+  margin-top: 8px;
+  color: var(--text);
+  font-size: 13.5px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+.urgencyBanner {
+  margin: 12px 0;
+  padding: 11px 14px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fff5e9, #fff);
+  border: 1px solid rgba(182, 135, 79, 0.18);
+  display: grid;
+  gap: 3px;
+}
+
+.urgencyBanner b {
+  color: #111;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.urgencyBanner span {
+  color: var(--text);
+  font-size: 12.5px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.heroBookingForm {
+  display: grid;
+  gap: 10px;
+}
+
+.singleDatePicker,
+.occupancyWrapper,
+.inputGroup {
+  position: relative;
+}
+
+.bookingFieldBox,
+.heroRoomSelect select {
+  width: 100%;
+  min-height: 68px;
+  padding: 13px 17px;
+  border-radius: 20px;
+  border: 1px solid #eadfcc;
+  background: #fff;
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.055);
+  transition: 0.22s ease;
+}
+
+.bookingFieldBox:hover,
+.bookingFieldBox.active,
+.heroRoomSelect select:hover,
+.heroRoomSelect select:focus {
+  border-color: rgba(182, 135, 79, 0.5);
+  box-shadow: 0 16px 36px rgba(17, 17, 22, 0.095);
+}
+
+.bookingFieldBox small {
+  color: var(--gold-dark);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.bookingFieldBox strong {
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+}
+
+.bookingFieldBox span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.heroRoomSelect select {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 60px;
+  padding: 0 42px 0 17px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 900;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--gold-dark) 50%) calc(100% - 19px) 27px / 7px 7px no-repeat,
+    linear-gradient(135deg, var(--gold-dark) 50%, transparent 50%) calc(100% - 14px) 27px / 7px 7px no-repeat,
+    #fff;
+}
+
+.priceCompareBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 13px 15px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #eadfcc;
+}
+
+.priceCompareBox small {
+  display: block;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2.4px;
+  margin-bottom: 3px;
+}
+
+.priceCompareBox del {
+  color: #777;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.priceCompareBox strong {
+  color: #111;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.priceCompareBox > span {
+  grid-column: 1 / -1;
+  display: block;
+  color: var(--gold-dark);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.bookingEstimateBox {
+  min-height: 88px;
+  padding: 16px 18px;
+  cursor: default;
+  background: linear-gradient(135deg, #111116, #2a2118);
+  color: #fff;
+}
+
+.bookingEstimateBox small,
+.bookingEstimateBox strong,
+.bookingEstimateBox span {
+  color: #fff;
+}
+
+.bookingEstimateBox strong {
+  font-size: 24px;
+}
+
+.bookingEstimateBox span {
+  font-size: 13px;
+}
+
+.checkBtn {
+  width: 100%;
+  min-height: 50px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 18px 42px rgba(133, 99, 59, 0.28);
+  transition: 0.25s ease;
+}
+
+.checkBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 56px rgba(133, 99, 59, 0.36);
+}
+
+.bookingCallLink {
+  color: #111;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* CALENDAR */
+
+.rangeCalendar {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 999999;
+  width: min(720px, 88vw);
+  padding: 18px;
+  border-radius: 26px;
+  background: #fff;
+  border: 1px solid rgba(135, 99, 59, 0.22);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.24);
+}
+
+.rangeCalendarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.rangeCalendarHead button {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.rangeCalendarHead strong {
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.twoMonthCalendar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.singleMonth h4 {
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.rangeCalendarWeek,
+.rangeCalendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.rangeCalendarWeek span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.rangeCalendarGrid {
+  margin-top: 8px;
+}
+
+.rangeCalendarGrid button,
+.rangeCalendarGrid span {
+  height: 36px;
+  border-radius: 11px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.rangeCalendarGrid button:hover {
+  background: var(--ivory);
+}
+
+.rangeCalendarGrid button.inRange {
+  background: rgba(182, 135, 79, 0.18);
+  color: var(--gold-dark);
+}
+
+.rangeCalendarGrid button.isCheckIn,
+.rangeCalendarGrid button.isCheckOut {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(133, 99, 59, 0.28);
+}
+
+.rangeCalendarGrid button:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+  background: transparent;
+}
+
+.rangeCalendarFooter {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(17, 17, 22, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.rangeCalendarFooter small {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.rangeCalendarFooter strong {
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 900;
+}
+
+.rangeCalendarFooter button {
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ink), #2b2522);
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+/* OCCUPANCY */
+
+.occupancyDropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  padding: 16px;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(135, 99, 59, 0.22);
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.2);
+}
+
+.occupancyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(17, 17, 22, 0.08);
+}
+
+.occupancyRow:first-child {
+  padding-top: 0;
+}
+
+.occupancyRow strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.occupancyRow span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.counterControl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.counterControl button {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.counterControl button:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff;
+}
+
+.counterControl b {
+  min-width: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.occupancyDoneBtn {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* TRUST STRIP */
+
+.bookingTrustStrip {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: min(1000px, 92%);
+}
+
+.bookingTrustStrip span {
+  background: rgba(255, 255, 255, 0.92);
+  color: #111;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 13px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.18);
+}
+
+/* CONVERSION SECTION */
+
+.conversionSection {
+  background: var(--ivory);
+  padding: 80px clamp(18px, 6vw, 78px);
+}
+
+.conversionGrid {
+  width: min(var(--safe-width), 100%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.conversionGrid article {
+  background: #fff;
+  border: 1px solid #eadfcc;
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
+}
+
+.conversionGrid span {
+  color: var(--gold);
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.conversionGrid h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  margin: 12px 0;
+  color: #111;
+}
+
+.conversionGrid p {
+  font-weight: 700;
+  color: #555;
+  margin: 8px 0;
+}
+
+.savePrice {
+  color: #111 !important;
+  font-size: 22px;
+  font-weight: 900 !important;
+}
+
+.conversionGrid a {
+  display: inline-flex;
+  margin-top: 14px;
+  background: #111;
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: 999px;
+  font-weight: 900;
+}
+
+/* MAIN SECTIONS */
+
+.aboutLuxury,
+.roomsLuxury,
+.amenitiesLuxury,
+.reviewsLuxury,
+.locationLuxury {
+  padding: var(--section-y) clamp(18px, 6vw, 78px);
+}
+
+.sectionCenter {
+  width: min(760px, 100%);
+  margin: 0 auto 46px;
+  text-align: center;
+}
+
+.sectionCenter h2,
+.aboutCopy h2,
+.locationDetails h2 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(34px, 4.1vw, 56px);
+  line-height: 1.08;
+  letter-spacing: -1.15px;
+}
+
+.reviewTrustLine {
+  margin-top: 12px;
+  color: var(--gold-dark);
+  font-weight: 900;
+}
+
+/* ABOUT */
+
+.aboutLuxury {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(42px, 6vw, 88px);
+  background: linear-gradient(180deg, #fff 0%, #fffaf3 100%);
+}
+
+.aboutCopy {
+  padding: clamp(26px, 3vw, 40px);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(134, 99, 59, 0.13);
+  box-shadow: 0 26px 70px rgba(17, 17, 22, 0.07);
+}
+
+.aboutText {
+  margin-top: 20px;
+  color: var(--text);
+  font-size: 16.5px;
+  line-height: 1.9;
+  font-weight: 550;
+}
+
+.learnBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 30px;
+  margin-top: 32px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #101014, #2a2320);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 900;
+}
+
+.aboutImages {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: 22px;
+  align-items: center;
+}
+
+.aboutImages img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 34px;
+  border: 9px solid rgba(255, 255, 255, 0.96);
+  box-shadow: var(--shadow-premium);
+}
+
+.aboutImages img:first-child {
+  height: 500px;
+}
+
+.aboutImages img:nth-child(2) {
+  height: 385px;
+  transform: translateY(26px);
+}
+
+/* ROOMS */
+
+.roomsLuxury {
+  background: linear-gradient(180deg, var(--ivory), var(--ivory-2));
+}
+
+.roomGridLuxury {
+  width: min(var(--safe-width), 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.luxRoomCard {
+  overflow: hidden;
+  border-radius: 30px;
+  border: 1px solid rgba(135, 99, 59, 0.18);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: 0.28s ease;
+}
+
+.luxRoomCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-premium);
+}
+
+.cardImgWrap {
+  width: 100%;
+  height: 275px;
+  overflow: hidden;
+}
+
+.cardImgWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardInfo {
+  padding: 24px;
+}
+
+.cardInfo h3 {
+  margin-bottom: 12px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(24px, 2.1vw, 30px);
+}
+
+.cardInfo p {
+  min-height: 92px;
+  margin-bottom: 18px;
+  color: var(--text);
+  font-size: 14.5px;
+  line-height: 1.68;
+}
+
+.viewDetails {
+  color: var(--gold-dark);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.roomDots {
+  display: none;
+}
+
+/* AMENITIES */
+
+.amenitiesLuxury {
+  background: #fff;
+}
+
+.amenityList {
+  width: min(var(--safe-width), 100%);
+  margin: 0 auto;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.amenityList li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(177, 132, 82, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f5eee3, #fff);
+  flex: 0 0 auto;
+}
+
+.icon.wifi::before { content: "ðŸ“¶"; }
+.icon.tv::before { content: "ðŸ“º"; }
+.icon.parking::before { content: "ðŸ…¿ï¸"; }
+.icon.iron::before { content: "ðŸ§º"; }
+.icon.nosmoke::before { content: "ðŸš­"; }
+.icon.direct::before { content: "âœ”ï¸"; }
+.icon.desk::before { content: "ðŸ¨"; }
+.icon.clean::before { content: "ðŸ§¹"; }
+.icon.ac::before { content: "â„ï¸"; }
+.icon.heater::before { content: "ðŸ”¥"; }
+.icon.atm::before { content: "ðŸ§"; }
+.icon.ice::before { content: "ðŸ§Š"; }
+.icon.vending::before { content: "ðŸ¥¤"; }
+
+/* REVIEWS */
+
+.reviewsLuxury {
+  background: linear-gradient(180deg, #fff, var(--ivory));
+}
+
+.reviewGrid {
+  width: min(var(--safe-width), 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.reviewCard {
+  padding: 22px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(177, 132, 82, 0.18);
+  box-shadow: 0 18px 46px rgba(17, 17, 22, 0.08);
+}
+
+.reviewStars {
+  margin-bottom: 16px;
+  color: var(--gold);
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.reviewStars span {
+  color: #d8c7b2;
+}
+
+.reviewCard p {
+  min-height: 110px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.reviewCard h4 {
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.googleReviewBtnWrap {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.googleReviewBtn {
+  min-height: 54px;
+  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #101014, #2b2522);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+/* LOCATION */
+
+.locationLuxury {
+  background: linear-gradient(180deg, var(--ivory), #fff);
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+  align-items: stretch;
+  gap: 40px;
+}
+
+.locationDetails {
+  padding: 38px;
+  border-radius: 30px;
+  border: 1px solid rgba(135, 99, 59, 0.18);
+  background: #fff;
+  box-shadow: var(--shadow-premium);
+}
+
+.locationDetails p {
+  margin-top: 18px;
+  color: var(--text);
+  font-size: 15.5px;
+  line-height: 1.7;
+  font-weight: 650;
+}
+
+.locationDetails a {
+  color: var(--gold-dark);
+  font-weight: 900;
+}
+
+.locationMiniBenefits {
+  margin-top: 22px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.locationMiniBenefits span {
+  padding: 10px 13px;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: #111;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.mapBox {
+  min-height: 430px;
+  overflow: hidden;
+  border-radius: 30px;
+  border: 8px solid #fff;
+  box-shadow: var(--shadow-premium);
+}
+
+.mapBox iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* MODAL */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(8, 8, 10, 0.74);
+  backdrop-filter: blur(12px);
+}
+
+.roomModal {
+  width: min(980px, 100%);
+  max-height: min(92vh, 900px);
+  overflow: auto;
+  position: relative;
+  border-radius: 34px;
+  background: #fff;
+}
+
+.modalClose {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 8;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.modalHeaderImg {
+  height: 430px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 34px 34px 0 0;
+  background: #111;
+}
+
+.modalHeaderImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 520ms ease;
+}
+
+.modalHeaderImg img.active {
+  opacity: 1;
+}
+
+.modalArrow {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  width: 46px;
+  height: 46px;
+  transform: translateY(-50%);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 34px;
+  cursor: pointer;
+}
+
+.modalArrowLeft {
+  left: 18px;
+}
+
+.modalArrowRight {
+  right: 18px;
+}
+
+.imageCounter {
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  z-index: 5;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 900;
+}
+
+.modalBody {
+  padding: 34px;
+}
+
+.modalBody h2 {
+  margin-bottom: 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(34px, 4vw, 44px);
+}
+
+.modalBody > p {
+  margin-bottom: 24px;
+  color: var(--text);
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+.modalGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.modalFeature {
+  padding: 22px;
+  border-radius: 24px;
+  border: 1px solid rgba(135, 99, 59, 0.18);
+  background: linear-gradient(180deg, #fff, var(--ivory));
+}
+
+.modalFeature h4 {
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.modalFeature ul {
+  list-style: none;
+}
+
+.modalFeature li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(17, 17, 22, 0.07);
+  color: var(--text);
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.modalFeature li:last-child {
+  border-bottom: 0;
+}
+
+.modalBookBtn {
+  width: 100%;
+  min-height: 58px;
+  margin-top: 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--ink), #2b2522);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* FLOATING CTA */
+
+.floatingCtas {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 99999;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  transition: 0.25s ease;
+}
+
+.floatingCallBtn,
+.floatingBookBtn {
+  min-height: 54px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #101014, #2b2522);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.25);
+  transition: 0.25s ease;
+}
+
+.floatingCallBtn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+}
+
+.hideFloatingBtn,
+.hideFloatingCtas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(18px) !important;
+}
+
+/* FOOTER */
+
+.luxFooter {
+  padding: 50px clamp(18px, 6vw, 78px);
+  background: #101014;
+  color: #fff;
+  text-align: center;
+}
+
+.footerContent h3 {
+  margin-bottom: 10px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 38px;
+}
+
+.footerContent p {
+  margin-top: 7px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+}
+
+/* TABLET */
+
+@media (max-width: 1220px) {
+  .luxHeroContent {
+    width: min(500px, calc(100% - 530px));
   }
 
-  const start = parseDate(checkIn);
-  const end = parseDate(checkOut);
-
-  if (
-    Number.isNaN(start.getTime()) ||
-    Number.isNaN(end.getTime()) ||
-    end <= start
-  ) {
-    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  .heroBookingPanel {
+    width: 430px;
   }
 
-  let nights = 0;
-  let subtotal = 0;
-  const current = new Date(start);
+  .roomGridLuxury {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 
-  while (current < end) {
-    const day = current.getDay();
-    subtotal += day === 5 || day === 6 ? room.weekend : room.weekday;
-    nights += 1;
-    current.setDate(current.getDate() + 1);
+@media (max-width: 980px) {
+  .luxHero {
+    height: auto;
+    min-height: 100svh;
+    padding-bottom: 90px;
   }
 
-  const taxes = subtotal * TAX_RATE;
-  const total = subtotal + taxes;
+  .luxHeroContent {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    width: min(720px, 90%);
+    padding: 112px 0 34px;
+    margin: 0 auto;
+    text-align: center;
+  }
 
-  return {
-    nights,
-    subtotal,
-    taxes,
-    total,
-    averageRate: nights ? subtotal / nights : 0,
-  };
+  .luxHeroContent .sectionKicker {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .heroButtons {
+    justify-content: center;
+  }
+
+  .heroBookingPanel {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    width: min(620px, calc(100% - 36px));
+    max-height: none;
+    margin: 0 auto 26px;
+    overflow: visible;
+  }
+
+  .bookingTrustStrip {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    width: min(620px, calc(100% - 36px));
+    margin: 14px auto 0;
+  }
+
+  .bookingTrustStrip span {
+    width: 100%;
+    text-align: center;
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .heroPager {
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+  }
+
+  .conversionGrid,
+  .reviewGrid,
+  .amenityList,
+  .locationLuxury,
+  .aboutLuxury {
+    grid-template-columns: 1fr;
+  }
+
+  .rangeCalendar {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: calc(100vw - 28px);
+  }
+
+  .bookingCallLink {
+    display: none;
+  }
+
+  .floatingCtas {
+    display: none;
+  }
 }
 
-function buildCalendarDays(viewDate) {
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth();
-  const firstDayIndex = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
+/* MOBILE */
 
-  return Array.from({ length: firstDayIndex + daysInMonth }, (_, index) => {
-    if (index < firstDayIndex) return null;
-    return new Date(year, month, index - firstDayIndex + 1);
-  });
+@media (max-width: 760px) {
+  :root {
+    --header-height: 74px;
+    --section-y: 76px;
+  }
+
+  .topInfoBar {
+    display: none !important;
+  }
+
+  .mainHeader {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    padding: 0 18px;
+    z-index: 99999;
+  }
+
+  .mainHeader.heroLogoHeader {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+  }
+
+  .mainHeader.blurHeader {
+    background: rgba(12, 12, 14, 0.72) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+  }
+
+  .luxLogo {
+    position: absolute !important;
+    z-index: 100000;
+    background: none !important;
+    -webkit-text-fill-color: #fff !important;
+    white-space: nowrap;
+  }
+
+  .luxLogo span {
+    background: none !important;
+    -webkit-text-fill-color: #d7a85f !important;
+  }
+
+  .luxLogo::after {
+    display: none !important;
+  }
+
+  .luxLogo.centerLogo {
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+    font-size: 34px !important;
+  }
+
+  .luxLogo.smallLogo {
+    left: 18px !important;
+    top: 50% !important;
+    transform: translateY(-50%) scale(0.82) !important;
+    font-size: 28px !important;
+  }
+
+  .desktopNav {
+    display: none !important;
+  }
+
+  .luxHero {
+    min-height: 100svh;
+    padding-bottom: 90px;
+  }
+
+  .luxHeroContent {
+    width: auto;
+    padding: 132px 5% 24px;
+  }
+
+  .luxHeroContent .sectionKicker {
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 4px;
+  }
+
+  .luxHeroContent .sectionKicker::before,
+  .luxHeroContent .sectionKicker::after {
+    width: 38px;
+  }
+
+  .luxHeroContent h1 {
+    font-size: clamp(40px, 12.6vw, 54px);
+  }
+
+  .luxHeroContent p {
+    margin: 0 auto 28px;
+    font-size: 15.5px;
+  }
+
+  .heroButtons button,
+  .heroButtons a {
+    width: min(285px, 100%);
+  }
+
+  .heroBookingPanel {
+    width: calc(100% - 28px);
+    padding: 18px;
+    border-radius: 28px;
+  }
+
+  .heroBookingHeader h2 {
+    font-size: clamp(34px, 9vw, 46px);
+  }
+
+  .heroBookingHeader p {
+    font-size: 13.5px;
+  }
+
+  .urgencyBanner b {
+    font-size: 15px;
+  }
+
+  .urgencyBanner span {
+    font-size: 13px;
+  }
+
+  .bookingFieldBox {
+    min-height: 66px;
+    padding: 13px 16px;
+    border-radius: 19px;
+  }
+
+  .bookingFieldBox small {
+    font-size: 8.5px;
+    letter-spacing: 2.5px;
+  }
+
+  .bookingFieldBox strong {
+    font-size: 18px;
+  }
+
+  .heroRoomSelect select {
+    min-height: 58px;
+    font-size: 15px;
+    padding-left: 16px;
+  }
+
+  .priceCompareBox {
+    padding: 13px;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .priceCompareBox small {
+    font-size: 8.5px;
+    letter-spacing: 2px;
+  }
+
+  .priceCompareBox del,
+  .priceCompareBox strong {
+    font-size: 15px;
+  }
+
+  .priceCompareBox > span {
+    font-size: 12.5px;
+  }
+
+  .bookingEstimateBox {
+    min-height: 82px;
+    padding: 15px 16px;
+  }
+
+  .bookingEstimateBox strong {
+    font-size: 22px;
+  }
+
+  .bookingEstimateBox span {
+    font-size: 12.5px;
+  }
+
+  .checkBtn {
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  .rangeCalendar {
+    position: fixed;
+    top: 50%;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: 82svh;
+    overflow-y: auto;
+    transform: translateY(-50%);
+    padding: 16px;
+    border-radius: 24px;
+  }
+
+  .rangeCalendarFooter {
+    position: sticky;
+    bottom: -16px;
+    background: #fff;
+    padding: 14px 0 0;
+    z-index: 5;
+  }
+
+  .twoMonthCalendar {
+    grid-template-columns: 1fr;
+  }
+
+  .occupancyDropdown {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    max-height: 82svh;
+    overflow-y: auto;
+  }
+
+  .aboutLuxury,
+  .roomsLuxury,
+  .amenitiesLuxury,
+  .reviewsLuxury,
+  .locationLuxury,
+  .conversionSection {
+    padding: var(--section-y) 5%;
+  }
+
+  .aboutImages {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutImages img,
+  .aboutImages img:first-child,
+  .aboutImages img:nth-child(2) {
+    height: 330px;
+    transform: none;
+  }
+
+  .roomGridLuxury {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 0 18px;
+  }
+
+  .roomGridLuxury::-webkit-scrollbar {
+    display: none;
+  }
+
+  .luxRoomCard {
+    flex: 0 0 86%;
+    scroll-snap-align: center;
+  }
+
+  .cardImgWrap {
+    height: 245px;
+  }
+
+  .cardInfo p,
+  .reviewCard p {
+    min-height: auto;
+  }
+
+  .roomDots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #d4c5b2;
+  }
+
+  .dot.active {
+    width: 22px;
+    background: var(--gold);
+  }
+
+  .mapBox {
+    height: 360px;
+  }
+
+  .modalOverlay {
+    padding: 12px;
+    align-items: end;
+  }
+
+  .roomModal {
+    max-height: 92svh;
+    border-radius: 26px 26px 0 0;
+  }
+
+  .modalHeaderImg {
+    height: 290px;
+  }
+
+  .modalBody {
+    padding: 24px;
+  }
+
+  .modalGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
-function isSameDate(a, b) {
-  if (!a || !b) return false;
-  return formatDate(a) === formatDate(b);
+@media (max-width: 430px) {
+  .luxHeroContent h1 {
+    font-size: 39px;
+  }
+
+  .sectionCenter h2,
+  .aboutCopy h2,
+  .locationDetails h2 {
+    font-size: 33px;
+  }
+
+  .luxRoomCard {
+    flex-basis: 89%;
+  }
+
+  .heroBookingPanel {
+    width: calc(100% - 20px);
+    padding: 15px;
+  }
+
+  .heroBookingHeader h2 {
+    font-size: 34px;
+  }
+
+  .heroBookingHeader p {
+    font-size: 13px;
+  }
+
+  .bookingFieldBox strong {
+    font-size: 17px;
+  }
+
+  .bookingEstimateBox strong {
+    font-size: 21px;
+  }
+
+  .priceCompareBox {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-function isBetween(date, start, end) {
-  if (!date || !start || !end) return false;
+/* =========================================================
+   FINAL CLEAN OVERRIDES â€” BOOKING PANEL + CALENDAR + CTAS
+   Keep this section at the very bottom of index.css.
+   ========================================================= */
 
-  const current = new Date(date);
-  current.setHours(0, 0, 0, 0);
-
-  return current > parseDate(start) && current < parseDate(end);
+/* Trust strip stays below the 3 conversion cards, never inside hero */
+.bookingTrustStrip {
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: min(var(--safe-width), 100%) !important;
+  margin: 28px auto 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  z-index: 1 !important;
 }
 
-export default App;
+.bookingTrustStrip span {
+  min-height: 64px !important;
+  padding: 0 22px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  color: #111116 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #eadfcc !important;
+}
+
+/* Floating buttons fixed on right-bottom on desktop */
+.floatingCtas {
+  position: fixed !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  z-index: 999999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+  width: auto !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
+}
+
+.floatingCallBtn,
+.floatingBookBtn {
+  position: static !important;
+  width: auto !important;
+  min-width: 128px !important;
+  min-height: 52px !important;
+  padding: 0 24px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22) !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
+}
+
+.floatingCallBtn {
+  background: linear-gradient(135deg, #b6874f, #85633b) !important;
+}
+
+.floatingBookBtn {
+  background: #111116 !important;
+}
+
+.floatingCallBtn:hover,
+.floatingBookBtn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3) !important;
+}
+
+.hideFloatingCtas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(18px) !important;
+}
+
+.hideFloatingBtn {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+.callHeroBtn {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+/* Booking panel compact/professional layout */
+.urgencyBanner {
+  display: none !important;
+}
+
+.heroBookingPanel {
+  padding: 22px !important;
+  border-radius: 30px !important;
+}
+
+.heroBookingHeader {
+  margin-bottom: 16px !important;
+}
+
+.heroBookingHeader span {
+  font-size: 10px !important;
+  letter-spacing: 5px !important;
+}
+
+.heroBookingHeader h2 {
+  font-size: clamp(34px, 4vw, 48px) !important;
+  line-height: 0.95 !important;
+  margin: 8px 0 !important;
+}
+
+.heroBookingHeader p {
+  font-size: 14px !important;
+  line-height: 1.3 !important;
+}
+
+.heroBookingForm {
+  gap: 11px !important;
+}
+
+.bookingFieldBox,
+.roomSelectBox {
+  min-height: 62px !important;
+  padding: 12px 17px !important;
+  border-radius: 20px !important;
+}
+
+.bookingFieldBox small,
+.roomSelectBox small {
+  font-size: 9px !important;
+  letter-spacing: 3px !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  color: #85633b !important;
+}
+
+.bookingFieldBox strong,
+.roomSelectBox strong {
+  font-size: 17px !important;
+  line-height: 1.08 !important;
+  font-weight: 900 !important;
+  color: #111116 !important;
+}
+
+.roomSelectBox {
+  position: relative !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+.roomSelectBox select {
+  position: absolute !important;
+  inset: 0 !important;
+  opacity: 0 !important;
+  cursor: pointer !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.roomSelectBox::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid #85633b;
+  border-bottom: 2px solid #85633b;
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.bookingOccupancyBox,
+.roomSelectBox {
+  min-height: 60px !important;
+}
+
+.priceCompareBox {
+  padding: 13px 16px !important;
+  border-radius: 20px !important;
+  gap: 8px !important;
+}
+
+.priceCompareBox small {
+  font-size: 9px !important;
+  letter-spacing: 2px !important;
+}
+
+.priceCompareBox del,
+.priceCompareBox strong {
+  font-size: 16px !important;
+}
+
+.priceCompareBox > span {
+  font-size: 12.5px !important;
+}
+
+.bookingEstimateBox {
+  min-height: 76px !important;
+  padding: 14px 18px !important;
+  border-radius: 22px !important;
+}
+
+.bookingEstimateBox small {
+  font-size: 9px !important;
+  letter-spacing: 4px !important;
+}
+
+.bookingEstimateBox strong {
+  font-size: 23px !important;
+  line-height: 1.05 !important;
+}
+
+.bookingEstimateBox span {
+  font-size: 12.5px !important;
+}
+
+.checkBtn {
+  min-height: 50px !important;
+  font-size: 15px !important;
+  border-radius: 999px !important;
+}
+
+/* Calendar fix: centered popup, no crop, aligned dates */
+.rangeCalendar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(760px, calc(100vw - 32px)) !important;
+  max-height: 84vh !important;
+  overflow-y: auto !important;
+  padding: 22px !important;
+  border-radius: 28px !important;
+  background: #fff !important;
+  z-index: 999999 !important;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.28) !important;
+}
+
+.rangeCalendarHead {
+  display: grid !important;
+  grid-template-columns: 44px 1fr 44px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 18px !important;
+}
+
+.rangeCalendarHead strong {
+  text-align: center !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+
+.rangeCalendarHead button {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  background: #fbf7ef !important;
+  color: #111116 !important;
+  font-size: 32px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+}
+
+.twoMonthCalendar {
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 28px !important;
+}
+
+.singleMonth {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.singleMonth h4 {
+  text-align: center !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  margin: 0 0 14px !important;
+}
+
+.rangeCalendarWeek,
+.rangeCalendarGrid {
+  display: grid !important;
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+  width: 100% !important;
+}
+
+.rangeCalendarWeek span {
+  height: 28px !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #85858f !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.rangeCalendarGrid span,
+.rangeCalendarGrid button {
+  width: 100% !important;
+  height: 38px !important;
+  min-width: 0 !important;
+  border-radius: 12px !important;
+  display: grid !important;
+  place-items: center !important;
+  background: transparent !important;
+  color: #111116 !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  text-align: center !important;
+}
+
+.rangeCalendarGrid button:hover {
+  background: #fbf7ef !important;
+}
+
+.rangeCalendarGrid button:disabled {
+  color: #c7c7ce !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+.rangeCalendarGrid button.inRange {
+  background: #f4eadc !important;
+  color: #111116 !important;
+}
+
+.rangeCalendarGrid button.isCheckIn,
+.rangeCalendarGrid button.isCheckOut {
+  background: linear-gradient(135deg, #b6874f, #85633b) !important;
+  color: #fff !important;
+}
+
+.rangeCalendarFooter {
+  margin-top: 18px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid #eee !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 12px !important;
+  background: #fff !important;
+}
+
+.rangeCalendarFooter button {
+  min-height: 44px !important;
+  padding: 0 24px !important;
+  border-radius: 999px !important;
+  background: #111116 !important;
+  color: #fff !important;
+  font-weight: 900 !important;
+}
+
+@media (max-width: 980px) {
+  .floatingCtas {
+    display: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingTrustStrip {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 22px !important;
+  }
+
+  .bookingTrustStrip span {
+    min-height: 54px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+  }
+
+  .heroBookingPanel {
+    padding: 16px !important;
+    border-radius: 26px !important;
+  }
+
+  .heroBookingHeader h2 {
+    font-size: 34px !important;
+  }
+
+  .heroBookingHeader p {
+    font-size: 13px !important;
+  }
+
+  .bookingFieldBox,
+  .roomSelectBox {
+    min-height: 56px !important;
+    padding: 10px 14px !important;
+  }
+
+  .bookingFieldBox small,
+  .roomSelectBox small {
+    font-size: 8px !important;
+    letter-spacing: 2.2px !important;
+  }
+
+  .bookingFieldBox strong,
+  .roomSelectBox strong {
+    font-size: 15px !important;
+  }
+
+  .bookingEstimateBox {
+    min-height: 70px !important;
+  }
+
+  .bookingEstimateBox strong {
+    font-size: 21px !important;
+  }
+
+  .rangeCalendar {
+    width: calc(100vw - 22px) !important;
+    max-height: 82vh !important;
+    padding: 16px !important;
+    border-radius: 24px !important;
+  }
+
+  .twoMonthCalendar {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+  }
+
+  .rangeCalendarGrid span,
+  .rangeCalendarGrid button {
+    height: 36px !important;
+    font-size: 13px !important;
+  }
+
+  .rangeCalendarFooter {
+    position: sticky !important;
+    bottom: -16px !important;
+    padding-bottom: 4px !important;
+  }
+}
