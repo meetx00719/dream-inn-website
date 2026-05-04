@@ -2048,3 +2048,72 @@ iframe {
     font-size: 14px !important;
   }
 }
+/* FINAL RIGHT-BOTTOM FLOATING CTA FIX */
+
+.floatingCtas {
+  position: fixed !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  left: auto !important;
+  transform: none !important;
+  z-index: 999999 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 12px !important;
+}
+
+.floatingCallBtn,
+.floatingBookBtn {
+  position: static !important;
+  width: auto !important;
+  min-width: 128px !important;
+  min-height: 52px !important;
+  padding: 0 24px !important;
+  border-radius: 999px !important;
+
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+
+  color: #fff !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.22) !important;
+}
+
+.floatingCallBtn {
+  background: linear-gradient(135deg, #b6874f, #85633b) !important;
+}
+
+.floatingBookBtn {
+  background: #111116 !important;
+}
+
+.callHeroBtn {
+  position: relative !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+@media (max-width: 760px) {
+  .floatingCtas {
+    right: 14px !important;
+    bottom: 14px !important;
+    gap: 8px !important;
+  }
+
+  .floatingCallBtn,
+  .floatingBookBtn {
+    min-width: 112px !important;
+    min-height: 48px !important;
+    padding: 0 18px !important;
+    font-size: 13px !important;
+  }
+}
