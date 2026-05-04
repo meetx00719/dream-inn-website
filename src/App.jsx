@@ -887,7 +887,11 @@ function App() {
         />
       )}
 
-      <div className={`floatingCtas ${hideFloatingBookBtn ? "hideFloatingCtas" : ""}`}>
+      <div
+        className={`floatingCtas ${
+          hideFloatingBookBtn ? "hideFloatingCtas" : ""
+        }`}
+      >
         <a href="tel:+13104120912" className="floatingCallBtn">
           Call Now
         </a>
@@ -938,6 +942,10 @@ function HeroBookingPanel({
   const otaRate = getTodayRate(previewRoom, true);
   const savings = Math.max(0, otaRate - directRate);
 
+  const selectedRoomLabel =
+    visibleRooms.find((room) => room.id === booking.selectedRoomId)?.name ||
+    "Select room type";
+
   return (
     <aside className="heroBookingPanel" ref={bookingRef}>
       <div className="heroBookingHeader">
@@ -946,12 +954,10 @@ function HeroBookingPanel({
         <p>No extra commission. No hidden charges.</p>
       </div>
 
-      <div className="urgencyBanner">
-        <b>🔥 {previewRoom?.urgency || "Limited availability tonight"}</b>
-        <span>12 people checked availability in the last 24 hours</span>
-      </div>
-
-      <form className="heroBookingForm" onSubmit={(event) => event.preventDefault()}>
+      <form
+        className="heroBookingForm"
+        onSubmit={(event) => event.preventDefault()}
+      >
         <div className="singleDatePicker" ref={calendarRef}>
           <button
             type="button"
@@ -1019,9 +1025,13 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateAdults(-1)}>−</button>
+                  <button type="button" onClick={() => updateAdults(-1)}>
+                    −
+                  </button>
                   <b>{booking.adults}</b>
-                  <button type="button" onClick={() => updateAdults(1)}>+</button>
+                  <button type="button" onClick={() => updateAdults(1)}>
+                    +
+                  </button>
                 </div>
               </div>
 
@@ -1032,9 +1042,13 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateChildren(-1)}>−</button>
+                  <button type="button" onClick={() => updateChildren(-1)}>
+                    −
+                  </button>
                   <b>{booking.children}</b>
-                  <button type="button" onClick={() => updateChildren(1)}>+</button>
+                  <button type="button" onClick={() => updateChildren(1)}>
+                    +
+                  </button>
                 </div>
               </div>
 
@@ -1045,9 +1059,13 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateRooms(-1)}>−</button>
+                  <button type="button" onClick={() => updateRooms(-1)}>
+                    −
+                  </button>
                   <b>{booking.rooms}</b>
-                  <button type="button" onClick={() => updateRooms(1)}>+</button>
+                  <button type="button" onClick={() => updateRooms(1)}>
+                    +
+                  </button>
                 </div>
               </div>
 
@@ -1062,7 +1080,10 @@ function HeroBookingPanel({
           )}
         </div>
 
-        <div className="inputGroup heroRoomSelect" data-label="Rooms">
+        <div className="bookingFieldBox roomSelectBox">
+          <small>Rooms</small>
+          <strong>{selectedRoomLabel}</strong>
+
           <select
             value={booking.selectedRoomId}
             onFocus={() => {
@@ -1078,7 +1099,7 @@ function HeroBookingPanel({
             }
             aria-label="Select room type"
           >
-            <option value="">Auto-select best room</option>
+            <option value="">Select room type</option>
 
             {visibleRooms.map((room) => (
               <option key={room.id} value={room.id}>
@@ -1115,7 +1136,9 @@ function HeroBookingPanel({
             {booking.checkIn && booking.checkOut
               ? `${livePreview.nights} night${
                   livePreview.nights === 1 ? "" : "s"
-                } · ${totalGuests} guest${totalGuests === 1 ? "" : "s"} · Tax included`
+                } · ${totalGuests} guest${
+                  totalGuests === 1 ? "" : "s"
+                } · Tax included`
               : "Select dates to see total"}
           </span>
         </div>
@@ -1192,9 +1215,15 @@ function RangeCalendar({
       onTouchEnd={handleTouchEnd}
     >
       <div className="rangeCalendarHead">
-        <button type="button" onClick={() => changeMonth("prev")}>‹</button>
+        <button type="button" onClick={() => changeMonth("prev")}>
+          ‹
+        </button>
+
         <strong>Select Your Stay</strong>
-        <button type="button" onClick={() => changeMonth("next")}>›</button>
+
+        <button type="button" onClick={() => changeMonth("next")}>
+          ›
+        </button>
       </div>
 
       <div
@@ -1228,7 +1257,9 @@ function RangeCalendar({
 
               <div className="rangeCalendarGrid">
                 {calendarDays.map((date, index) => {
-                  if (!date) return <span key={`blank-${monthName}-${index}`} />;
+                  if (!date) {
+                    return <span key={`blank-${monthName}-${index}`} />;
+                  }
 
                   const dateValue = formatDate(date);
                   const dateOnly = new Date(date);
@@ -1447,6 +1478,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
 
 function getTodayRate(room, ota = false) {
   if (!room) return 0;
+
   const today = new Date();
   const isWeekend = today.getDay() === 5 || today.getDay() === 6;
 
