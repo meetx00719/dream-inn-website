@@ -321,9 +321,7 @@ function App() {
   }, [booking.selectedRoomId, visibleRooms]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsHeroTop(window.scrollY < 45);
-    };
+    const handleScroll = () => setIsHeroTop(window.scrollY < 45);
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -663,12 +661,6 @@ function App() {
             openBookingEngine={openBookingEngine}
           />
 
-          <div className="bookingTrustStrip">
-            <span>🔥 Only a few rooms left tonight</span>
-            <span>✅ Book direct & save</span>
-            <span>⭐ 1000+ Happy Guests</span>
-          </div>
-
           <div className="heroPager" aria-label="Hero slider controls">
             {heroSlides.map((_, index) => (
               <button
@@ -708,6 +700,12 @@ function App() {
               <p>Clean rooms, fast check-in, free Wi-Fi, and friendly service.</p>
               <a href="tel:+13104120912">Call Now for Best Deal</a>
             </article>
+          </div>
+
+          <div className="bookingTrustStrip">
+            <span>🔥 Only a few rooms left tonight</span>
+            <span>✅ Book direct & save</span>
+            <span>⭐ 1000+ Happy Guests</span>
           </div>
         </section>
 
@@ -889,16 +887,14 @@ function App() {
         />
       )}
 
-      <div className="floatingCtas">
+      <div className={`floatingCtas ${hideFloatingBookBtn ? "hideFloatingCtas" : ""}`}>
         <a href="tel:+13104120912" className="floatingCallBtn">
           Call Now
         </a>
 
         <button
           type="button"
-          className={`floatingBookBtn ${
-            hideFloatingBookBtn ? "hideFloatingBtn" : ""
-          }`}
+          className="floatingBookBtn"
           onClick={scrollToHeroBooking}
           aria-label="Book now"
         >
@@ -955,10 +951,7 @@ function HeroBookingPanel({
         <span>12 people checked availability in the last 24 hours</span>
       </div>
 
-      <form
-        className="heroBookingForm"
-        onSubmit={(event) => event.preventDefault()}
-      >
+      <form className="heroBookingForm" onSubmit={(event) => event.preventDefault()}>
         <div className="singleDatePicker" ref={calendarRef}>
           <button
             type="button"
@@ -1026,13 +1019,9 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateAdults(-1)}>
-                    −
-                  </button>
+                  <button type="button" onClick={() => updateAdults(-1)}>−</button>
                   <b>{booking.adults}</b>
-                  <button type="button" onClick={() => updateAdults(1)}>
-                    +
-                  </button>
+                  <button type="button" onClick={() => updateAdults(1)}>+</button>
                 </div>
               </div>
 
@@ -1043,13 +1032,9 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateChildren(-1)}>
-                    −
-                  </button>
+                  <button type="button" onClick={() => updateChildren(-1)}>−</button>
                   <b>{booking.children}</b>
-                  <button type="button" onClick={() => updateChildren(1)}>
-                    +
-                  </button>
+                  <button type="button" onClick={() => updateChildren(1)}>+</button>
                 </div>
               </div>
 
@@ -1060,13 +1045,9 @@ function HeroBookingPanel({
                 </div>
 
                 <div className="counterControl">
-                  <button type="button" onClick={() => updateRooms(-1)}>
-                    −
-                  </button>
+                  <button type="button" onClick={() => updateRooms(-1)}>−</button>
                   <b>{booking.rooms}</b>
-                  <button type="button" onClick={() => updateRooms(1)}>
-                    +
-                  </button>
+                  <button type="button" onClick={() => updateRooms(1)}>+</button>
                 </div>
               </div>
 
@@ -1211,15 +1192,9 @@ function RangeCalendar({
       onTouchEnd={handleTouchEnd}
     >
       <div className="rangeCalendarHead">
-        <button type="button" onClick={() => changeMonth("prev")}>
-          ‹
-        </button>
-
+        <button type="button" onClick={() => changeMonth("prev")}>‹</button>
         <strong>Select Your Stay</strong>
-
-        <button type="button" onClick={() => changeMonth("next")}>
-          ›
-        </button>
+        <button type="button" onClick={() => changeMonth("next")}>›</button>
       </div>
 
       <div
@@ -1253,9 +1228,7 @@ function RangeCalendar({
 
               <div className="rangeCalendarGrid">
                 {calendarDays.map((date, index) => {
-                  if (!date) {
-                    return <span key={`blank-${monthName}-${index}`} />;
-                  }
+                  if (!date) return <span key={`blank-${monthName}-${index}`} />;
 
                   const dateValue = formatDate(date);
                   const dateOnly = new Date(date);
@@ -1477,9 +1450,7 @@ function getTodayRate(room, ota = false) {
   const today = new Date();
   const isWeekend = today.getDay() === 5 || today.getDay() === 6;
 
-  if (ota) {
-    return isWeekend ? room.otaWeekend : room.otaWeekday;
-  }
+  if (ota) return isWeekend ? room.otaWeekend : room.otaWeekday;
 
   return isWeekend ? room.weekend : room.weekday;
 }
