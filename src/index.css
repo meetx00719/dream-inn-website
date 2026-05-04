@@ -1104,19 +1104,19 @@ iframe {
   flex: 0 0 auto;
 }
 
-.icon.wifi::before { content: "📶"; }
-.icon.tv::before { content: "📺"; }
-.icon.parking::before { content: "🅿️"; }
-.icon.iron::before { content: "🧺"; }
-.icon.nosmoke::before { content: "🚭"; }
-.icon.direct::before { content: "✔️"; }
-.icon.desk::before { content: "🏨"; }
-.icon.clean::before { content: "🧹"; }
-.icon.ac::before { content: "❄️"; }
-.icon.heater::before { content: "🔥"; }
-.icon.atm::before { content: "🏧"; }
-.icon.ice::before { content: "🧊"; }
-.icon.vending::before { content: "🥤"; }
+.icon.wifi::before { content: "ðŸ“¶"; }
+.icon.tv::before { content: "ðŸ“º"; }
+.icon.parking::before { content: "ðŸ…¿ï¸"; }
+.icon.iron::before { content: "ðŸ§º"; }
+.icon.nosmoke::before { content: "ðŸš­"; }
+.icon.direct::before { content: "âœ”ï¸"; }
+.icon.desk::before { content: "ðŸ¨"; }
+.icon.clean::before { content: "ðŸ§¹"; }
+.icon.ac::before { content: "â„ï¸"; }
+.icon.heater::before { content: "ðŸ”¥"; }
+.icon.atm::before { content: "ðŸ§"; }
+.icon.ice::before { content: "ðŸ§Š"; }
+.icon.vending::before { content: "ðŸ¥¤"; }
 
 /* REVIEWS */
 
@@ -1911,174 +1911,140 @@ iframe {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* ============================= */
+/* FINAL TRUST STRIP BELOW CARDS */
+/* ============================= */
 .bookingTrustStrip {
-  position: static;
-  transform: none;
-  width: min(var(--safe-width), 100%);
-  margin: 28px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  position: static !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: min(var(--safe-width), 100%) !important;
+  margin: 28px auto 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 18px !important;
+  z-index: 1 !important;
 }
 
 .bookingTrustStrip span {
-  min-height: 64px;
-  padding: 0 22px;
-  border-radius: 999px;
-  background: #fff;
-  color: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 900;
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eadfcc;
+  min-height: 64px !important;
+  padding: 0 22px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  color: #111 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid #eadfcc !important;
 }
 
-@media (max-width: 760px) {
-  .bookingTrustStrip {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    width: 100%;
-    margin-top: 22px;
-  }
-
-  .bookingTrustStrip span {
-    min-height: 54px;
-    font-size: 14px;
-  }
-}
-.bookingTrustStrip {
-  position: static;
-  transform: none;
-  width: min(var(--safe-width), 100%);
-  margin: 28px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.bookingTrustStrip span {
-  min-height: 64px;
-  padding: 0 22px;
-  border-radius: 999px;
-  background: #fff;
-  color: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 900;
-  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.1);
-  border: 1px solid #eadfcc;
-}
-
-@media (max-width: 760px) {
-  .bookingTrustStrip {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    width: 100%;
-    margin-top: 22px;
-  }
-
-  .bookingTrustStrip span {
-    min-height: 54px;
-    font-size: 14px;
-  }
-}
-/* 🔥 FIXED CALL NOW BUTTON */
-.floatingCallBtn,
-.callHeroBtn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-
-  background: linear-gradient(135deg, #b6874f, #8f6a3d);
-  color: #fff;
-
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-
-  padding: 14px 26px;
-  border-radius: 40px;
-
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  transition: all 0.25s ease;
-
-  z-index: 999;
-}
-
-/* 🔥 HOVER (premium feel) */
-.floatingCallBtn:hover,
-.callHeroBtn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.3);
-}
-
-/* 🔥 FIX SIZE (remove oval fat look) */
-@media (max-width: 768px) {
-  .floatingCallBtn {
-    padding: 12px 22px;
-    font-size: 14px;
-    bottom: 16px;
-    right: 16px;
-  }
-}
-/* 🔥 FLOATING CTA CONTAINER */
+/* ============================= */
+/* FINAL FLOATING CTA FIX */
+/* ============================= */
 .floatingCtas {
-  position: fixed;
-  bottom: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  display: flex;
-  gap: 12px;
-
-  z-index: 999;
+  position: fixed !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 18px !important;
+  transform: translateX(-50%) !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  width: auto !important;
+  transition: opacity 0.25s ease, transform 0.25s ease !important;
 }
 
-/* 🔥 COMMON BUTTON STYLE */
 .floatingCallBtn,
 .floatingBookBtn {
-  padding: 14px 24px;
-  border-radius: 40px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  white-space: nowrap;
-  transition: all 0.25s ease;
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  transform: none !important;
+  width: auto !important;
+  min-width: 128px !important;
+  min-height: 52px !important;
+  padding: 0 24px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #fff !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24) !important;
+  transition: transform 0.22s ease, box-shadow 0.22s ease !important;
 }
 
-/* CALL BUTTON */
 .floatingCallBtn {
-  background: linear-gradient(135deg, #b6874f, #8f6a3d);
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark)) !important;
 }
 
-/* BOOK BUTTON */
 .floatingBookBtn {
-  background: #111;
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  background: linear-gradient(135deg, #101014, #2b2522) !important;
 }
 
-/* HOVER */
 .floatingCallBtn:hover,
 .floatingBookBtn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3) !important;
+}
+
+.hideFloatingCtas {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateX(-50%) translateY(18px) !important;
+}
+
+.hideFloatingBtn {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: none !important;
+}
+
+/* Hero call button must stay inside hero, not fixed */
+.callHeroBtn {
+  position: relative !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  transform: none !important;
+}
+
+@media (max-width: 980px) {
+  .floatingCtas {
+    display: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .bookingTrustStrip {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    width: 100% !important;
+    margin-top: 22px !important;
+  }
+
+  .bookingTrustStrip span {
+    min-height: 54px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+  }
 }
