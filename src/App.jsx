@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "./index.css";
 
 import hero1 from "./assets/hero1.jpg";
@@ -21,315 +22,518 @@ import jacuzziRoom from "./assets/jacuzzi.jpg";
 import jacuzzi2 from "./assets/jacuzzi2.jpg";
 import jacuzzi3 from "./assets/jacuzzi3.jpg";
 
-const ASI_URL =
-  "https://live.ipms247.com/booking/book-rooms-dreaminn?";
+import dream1 from "./assets/dream1.jpg";
+
+const heroSlides = [
+  { image: hero1, mobileImage: hero1Mobile },
+  { image: hero2, mobileImage: hero2Mobile },
+];
+
+const parkingPolicy =
+  "One car per room. Additional vehicles require extra parking fee.";
+
+const amenities = [
+  { icon: "wifi", label: "Free Wi-Fi" },
+  { icon: "tv", label: "Cable TV" },
+  { icon: "parking", label: "Free Parking" },
+  { icon: "iron", label: "Iron & Ironing Board on request" },
+  { icon: "nosmoke", label: "Non-Smoking Property" },
+  { icon: "direct", label: "Book Direct & Save" },
+  { icon: "desk", label: "24/7 Front Desk" },
+  { icon: "clean", label: "Daily Housekeeping" },
+  { icon: "ac", label: "Air Conditioning" },
+  { icon: "heater", label: "Heater" },
+  { icon: "atm", label: "ATM On-site" },
+  { icon: "ice", label: "Ice Machine On-site" },
+  { icon: "vending", label: "Vending Soda" },
+];
 
 const rooms = [
   {
+    name: "Single Bed Room",
+    roomId: "-1",
+    maxGuests: 2,
+    images: [singleRoom, singleTwo, single3],
+    details:
+      "A clean and comfortable room with essential in-room convenience for a simple stay.",
+    amenities: [
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "Cali King size bed" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
+    ],
+    policies: [
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
+    ],
+  },
+  {
+    name: "Dream King Room",
+    roomId: "-1",
+    maxGuests: 2,
+    images: [dream1, singleTwo, single3],
+    details:
+      "A premium king room designed for a relaxing stay with ambient dream lighting and modern comfort.",
+    amenities: [
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "California King Bed" },
+      { icon: "🛁", text: "Private Bathroom" },
+      { icon: "💡", text: "Dream Ambient Lighting" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🧊", text: "Refrigerator" },
+      { icon: "❄️", text: "Air Conditioning" },
+    ],
+    policies: [
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
+    ],
+  },
+  {
+    name: "Double Bed Room",
+    roomId: "-1",
+    maxGuests: 4,
+    images: [double1, double2, double3],
+    details:
+      "A practical room with two queen size beds for friends, families, or guests needing more space.",
+    amenities: [
+      { icon: "👤", text: "4 Guests" },
+      { icon: "🛏", text: "Two Queen Size Beds" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
+    ],
+    policies: [
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
+    ],
+  },
+  {
+    name: "Jacuzzi Room",
+    roomId: "-1",
+    maxGuests: 2,
+    images: [jacuzziRoom, jacuzzi2, jacuzzi3],
+    details:
+      "A comfortable room with a private Jacuzzi for guests looking for a relaxing stay.",
+    amenities: [
+      { icon: "👤", text: "2 Guests" },
+      { icon: "🛏", text: "King Size Bed" },
+      { icon: "🛁", text: "Private bathroom" },
+      { icon: "📶", text: "Free Wi-Fi" },
+      { icon: "📺", text: "Cable TV" },
+      { icon: "🍽", text: "Microwave" },
+      { icon: "🧊", text: "Refrigerator" },
+      { icon: "🛁", text: "Jacuzzi Tub" },
+    ],
+    policies: [
+      { icon: "🪪", text: "Valid ID required at check-in" },
+      { icon: "💳", text: "$100 security deposit required" },
+      { icon: "🚭", text: "Non-smoking room" },
+      { icon: "🚗", text: parkingPolicy },
+      { icon: "⚠️", text: "Jacuzzi room: no children allowed" },
+    ],
+  },
+];
+
+const LOCAL_ROOMS = [
+  {
     id: "single",
     name: "Single Bed Room",
-    label: "Single Bed Room",
-    guests: 2,
+    roomId: "-1",
+    maxAdults: 2,
+    maxChildren: 1,
     weekday: 89,
     weekend: 119,
-    images: [singleRoom, singleTwo, single3],
-    desc: "A comfortable room with a California King bed, private bathroom, microwave, refrigerator, cable TV, and free Wi-Fi.",
-    features: ["Cali King size bed", "Up to 2 guests", "Microwave", "Refrigerator", "Cable TV", "Free Wi-Fi"],
+    otaWeekday: 109,
+    otaWeekend: 149,
+  },
+  {
+    id: "dream",
+    name: "Dream King Room",
+    roomId: "-1",
+    maxAdults: 2,
+    maxChildren: 1,
+    weekday: 99,
+    weekend: 129,
+    otaWeekday: 119,
+    otaWeekend: 159,
   },
   {
     id: "double",
     name: "Double Bed Room",
-    label: "Double Bed Room",
-    guests: 4,
+    roomId: "-1",
+    maxAdults: 4,
+    maxChildren: 5,
     weekday: 109,
     weekend: 149,
-    images: [double1, double2, double3],
-    desc: "A spacious room with two Queen beds, ideal for families or groups visiting Inglewood, LAX, and SoFi Stadium.",
-    features: ["Two Queen size beds", "Up to 4 guests", "Microwave", "Refrigerator", "Cable TV", "Free Wi-Fi"],
+    otaWeekday: 139,
+    otaWeekend: 179,
   },
   {
     id: "jacuzzi",
     name: "Jacuzzi Room",
-    label: "Jacuzzi Room",
-    guests: 2,
+    roomId: "-1",
+    maxAdults: 2,
+    maxChildren: 0,
     weekday: 139,
     weekend: 179,
-    images: [jacuzziRoom, jacuzzi2, jacuzzi3],
-    desc: "A premium room with a California King bed, sofa, and private Jacuzzi for a more relaxing stay.",
-    features: ["Cali King bed", "Private Jacuzzi", "Sofa", "Up to 2 guests", "No children allowed", "Free Wi-Fi"],
+    otaWeekday: 169,
+    otaWeekend: 209,
   },
 ];
 
-const heroSlides = [
+const reviews = [
   {
-    desktop: hero1,
-    mobile: hero1Mobile,
+    name: "Raylen P.",
+    rating: 5,
+    text: "Clean room, friendly front desk, and very convenient location near LAX. Great value for the price.",
   },
   {
-    desktop: hero2,
-    mobile: hero2Mobile,
+    name: "Maria G.",
+    rating: 5,
+    text: "The room was comfortable and the check-in process was smooth. I would stay here again.",
+  },
+  {
+    name: "James R.",
+    rating: 4,
+    text: "Good location near SoFi Stadium. Parking was convenient and the room had everything I needed.",
+  },
+  {
+    name: "David L.",
+    rating: 5,
+    text: "Very clean and quiet place. Staff was helpful and the check-in was quick. Perfect for short stays.",
+  },
+  {
+    name: "Sophia M.",
+    rating: 4,
+    text: "Nice budget-friendly hotel. Rooms were neat and Wi-Fi worked well. Close to airport which is a plus.",
+  },
+  {
+    name: "Carlos T.",
+    rating: 4,
+    text: "Great experience overall. Comfortable bed, clean bathroom, and good customer service. Will come again.",
   },
 ];
 
-const pad = (n) => String(n).padStart(2, "0");
+const navLinks = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "rooms", label: "Rooms" },
+  { id: "amenities", label: "Amenities" },
+  { id: "reviews", label: "Reviews" },
+  { id: "location", label: "Contact us" },
+];
 
-const toISODate = (date) => {
-  if (!date) return "";
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
-};
+const ASI_BOOKING_ACTION =
+  "https://reservation.asiwebres.com/SearchAvailability.aspx?id=c8fd072abc2a4defa0056f09bc6fde7f&Operation=Date";
 
-const displayDate = (date) => {
-  if (!date) return "Select Date";
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-};
+const GOOGLE_REVIEWS_URL =
+  "https://www.google.com/maps/place/Dream+Inn/@33.9311298,-118.3311294,17z/data=!4m22!1m10!3m9!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!2sDream+Inn!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!16s%2Fg%2F1tlc8b58!3m10!1s0x80c2b673d6ed0b35:0x45c5eda7d4518a14!5m2!4m1!1i2!8m2!3d33.9311254!4d-118.3285545!9m1!1b1!16s%2Fg%2F1tlc8b58?entry=ttu";
 
-const sameDay = (a, b) => {
-  if (!a || !b) return false;
-  return a.toDateString() === b.toDateString();
-};
+const TAX_RATE = 0.155;
 
-const startOfDay = (date) => {
-  const d = new Date(date);
-  d.setHours(0, 0, 0, 0);
-  return d;
-};
-
-const addDays = (date, days) => {
-  const d = new Date(date);
-  d.setDate(d.getDate() + days);
-  return d;
-};
-
-const getMonthDays = (year, month) => {
-  const first = new Date(year, month, 1);
-  const last = new Date(year, month + 1, 0);
-  const blanks = first.getDay();
-
-  const days = [];
-
-  for (let i = 0; i < blanks; i++) {
-    days.push(null);
-  }
-
-  for (let day = 1; day <= last.getDate(); day++) {
-    days.push(new Date(year, month, day));
-  }
-
-  return days;
+const INITIAL_BOOKING = {
+  checkIn: "",
+  checkOut: "",
+  adults: 1,
+  children: 0,
+  rooms: 1,
+  selectedRoomId: "",
 };
 
 function App() {
-  const [heroIndex, setHeroIndex] = useState(0);
-  const [headerScrolled, setHeaderScrolled] = useState(false);
-
+  const [activeHero, setActiveHero] = useState(0);
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  const [activeDot, setActiveDot] = useState(0);
+  const [hideFloatingBookBtn, setHideFloatingBookBtn] = useState(true);
+  const [isHeroTop, setIsHeroTop] = useState(true);
+  const [booking, setBooking] = useState(INITIAL_BOOKING);
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [occupancyOpen, setOccupancyOpen] = useState(false);
 
-  const today = useMemo(() => startOfDay(new Date()), []);
-  const tomorrow = useMemo(() => addDays(today, 1), [today]);
+  const scrollAnimationRef = useRef(null);
+  const heroBookingRef = useRef(null);
+  const calendarRef = useRef(null);
+  const occupancyRef = useRef(null);
 
-  const [checkIn, setCheckIn] = useState(today);
-  const [checkOut, setCheckOut] = useState(tomorrow);
-  const [visibleMonth, setVisibleMonth] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
-  );
+  const today = useMemo(() => formatDate(new Date()), []);
+  const totalGuests = booking.adults + booking.children;
 
-  const [adults, setAdults] = useState(2);
-  const [children, setChildren] = useState(0);
-  const [selectedRoomId, setSelectedRoomId] = useState("single");
+  const visibleRooms = useMemo(() => {
+    const adults = Number(booking.adults);
+    const children = Number(booking.children);
+    const requestedRooms = Number(booking.rooms);
 
-  const [selectedRoom, setSelectedRoom] = useState(null);
-  const [modalImageIndex, setModalImageIndex] = useState(0);
-
-  const bookingRef = useRef(null);
-
-  const selectedRoomData = useMemo(() => {
-    return rooms.find((room) => room.id === selectedRoomId) || rooms[0];
-  }, [selectedRoomId]);
-
-  const nights = useMemo(() => {
-    if (!checkIn || !checkOut) return 0;
-    const diff = startOfDay(checkOut) - startOfDay(checkIn);
-    return Math.max(0, Math.round(diff / 86400000));
-  }, [checkIn, checkOut]);
-
-  const estimate = useMemo(() => {
-    if (!checkIn || !checkOut || nights <= 0) return 0;
-
-    let total = 0;
-    let d = new Date(checkIn);
-
-    for (let i = 0; i < nights; i++) {
-      const day = d.getDay();
-      const isWeekend = day === 5 || day === 6;
-      total += isWeekend ? selectedRoomData.weekend : selectedRoomData.weekday;
-      d = addDays(d, 1);
+    if (children > 2) {
+      return LOCAL_ROOMS.filter((room) => room.id === "double");
     }
 
-    const tax = total * 0.14;
-    return Math.round(total + tax);
-  }, [checkIn, checkOut, nights, selectedRoomData]);
+    if (requestedRooms === 2 && adults <= 4) {
+      return LOCAL_ROOMS.filter(
+        (room) =>
+          room.id === "single" || room.id === "dream" || room.id === "double"
+      );
+    }
 
-  const averageRate = nights > 0 ? Math.round(estimate / nights) : selectedRoomData.weekday;
+    return LOCAL_ROOMS.filter(
+      (room) => room.maxAdults >= adults && room.maxChildren >= children
+    );
+  }, [booking.adults, booking.children, booking.rooms]);
+
+  const selectedBookingRoom =
+    visibleRooms.find((room) => room.id === booking.selectedRoomId) || null;
+
+  const previewRoom = selectedBookingRoom || visibleRooms[0] || LOCAL_ROOMS[0];
+
+  const livePreview = useMemo(() => {
+    return calculateStay(previewRoom, booking.checkIn, booking.checkOut);
+  }, [previewRoom, booking.checkIn, booking.checkOut]);
 
   useEffect(() => {
-    const heroTimer = setInterval(() => {
-      setHeroIndex((prev) => (prev + 1) % heroSlides.length);
-    }, 5500);
+    if (
+      booking.selectedRoomId &&
+      !visibleRooms.some((room) => room.id === booking.selectedRoomId)
+    ) {
+      setBooking((prev) => ({ ...prev, selectedRoomId: "" }));
+    }
 
-    return () => clearInterval(heroTimer);
+    if (!booking.selectedRoomId && visibleRooms.length === 1) {
+      setBooking((prev) => ({ ...prev, selectedRoomId: visibleRooms[0].id }));
+    }
+  }, [booking.selectedRoomId, visibleRooms]);
+
+  useEffect(() => {
+    const handleScroll = () => setIsHeroTop(window.scrollY < 45);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      setHeaderScrolled(window.scrollY > 80);
-    };
+    const closeOnOutsideClick = (event) => {
+      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
+        const clickedCalendar = event.target.closest?.(".rangeCalendar");
+        if (!clickedCalendar) setCalendarOpen(false);
+      }
 
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const close = (e) => {
-      if (!bookingRef.current) return;
-      if (!bookingRef.current.contains(e.target)) {
-        setCalendarOpen(false);
+      if (occupancyRef.current && !occupancyRef.current.contains(event.target)) {
         setOccupancyOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("touchstart", closeOnOutsideClick);
+
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("touchstart", closeOnOutsideClick);
+    };
   }, []);
 
-  const scrollToSection = (id) => {
-    const el = document.querySelector(id);
-    if (!el) return;
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveHero((current) => (current + 1) % heroSlides.length);
+    }, 5400);
 
-    const offset = window.innerWidth <= 760 ? 78 : 88;
-    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    return () => clearInterval(timer);
+  }, []);
 
-    window.scrollTo({
-      top,
-      behavior: "smooth",
+  useEffect(() => {
+    const handleFloatingButton = () => {
+      const hero = document.getElementById("home");
+      if (!hero) return;
+
+      const viewportMiddle = window.scrollY + window.innerHeight / 2;
+      const heroTop = hero.offsetTop;
+      const heroBottom = heroTop + hero.offsetHeight;
+      const isOnHero = viewportMiddle >= heroTop && viewportMiddle <= heroBottom;
+
+      setHideFloatingBookBtn(isOnHero);
+    };
+
+    handleFloatingButton();
+
+    window.addEventListener("scroll", handleFloatingButton, { passive: true });
+    window.addEventListener("resize", handleFloatingButton);
+
+    return () => {
+      window.removeEventListener("scroll", handleFloatingButton);
+      window.removeEventListener("resize", handleFloatingButton);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (scrollAnimationRef.current) {
+        cancelAnimationFrame(scrollAnimationRef.current);
+      }
+    };
+  }, []);
+
+  const updateBooking = (key, value) => {
+    setBooking((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const updateAdults = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      adults: Math.min(6, Math.max(1, prev.adults + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const updateChildren = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      children: Math.min(5, Math.max(0, prev.children + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const updateRooms = (change) => {
+    setBooking((prev) => ({
+      ...prev,
+      rooms: Math.min(3, Math.max(1, prev.rooms + change)),
+      selectedRoomId: "",
+    }));
+  };
+
+  const handleCalendarDateSelect = (dateValue) => {
+    setBooking((prev) => {
+      if (!prev.checkIn || prev.checkOut) {
+        return { ...prev, checkIn: dateValue, checkOut: "" };
+      }
+
+      if (dateValue <= prev.checkIn) {
+        return { ...prev, checkIn: dateValue, checkOut: "" };
+      }
+
+      return { ...prev, checkOut: dateValue };
     });
   };
 
-  const handleDateClick = (date) => {
-    if (!date) return;
-    const clicked = startOfDay(date);
-
-    if (clicked < today) return;
-
-    if (!checkIn || checkOut) {
-      setCheckIn(clicked);
-      setCheckOut(null);
-      return;
+  const premiumScrollTo = (targetY, duration = 850) => {
+    if (scrollAnimationRef.current) {
+      cancelAnimationFrame(scrollAnimationRef.current);
     }
 
-    if (clicked <= checkIn) {
-      setCheckIn(clicked);
-      setCheckOut(null);
-      return;
-    }
+    const startY = window.scrollY || document.documentElement.scrollTop;
+    const distance = targetY - startY;
+    const startTime = performance.now();
 
-    setCheckOut(clicked);
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * eased);
+
+      if (progress < 1) {
+        scrollAnimationRef.current = requestAnimationFrame(animate);
+      } else {
+        scrollAnimationRef.current = null;
+      }
+    };
+
+    scrollAnimationRef.current = requestAnimationFrame(animate);
   };
 
-  const isInRange = (date) => {
-    if (!date || !checkIn || !checkOut) return false;
-    const d = startOfDay(date);
-    return d > startOfDay(checkIn) && d < startOfDay(checkOut);
+  const getHeaderOffset = () => {
+    const header = document.querySelector(".mainHeader");
+    const topBar = document.querySelector(".topInfoBar");
+    const headerHeight = header?.getBoundingClientRect().height || 0;
+
+    const topBarHeight =
+      topBar &&
+      ["fixed", "sticky"].includes(getComputedStyle(topBar).position) &&
+      getComputedStyle(topBar).display !== "none"
+        ? topBar.getBoundingClientRect().height
+        : 0;
+
+    return Math.max(0, headerHeight + topBarHeight - 160);
   };
 
-  const monthTitle = (date) =>
-    date.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
+  const scrollToSectionById = (id) => {
+    const section = document.getElementById(id);
+    if (!section) return;
 
-  const renderMonth = (monthDate) => {
-    const days = getMonthDays(monthDate.getFullYear(), monthDate.getMonth());
-
-    return (
-      <div className="singleMonth">
-        <h4>{monthTitle(monthDate)}</h4>
-
-        <div className="rangeCalendarWeek">
-          {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-            <span key={day}>{day}</span>
-          ))}
-        </div>
-
-        <div className="rangeCalendarGrid">
-          {days.map((date, index) => {
-            if (!date) return <span key={`blank-${index}`} />;
-
-            const disabled = startOfDay(date) < today;
-            const checkInClass = sameDay(date, checkIn) ? "isCheckIn" : "";
-            const checkOutClass = sameDay(date, checkOut) ? "isCheckOut" : "";
-            const rangeClass = isInRange(date) ? "inRange" : "";
-
-            return (
-              <button
-                key={toISODate(date)}
-                type="button"
-                disabled={disabled}
-                className={`${checkInClass} ${checkOutClass} ${rangeClass}`}
-                onClick={() => handleDateClick(date)}
-              >
-                {date.getDate()}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    );
-  };
-
-  const openCalendar = () => {
-    setCalendarOpen(true);
+    setCalendarOpen(false);
     setOccupancyOpen(false);
 
-    setTimeout(() => {
-      if (window.innerWidth <= 980) {
-        bookingRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-    }, 80);
-  };
-
-  const handleCheckAvailability = () => {
-    if (!checkIn || !checkOut) {
-      setCalendarOpen(true);
+    if (id === "home") {
+      premiumScrollTo(0, 900);
       return;
     }
+
+    const sectionTop = section.getBoundingClientRect().top + window.pageYOffset;
+    const target = sectionTop - getHeaderOffset();
+
+    premiumScrollTo(Math.max(0, target), 900);
+  };
+
+  const scrollToSection = (event, id) => {
+    event?.preventDefault?.();
+    scrollToSectionById(id);
+  };
+
+  const scrollToRooms = (event) => {
+    event?.preventDefault?.();
+    scrollToSectionById("rooms");
+  };
+
+  const scrollToHeroBooking = () => {
+    heroBookingRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+  };
+
+  const openBookingEngine = () => {
+    if (!booking.checkIn || !booking.checkOut) {
+      alert("Please select check-in and check-out dates.");
+      return;
+    }
+
+    if (livePreview.nights < 1) {
+      alert("Check-out date must be after check-in date.");
+      return;
+    }
+
+    const roomForSubmit = selectedBookingRoom || previewRoom;
 
     const form = document.createElement("form");
     form.method = "POST";
-    form.action = ASI_URL;
+    form.action = ASI_BOOKING_ACTION;
     form.target = "_blank";
+    form.style.display = "none";
 
     const fields = {
-      txtcheckindate: toISODate(checkIn),
-      txtcheckoutdate: toISODate(checkOut),
-      txtadult: adults,
-      txtChildren: children,
+      txtcheckindate: formatAsiDate(booking.checkIn),
+      txtcheckoutdate: formatAsiDate(booking.checkOut),
+      txtadult: String(booking.adults),
+      txtChildren: String(booking.children),
       txtPromocode: "",
-      txtRoomId: selectedRoomData.name,
+      txtRoomId: roomForSubmit?.roomId || "-1",
     };
 
     Object.entries(fields).forEach(([name, value]) => {
       const input = document.createElement("input");
       input.type = "hidden";
+      input.id = name;
       input.name = name;
       input.value = value;
       form.appendChild(input);
@@ -337,567 +541,1046 @@ function App() {
 
     document.body.appendChild(form);
     form.submit();
-    form.remove();
+    document.body.removeChild(form);
   };
-
-  const openRoomModal = (room) => {
-    setSelectedRoom(room);
-    setModalImageIndex(0);
-  };
-
-  const closeRoomModal = () => {
-    setSelectedRoom(null);
-    setModalImageIndex(0);
-  };
-
-  const nextModalImage = () => {
-    if (!selectedRoom) return;
-    setModalImageIndex((prev) => (prev + 1) % selectedRoom.images.length);
-  };
-
-  const prevModalImage = () => {
-    if (!selectedRoom) return;
-    setModalImageIndex((prev) =>
-      prev === 0 ? selectedRoom.images.length - 1 : prev - 1
-    );
-  };
-
-  const nextMonth = addDays(new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + 1, 1), 0);
 
   return (
-    <main className="luxHotelSite">
+    <div className="luxHotelSite">
       <div className="topInfoBar">
         <div className="topContact">
-          <span>Near LAX & SoFi Stadium</span>
-          <span>24/7 Front Desk</span>
-          <span>Book Direct & Save</span>
+          <span>📍 3201 W Imperial Hwy, Inglewood, CA 90303</span>
+          <span>☎ +1 310 412 0912</span>
         </div>
 
         <div className="topSocials">
-          <a href="tel:+10000000000">☎</a>
-          <a href="#location" onClick={(e) => { e.preventDefault(); scrollToSection("#location"); }}>⌖</a>
+          <a href="https://www.facebook.com/" target="_blank" rel="noreferrer">
+            f
+          </a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+            ◎
+          </a>
         </div>
       </div>
 
       <header
-        className={`mainHeader ${
-          headerScrolled ? "blurHeader" : "heroLogoHeader"
-        }`}
+        className={`mainHeader ${isHeroTop ? "heroLogoHeader" : "blurHeader"}`}
       >
-        <button
-          className={`luxLogo ${headerScrolled ? "smallLogo" : "centerLogo"}`}
-          type="button"
-          onClick={() => scrollToSection("#home")}
+        <a
+          href="#home"
+          className={`luxLogo ${isHeroTop ? "centerLogo" : "smallLogo"}`}
+          onClick={(event) => scrollToSection(event, "home")}
+          aria-label="Dream Inn Home"
         >
           Dream<span>Inn</span>
-        </button>
+        </a>
 
-        <nav className="desktopNav">
-          <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection("#home"); }}>Home</a>
-          <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection("#about"); }}>About</a>
-          <a href="#rooms" onClick={(e) => { e.preventDefault(); scrollToSection("#rooms"); }}>Rooms</a>
-          <a href="#amenities" onClick={(e) => { e.preventDefault(); scrollToSection("#amenities"); }}>Amenities</a>
-          <a href="#reviews" onClick={(e) => { e.preventDefault(); scrollToSection("#reviews"); }}>Reviews</a>
-          <a href="#location" onClick={(e) => { e.preventDefault(); scrollToSection("#location"); }}>Location</a>
+        <nav className="desktopNav" aria-label="Main navigation">
+          {navLinks.map((link) => (
+            <a
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(event) => scrollToSection(event, link.id)}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
       </header>
 
-      <section className="luxHero" id="home">
-        <div
-          className="luxHeroTrack"
-          style={{ transform: `translateX(-${heroIndex * 100}%)` }}
-        >
-          {heroSlides.map((slide, index) => (
-            <div className="luxHeroSlide" key={index}>
-              <picture>
-                <source media="(max-width: 760px)" srcSet={slide.mobile} />
-                <img src={slide.desktop} alt="Dream Inn Los Angeles" />
-              </picture>
+      <main>
+        <section id="home" className="luxHero">
+          <div
+            className="luxHeroTrack"
+            style={{ transform: `translateX(-${activeHero * 100}%)` }}
+          >
+            {heroSlides.map((slide, index) => (
+              <article className="luxHeroSlide" key={index}>
+                <picture>
+                  <source
+                    media="(max-width: 760px)"
+                    srcSet={slide.mobileImage}
+                  />
+                  <img src={slide.image} alt="Dream Inn hotel exterior" />
+                </picture>
+              </article>
+            ))}
+          </div>
+
+          <div className="luxHeroContent">
+            <span className="sectionKicker">Dream Inn Inglewood</span>
+
+            <h1>
+              Stay Near LAX <br />
+              &amp; SoFi Stadium
+            </h1>
+
+            <p>
+              Book direct for clean rooms, free parking, free Wi-Fi, and no
+              hidden commission fees.
+            </p>
+
+            <div className="heroButtons">
+              <button type="button" onClick={scrollToHeroBooking}>
+                Check Availability
+              </button>
+
+              <a className="callHeroBtn" href="tel:+13104120912">
+                Call Now
+              </a>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <div className="luxHeroContent">
-          <span className="sectionKicker">Dream Inn</span>
-          <h1>Comfortable Stay Near LAX & SoFi Stadium</h1>
-          <p>
-            Enjoy a clean, comfortable, and budget-friendly stay in Inglewood
-            with free Wi-Fi, free parking, and easy access to Los Angeles.
-          </p>
+          <HeroBookingPanel
+            bookingRef={heroBookingRef}
+            calendarRef={calendarRef}
+            occupancyRef={occupancyRef}
+            booking={booking}
+            updateBooking={updateBooking}
+            updateAdults={updateAdults}
+            updateChildren={updateChildren}
+            updateRooms={updateRooms}
+            today={today}
+            visibleRooms={visibleRooms}
+            previewRoom={previewRoom}
+            livePreview={livePreview}
+            totalGuests={totalGuests}
+            calendarOpen={calendarOpen}
+            setCalendarOpen={setCalendarOpen}
+            occupancyOpen={occupancyOpen}
+            setOccupancyOpen={setOccupancyOpen}
+            handleCalendarDateSelect={handleCalendarDateSelect}
+            openBookingEngine={openBookingEngine}
+          />
 
-          <div className="heroButtons">
-            <button type="button" onClick={() => scrollToSection("#booking")}>
-              Check Availability
-            </button>
-            <button type="button" onClick={() => scrollToSection("#rooms")}>
+          <div className="heroPager" aria-label="Hero slider controls">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                className={index === activeHero ? "active" : ""}
+                onClick={() => setActiveHero(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="conversionSection">
+          <div className="conversionGrid">
+            <article>
+              <span>Why Stay Here?</span>
+              <h3>Perfect Location</h3>
+              <p>5 min → SoFi Stadium</p>
+              <p>10 min → LAX Airport</p>
+              <p>Free parking included</p>
+            </article>
+
+            <article>
+              <span>Book Direct</span>
+              <h3>Best Value</h3>
+              <p>
+                <del>OTA Price $149</del>
+              </p>
+              <p className="savePrice">Website Price from $119</p>
+              <p>No extra commission. No hidden charges.</p>
+            </article>
+
+            <article>
+              <span>Guest Trust</span>
+              <h3>1000+ Happy Guests</h3>
+              <p>Clean rooms, fast check-in, free Wi-Fi, and friendly service.</p>
+              <a href="tel:+13104120912">Call Now for Best Deal</a>
+            </article>
+          </div>
+
+          <div className="bookingTrustStrip">
+            <span>🔥 Only a few rooms left tonight</span>
+            <span>✅ Book direct & save</span>
+            <span>⭐ 1000+ Happy Guests</span>
+          </div>
+        </section>
+
+        <section id="about" className="aboutLuxury">
+          <div className="aboutCopy">
+            <span className="sectionKicker">About Us</span>
+
+            <h2>Simple, Comfortable Stay in Inglewood</h2>
+
+            <p className="aboutText">
+              Dream Inn Inglewood is located near Los Angeles International
+              Airport and SoFi Stadium. Our hotel is ideal for travelers,
+              business guests, and visitors attending events in Los Angeles.
+            </p>
+
+            <p className="aboutText">
+              We offer clean rooms, free Wi-Fi, cable TV, microwave,
+              refrigerator, and convenient access to nearby Los Angeles
+              attractions.
+            </p>
+
+            <a href="#rooms" className="learnBtn" onClick={scrollToRooms}>
               Explore Rooms
-            </button>
-          </div>
-        </div>
-
-        <section className="heroBookingPanel" id="booking" ref={bookingRef}>
-          <div className="heroBookingHeader">
-            <span>Book Direct</span>
-            <h2>Reserve Your Stay</h2>
-            <p>No extra commission. No hidden charges.</p>
+            </a>
           </div>
 
-          <div className="heroBookingForm">
-            <div className="singleDatePicker">
-              <button
-                type="button"
-                className={`bookingFieldBox ${calendarOpen ? "active" : ""}`}
-                onClick={openCalendar}
-              >
-                <small>Check In</small>
-                <strong>{displayDate(checkIn)}</strong>
-                <span>Tap to select arrival date</span>
-              </button>
+          <div className="aboutImages">
+            <img src={about1} alt="Dream Inn hotel exterior" />
+            <img src={about2} alt="Dream Inn room interior" />
+          </div>
+        </section>
 
-              {calendarOpen && (
-                <div className="rangeCalendar">
-                  <div className="rangeCalendarHead">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setVisibleMonth(
-                          new Date(
-                            visibleMonth.getFullYear(),
-                            visibleMonth.getMonth() - 1,
-                            1
-                          )
-                        )
-                      }
-                    >
-                      ‹
-                    </button>
+        <section id="rooms" className="roomsLuxury">
+          <div className="sectionCenter">
+            <span className="sectionKicker">Rooms</span>
+            <h2>Choose Your Room</h2>
+          </div>
 
-                    <strong>Select Your Dates</strong>
+          <div
+            className="roomGridLuxury"
+            onScroll={(event) => {
+              const container = event.currentTarget;
+              const firstCard = container.querySelector(".luxRoomCard");
+              if (!firstCard) return;
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setVisibleMonth(
-                          new Date(
-                            visibleMonth.getFullYear(),
-                            visibleMonth.getMonth() + 1,
-                            1
-                          )
-                        )
-                      }
-                    >
-                      ›
-                    </button>
-                  </div>
+              const cardWidth = firstCard.getBoundingClientRect().width;
+              const gap =
+                parseFloat(window.getComputedStyle(container).gap || "0") || 0;
 
-                  <div className="twoMonthCalendar">
-                    {renderMonth(visibleMonth)}
-                    {renderMonth(nextMonth)}
-                  </div>
+              const index = Math.round(
+                container.scrollLeft / Math.max(cardWidth + gap, 1)
+              );
 
-                  <div className="rangeCalendarFooter">
-                    <div>
-                      <small>Selected Stay</small>
-                      <strong>
-                        {checkIn ? displayDate(checkIn) : "Check in"} —{" "}
-                        {checkOut ? displayDate(checkOut) : "Check out"}
-                      </strong>
-                    </div>
+              setActiveDot(Math.min(Math.max(index, 0), rooms.length - 1));
+            }}
+          >
+            {rooms.map((room) => (
+              <RoomCard
+                key={room.name}
+                room={room}
+                onSeeMore={() => setSelectedRoom(room)}
+              />
+            ))}
+          </div>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (!checkOut && checkIn) {
-                          setCheckOut(addDays(checkIn, 1));
-                        }
-                        setCalendarOpen(false);
-                      }}
-                    >
-                      Done
-                    </button>
-                  </div>
+          <div className="roomDots">
+            {rooms.map((_, index) => (
+              <span
+                key={index}
+                className={activeDot === index ? "dot active" : "dot"}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section id="amenities" className="amenitiesLuxury">
+          <div className="sectionCenter">
+            <span className="sectionKicker">Amenities</span>
+            <h2>Hotel Amenities</h2>
+          </div>
+
+          <ul className="amenityList">
+            {amenities.map((item) => (
+              <li key={item.label}>
+                <i className={`icon ${item.icon}`}></i>
+                <span>{item.label}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section id="reviews" className="reviewsLuxury">
+          <div className="sectionCenter">
+            <span className="sectionKicker">Guest Reviews</span>
+            <h2>What our Guests Say</h2>
+            <p className="reviewTrustLine">⭐ Trusted by 1000+ happy guests</p>
+          </div>
+
+          <div className="reviewGrid">
+            {reviews.map((review) => (
+              <article className="reviewCard" key={review.name}>
+                <div className="reviewStars">
+                  {"★".repeat(review.rating)}
+                  <span>{"★".repeat(5 - review.rating)}</span>
                 </div>
-              )}
-            </div>
 
-            <button
-              type="button"
-              className="bookingFieldBox"
-              onClick={openCalendar}
+                <p>“{review.text}”</p>
+
+                <h4>{review.name}</h4>
+              </article>
+            ))}
+          </div>
+
+          <div className="googleReviewBtnWrap">
+            <a
+              href={GOOGLE_REVIEWS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="googleReviewBtn"
             >
-              <small>Check Out</small>
-              <strong>{displayDate(checkOut)}</strong>
-              <span>{nights > 0 ? `${nights} night stay` : "Select departure"}</span>
-            </button>
-
-            <div className="occupancyWrapper">
-              <button
-                type="button"
-                className="bookingFieldBox bookingOccupancyBox"
-                onClick={() => {
-                  setOccupancyOpen((prev) => !prev);
-                  setCalendarOpen(false);
-                }}
-              >
-                <small>Occupancy</small>
-                <strong>
-                  {adults} Adult{adults > 1 ? "s" : ""}
-                  {children > 0 ? `, ${children} Child${children > 1 ? "ren" : ""}` : ""}
-                </strong>
-                <span>Guests per room</span>
-              </button>
-
-              {occupancyOpen && (
-                <div className="occupancyDropdown">
-                  <div className="occupancyRow">
-                    <div>
-                      <strong>Adults</strong>
-                      <span>Age 18+</span>
-                    </div>
-
-                    <div className="counterControl">
-                      <button type="button" onClick={() => setAdults(Math.max(1, adults - 1))}>−</button>
-                      <b>{adults}</b>
-                      <button type="button" onClick={() => setAdults(Math.min(4, adults + 1))}>+</button>
-                    </div>
-                  </div>
-
-                  <div className="occupancyRow">
-                    <div>
-                      <strong>Children</strong>
-                      <span>Under 18</span>
-                    </div>
-
-                    <div className="counterControl">
-                      <button type="button" onClick={() => setChildren(Math.max(0, children - 1))}>−</button>
-                      <b>{children}</b>
-                      <button type="button" onClick={() => setChildren(Math.min(3, children + 1))}>+</button>
-                    </div>
-                  </div>
-
-                  <button
-                    className="occupancyDoneBtn"
-                    type="button"
-                    onClick={() => setOccupancyOpen(false)}
-                  >
-                    Done
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="bookingFieldBox roomSelectBox">
-              <small>Rooms</small>
-              <strong>{selectedRoomData.name}</strong>
-              <select
-                value={selectedRoomId}
-                onChange={(e) => setSelectedRoomId(e.target.value)}
-              >
-                {rooms.map((room) => (
-                  <option key={room.id} value={room.id}>
-                    {room.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="priceCompareBox">
-              <div>
-                <small>OTA Price</small>
-                <del>${averageRate + 18}</del>
-              </div>
-              <div>
-                <small>Direct Price</small>
-                <strong>${averageRate}</strong>
-              </div>
-              <span>Book direct and save on your stay.</span>
-            </div>
-
-            <div className="bookingFieldBox bookingEstimateBox">
-              <small>Live Estimate</small>
-              <strong>{nights > 0 ? `$${estimate}` : `$${selectedRoomData.weekday}+`}</strong>
-              <span>
-                {nights > 0
-                  ? `${nights} night${nights > 1 ? "s" : ""}, taxes estimated`
-                  : "Select dates to calculate total"}
-              </span>
-            </div>
-
-            <button className="checkBtn" type="button" onClick={handleCheckAvailability}>
-              Check Availability
-            </button>
-
-            <a className="bookingCallLink" href="tel:+10000000000">
-              Prefer to book by phone? Call the front desk
+              See More Reviews on Google
             </a>
           </div>
         </section>
 
-        <div className="heroPager">
-          {heroSlides.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              className={heroIndex === index ? "active" : ""}
-              onClick={() => setHeroIndex(index)}
-              aria-label={`Hero slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </section>
+        <section id="location" className="locationLuxury">
+          <div className="locationDetails">
+            <span className="sectionKicker">Contact Us</span>
+            <h2>Dream Inn</h2>
 
-      <section className="conversionSection">
-        <div className="conversionGrid">
-          <article>
-            <span>Best Value</span>
-            <h3>Book Direct</h3>
-            <p>No hidden commission fees when booking directly with Dream Inn.</p>
-            <p className="savePrice">Save more</p>
-            <a href="#booking" onClick={(e) => { e.preventDefault(); scrollToSection("#booking"); }}>Reserve Now</a>
-          </article>
+            <p>📍 3201 W Imperial Hwy, Inglewood, CA 90303</p>
 
-          <article>
-            <span>Location</span>
-            <h3>Near LAX</h3>
-            <p>Convenient access to LAX, SoFi Stadium, and Los Angeles attractions.</p>
-            <p className="savePrice">Easy travel</p>
-            <a href="#location" onClick={(e) => { e.preventDefault(); scrollToSection("#location"); }}>View Map</a>
-          </article>
+            <p>
+              📧{" "}
+              <a href="mailto:dreaminn3201@gmail.com">
+                dreaminn3201@gmail.com
+              </a>
+            </p>
 
-          <article>
-            <span>Comfort</span>
-            <h3>Clean Rooms</h3>
-            <p>Comfortable rooms with Wi-Fi, parking, microwave, and refrigerator.</p>
-            <p className="savePrice">Simple stay</p>
-            <a href="#rooms" onClick={(e) => { e.preventDefault(); scrollToSection("#rooms"); }}>View Rooms</a>
-          </article>
-        </div>
+            <p>
+              ☎ <a href="tel:+13104120912">+1 (310) 412-0912</a>
+            </p>
 
-        <div className="bookingTrustStrip">
-          <span>Free Wi-Fi</span>
-          <span>Free Parking</span>
-          <span>24/7 Front Desk</span>
-        </div>
-      </section>
-
-      <section className="aboutLuxury" id="about">
-        <div className="aboutCopy">
-          <span className="sectionKicker">About Us</span>
-          <h2>A Comfortable Stay in Inglewood</h2>
-          <p className="aboutText">
-            Dream Inn offers a clean, convenient, and affordable hotel experience
-            near LAX and SoFi Stadium. Whether you are visiting for a game,
-            airport travel, work, or a short Los Angeles getaway, our goal is to
-            make your stay smooth and comfortable.
-          </p>
-          <button className="learnBtn" type="button" onClick={() => scrollToSection("#rooms")}>
-            Explore Rooms
-          </button>
-        </div>
-
-        <div className="aboutImages">
-          <img src={about1} alt="Dream Inn exterior" />
-          <img src={about2} alt="Dream Inn room" />
-        </div>
-      </section>
-
-      <section className="roomsLuxury" id="rooms">
-        <div className="sectionCenter">
-          <span className="sectionKicker">Rooms</span>
-          <h2>Rooms & Suites</h2>
-          <p className="reviewTrustLine">Comfortable rooms for every stay.</p>
-        </div>
-
-        <div className="roomGridLuxury">
-          {rooms.map((room) => (
-            <article
-              className="luxRoomCard"
-              key={room.id}
-              onClick={() => openRoomModal(room)}
-            >
-              <div className="cardImgWrap">
-                <img src={room.images[0]} alt={room.name} />
-              </div>
-              <div className="cardInfo">
-                <h3>{room.name}</h3>
-                <p>{room.desc}</p>
-                <span className="viewDetails">View Details</span>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="roomDots">
-          <span className="dot active" />
-          <span className="dot" />
-          <span className="dot" />
-        </div>
-      </section>
-
-      <section className="amenitiesLuxury" id="amenities">
-        <div className="sectionCenter">
-          <span className="sectionKicker">Amenities</span>
-          <h2>Everything You Need</h2>
-        </div>
-
-        <ul className="amenityList">
-          <li><span className="icon wifi" />Free Wi-Fi</li>
-          <li><span className="icon parking" />Free Parking</li>
-          <li><span className="icon tv" />Cable TV</li>
-          <li><span className="icon clean" />Daily Housekeeping</li>
-          <li><span className="icon desk" />24/7 Front Desk</li>
-          <li><span className="icon ac" />Air Conditioning</li>
-          <li><span className="icon heater" />Heater</li>
-          <li><span className="icon nosmoke" />Non-Smoking Property</li>
-          <li><span className="icon direct" />Book Direct</li>
-        </ul>
-      </section>
-
-      <section className="reviewsLuxury" id="reviews">
-        <div className="sectionCenter">
-          <span className="sectionKicker">Reviews</span>
-          <h2>Guest Experiences</h2>
-          <p className="reviewTrustLine">What our guests say.</p>
-        </div>
-
-        <div className="reviewGrid">
-          <article className="reviewCard">
-            <div className="reviewStars">★★★★★</div>
-            <p>Clean room, good location, and easy check-in. Great option near LAX and SoFi Stadium.</p>
-            <h4>Dream Inn Guest</h4>
-          </article>
-
-          <article className="reviewCard">
-            <div className="reviewStars">★★★★★</div>
-            <p>The staff was helpful and the room had everything I needed for a short stay.</p>
-            <h4>Verified Guest</h4>
-          </article>
-
-          <article className="reviewCard">
-            <div className="reviewStars">★★★★<span>★</span></div>
-            <p>Good value, free parking, and convenient location in Inglewood.</p>
-            <h4>Recent Guest</h4>
-          </article>
-        </div>
-
-        <div className="googleReviewBtnWrap">
-          <a className="googleReviewBtn" href="#location" onClick={(e) => { e.preventDefault(); scrollToSection("#location"); }}>
-            View Location
-          </a>
-        </div>
-      </section>
-
-      <section className="locationLuxury" id="location">
-        <div className="locationDetails">
-          <span className="sectionKicker">Location</span>
-          <h2>Stay Near LAX & SoFi Stadium</h2>
-          <p>
-            Dream Inn is located in the Inglewood / Los Angeles area with easy
-            access to the airport, stadium, restaurants, and local attractions.
-          </p>
-
-          <div className="locationMiniBenefits">
-            <span>Near LAX</span>
-            <span>Near SoFi Stadium</span>
-            <span>Free Parking</span>
+            <div className="locationMiniBenefits">
+              <span>5 min → SoFi Stadium</span>
+              <span>10 min → LAX Airport</span>
+              <span>Free Parking</span>
+            </div>
           </div>
-        </div>
 
-        <div className="mapBox">
-          <iframe
-            title="Dream Inn Location"
-            loading="lazy"
-            src="https://www.google.com/maps?q=Inglewood%20CA&output=embed"
-          />
-        </div>
-      </section>
+          <div className="mapBox">
+            <iframe
+              title="Dream Inn Map"
+              src="https://www.google.com/maps?q=3201%20W%20Imperial%20Hwy%2C%20Inglewood%2C%20CA%2090303&output=embed"
+              loading="lazy"
+            />
+          </div>
+        </section>
+      </main>
 
-      <footer className="luxFooter">
-        <div className="footerContent">
-          <h3>Dream Inn</h3>
-          <p>Comfortable stay near LAX and SoFi Stadium.</p>
-          <p>© {new Date().getFullYear()} Dream Inn. All rights reserved.</p>
-        </div>
-      </footer>
+      {selectedRoom && (
+        <RoomDetailsModal
+          room={selectedRoom}
+          onClose={() => setSelectedRoom(null)}
+          onCheckAvailability={() => {
+            const relatedRoom = LOCAL_ROOMS.find(
+              (item) => item.name === selectedRoom.name
+            );
 
-      <div className={`floatingCtas ${headerScrolled ? "" : "hideFloatingCtas"}`}>
-        <a className="floatingCallBtn" href="tel:+10000000000">Call Now</a>
-        <button className="floatingBookBtn" type="button" onClick={() => scrollToSection("#booking")}>
+            setBooking((prev) => ({
+              ...prev,
+              selectedRoomId: relatedRoom?.id || prev.selectedRoomId,
+            }));
+
+            setSelectedRoom(null);
+            setTimeout(scrollToHeroBooking, 120);
+          }}
+        />
+      )}
+
+      <div
+        className={`floatingCtas ${
+          hideFloatingBookBtn ? "hideFloatingCtas" : ""
+        }`}
+      >
+        <a href="tel:+13104120912" className="floatingCallBtn">
+          Call Now
+        </a>
+
+        <button
+          type="button"
+          className="floatingBookBtn"
+          onClick={scrollToHeroBooking}
+          aria-label="Book now"
+        >
           Book Now
         </button>
       </div>
 
-      {selectedRoom && (
-        <div className="modalOverlay" onClick={closeRoomModal}>
-          <div className="roomModal" onClick={(e) => e.stopPropagation()}>
-            <button className="modalClose" type="button" onClick={closeRoomModal}>
-              ×
-            </button>
+      <footer className="luxFooter">
+        <div className="footerContent">
+          <h3>Dream Inn</h3>
+          <p>3201 W Imperial Hwy, Inglewood, CA 90303</p>
+          <p>© 2026 Dream Inn Inglewood. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  );
+}
 
-            <div className="modalHeaderImg">
-              {selectedRoom.images.map((img, index) => (
-                <img
-                  key={index}
-                  src={img}
-                  alt={selectedRoom.name}
-                  className={index === modalImageIndex ? "active" : ""}
-                />
-              ))}
+function HeroBookingPanel({
+  bookingRef,
+  calendarRef,
+  occupancyRef,
+  booking,
+  updateBooking,
+  updateAdults,
+  updateChildren,
+  updateRooms,
+  today,
+  visibleRooms,
+  previewRoom,
+  livePreview,
+  totalGuests,
+  calendarOpen,
+  setCalendarOpen,
+  occupancyOpen,
+  setOccupancyOpen,
+  handleCalendarDateSelect,
+  openBookingEngine,
+}) {
+  const directRate = getTodayRate(previewRoom, false);
+  const otaRate = getTodayRate(previewRoom, true);
+  const savings = Math.max(0, otaRate - directRate);
 
-              <button className="modalArrow modalArrowLeft" type="button" onClick={prevModalImage}>
-                ‹
-              </button>
-              <button className="modalArrow modalArrowRight" type="button" onClick={nextModalImage}>
-                ›
-              </button>
+  const selectedRoomLabel =
+    visibleRooms.find((room) => room.id === booking.selectedRoomId)?.name ||
+    "Select room type";
 
-              <span className="imageCounter">
-                {modalImageIndex + 1} / {selectedRoom.images.length}
-              </span>
-            </div>
+  return (
+    <aside className="heroBookingPanel" ref={bookingRef}>
+      <div className="heroBookingHeader">
+        <span>Book Direct</span>
+        <h2>Reserve Your Stay</h2>
+        <p>No extra commission. No hidden charges.</p>
+      </div>
 
-            <div className="modalBody">
-              <h2>{selectedRoom.name}</h2>
-              <p>{selectedRoom.desc}</p>
+      <form
+        className="heroBookingForm"
+        onSubmit={(event) => event.preventDefault()}
+      >
+        <div className="singleDatePicker" ref={calendarRef}>
+          <button
+            type="button"
+            className={`bookingFieldBox bookingDateRangeBox ${
+              calendarOpen ? "active" : ""
+            }`}
+            onClick={() => {
+              setCalendarOpen((prev) => !prev);
+              setOccupancyOpen(false);
+            }}
+          >
+            <small>Check-in — Check-out</small>
+            <strong>
+              {booking.checkIn && booking.checkOut
+                ? `${formatDisplayDate(booking.checkIn)} → ${formatDisplayDate(
+                    booking.checkOut
+                  )}`
+                : booking.checkIn
+                ? `${formatDisplayDate(booking.checkIn)} → Select check-out`
+                : "Select stay dates"}
+            </strong>
+          </button>
 
-              <div className="modalGrid">
-                <div className="modalFeature">
-                  <h4>Room Features</h4>
-                  <ul>
-                    {selectedRoom.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
-                </div>
+          {calendarOpen &&
+            createPortal(
+              <RangeCalendar
+                checkIn={booking.checkIn}
+                checkOut={booking.checkOut}
+                today={today}
+                previewRoom={previewRoom}
+                onSelectDate={handleCalendarDateSelect}
+                onClose={() => setCalendarOpen(false)}
+              />,
+              document.body
+            )}
+        </div>
 
-                <div className="modalFeature">
-                  <h4>Policies</h4>
-                  <ul>
-                    <li>$100 security deposit required</li>
-                    <li>One car per room</li>
-                    <li>Non-smoking property</li>
-                    <li>Valid ID required at check-in</li>
-                  </ul>
-                </div>
-              </div>
+        <div className="occupancyWrapper" ref={occupancyRef}>
+          <button
+            type="button"
+            className={`bookingFieldBox bookingOccupancyBox ${
+              occupancyOpen ? "active" : ""
+            }`}
+            onClick={() => {
+              setOccupancyOpen((prev) => !prev);
+              setCalendarOpen(false);
+            }}
+          >
+            <small>Occupancy</small>
+            <strong>
+              {booking.adults} Adult{booking.adults > 1 ? "s" : ""}
+              {booking.children > 0
+                ? ` · ${booking.children} Child${
+                    booking.children > 1 ? "ren" : ""
+                  }`
+                : ""}
+              {` · ${booking.rooms} Room${booking.rooms > 1 ? "s" : ""}`}
+            </strong>
+          </button>
+
+          {occupancyOpen && (
+            <div className="occupancyDropdown">
+              <OccupancyRow
+                title="Adults"
+                subtitle="Max 6 adults"
+                value={booking.adults}
+                onMinus={() => updateAdults(-1)}
+                onPlus={() => updateAdults(1)}
+              />
+
+              <OccupancyRow
+                title="Children"
+                subtitle="Max 5 children · age 0–17"
+                value={booking.children}
+                onMinus={() => updateChildren(-1)}
+                onPlus={() => updateChildren(1)}
+              />
+
+              <OccupancyRow
+                title="Rooms"
+                subtitle="Max 3 rooms"
+                value={booking.rooms}
+                onMinus={() => updateRooms(-1)}
+                onPlus={() => updateRooms(1)}
+              />
 
               <button
-                className="modalBookBtn"
                 type="button"
-                onClick={() => {
-                  setSelectedRoomId(selectedRoom.id);
-                  closeRoomModal();
-                  scrollToSection("#booking");
-                }}
+                className="occupancyDoneBtn"
+                onClick={() => setOccupancyOpen(false)}
               >
-                Book This Room
+                Done
               </button>
             </div>
+          )}
+        </div>
+
+        <div className="bookingFieldBox roomSelectBox">
+          <small>Rooms</small>
+          <strong>{selectedRoomLabel}</strong>
+
+          <select
+            value={booking.selectedRoomId}
+            onFocus={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onClick={() => {
+              setCalendarOpen(false);
+              setOccupancyOpen(false);
+            }}
+            onChange={(event) =>
+              updateBooking("selectedRoomId", event.target.value)
+            }
+            aria-label="Select room type"
+          >
+            <option value="">Select room type</option>
+
+            {visibleRooms.map((room) => (
+              <option key={room.id} value={room.id}>
+                {room.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="priceCompareBox">
+          <div>
+            <small>OTA Price</small>
+            <del>{formatPrice(otaRate)}</del>
+          </div>
+
+          <div>
+            <small>Website Price</small>
+            <strong>{formatPrice(directRate)}</strong>
+          </div>
+
+          <span>Save up to {formatPrice(savings)} direct</span>
+        </div>
+
+        <div className="bookingFieldBox bookingEstimateBox">
+          <small>Live Estimate</small>
+
+          <strong>
+            {booking.checkIn && booking.checkOut
+              ? formatPrice(livePreview.total)
+              : "Live Estimate"}
+          </strong>
+
+          <span>
+            {booking.checkIn && booking.checkOut
+              ? `${livePreview.nights} night${
+                  livePreview.nights === 1 ? "" : "s"
+                } · ${totalGuests} guest${
+                  totalGuests === 1 ? "" : "s"
+                } · Tax included`
+              : "Select dates to see total"}
+          </span>
+        </div>
+
+        <button type="button" className="checkBtn" onClick={openBookingEngine}>
+          Check Availability
+        </button>
+
+        <a href="tel:+13104120912" className="bookingCallLink">
+          Prefer to book by phone? Call +1 (310) 412-0912
+        </a>
+      </form>
+    </aside>
+  );
+}
+
+function OccupancyRow({ title, subtitle, value, onMinus, onPlus }) {
+  return (
+    <div className="occupancyRow">
+      <div>
+        <strong>{title}</strong>
+        <span>{subtitle}</span>
+      </div>
+
+      <div className="counterControl">
+        <button type="button" onClick={onMinus}>
+          −
+        </button>
+        <b>{value}</b>
+        <button type="button" onClick={onPlus}>
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RangeCalendar({
+  checkIn,
+  checkOut,
+  today,
+  onSelectDate,
+  onClose,
+  previewRoom,
+}) {
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+  const [slideDirection, setSlideDirection] = useState("next");
+
+  const [viewDate, setViewDate] = useState(() => {
+    const base = checkIn ? parseDate(checkIn) : new Date();
+    return new Date(base.getFullYear(), base.getMonth(), 1);
+  });
+
+  const changeMonth = (direction) => {
+    setSlideDirection(direction);
+    setViewDate(
+      (prev) =>
+        new Date(
+          prev.getFullYear(),
+          prev.getMonth() + (direction === "next" ? 1 : -1),
+          1
+        )
+    );
+  };
+
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchMove = (event) => {
+    touchEndX.current = event.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX.current - touchEndX.current;
+    if (Math.abs(distance) < 55) return;
+    changeMonth(distance > 0 ? "next" : "prev");
+  };
+
+  const minDate = parseDate(today);
+  const previewStay = calculateStay(previewRoom, checkIn, checkOut);
+
+  const months = [
+    new Date(viewDate.getFullYear(), viewDate.getMonth(), 1),
+    new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1),
+  ];
+
+  return (
+    <div
+      className="rangeCalendar premiumRangeCalendar"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div className="rangeCalendarHead">
+        <button type="button" onClick={() => changeMonth("prev")}>
+          ‹
+        </button>
+
+        <strong>Select Your Stay</strong>
+
+        <button type="button" onClick={() => changeMonth("next")}>
+          ›
+        </button>
+      </div>
+
+      <div
+        key={`${viewDate.getFullYear()}-${viewDate.getMonth()}`}
+        className={`twoMonthCalendar ${
+          slideDirection === "next" ? "slideNext" : "slidePrev"
+        }`}
+      >
+        {months.map((monthDate) => {
+          const calendarDays = buildCalendarDays(monthDate);
+          const monthName = monthDate.toLocaleString("en-US", {
+            month: "long",
+          });
+          const year = monthDate.getFullYear();
+
+          return (
+            <div className="singleMonth" key={`${monthName}-${year}`}>
+              <h4>
+                {monthName} {year}
+              </h4>
+
+              <div className="rangeCalendarWeek">
+                <span>Su</span>
+                <span>Mo</span>
+                <span>Tu</span>
+                <span>We</span>
+                <span>Th</span>
+                <span>Fr</span>
+                <span>Sa</span>
+              </div>
+
+              <div className="rangeCalendarGrid">
+                {calendarDays.map((date, index) => {
+                  if (!date) {
+                    return <span key={`blank-${monthName}-${index}`} />;
+                  }
+
+                  const dateValue = formatDate(date);
+                  const dateOnly = new Date(date);
+                  dateOnly.setHours(0, 0, 0, 0);
+
+                  const disabled = dateOnly < minDate;
+                  const isCheckIn =
+                    checkIn && isSameDate(date, parseDate(checkIn));
+                  const isCheckOut =
+                    checkOut && isSameDate(date, parseDate(checkOut));
+                  const inRange = isBetween(date, checkIn, checkOut);
+
+                  return (
+                    <button
+                      type="button"
+                      key={dateValue}
+                      disabled={disabled}
+                      className={[
+                        isCheckIn ? "isCheckIn" : "",
+                        isCheckOut ? "isCheckOut" : "",
+                        inRange ? "inRange" : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      onClick={() => onSelectDate(dateValue)}
+                    >
+                      {date.getDate()}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="rangeCalendarFooter">
+        <div>
+          <small>Selected Stay</small>
+          <strong>
+            {checkIn && checkOut
+              ? `${previewStay.nights} night${
+                  previewStay.nights === 1 ? "" : "s"
+                } · ${formatPrice(previewStay.total)}`
+              : checkIn
+              ? "Now select check-out date"
+              : "Select check-in date"}
+          </strong>
+        </div>
+
+        <button type="button" onClick={onClose}>
+          Done
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function RoomCard({ room, onSeeMore }) {
+  return (
+    <article
+      className="luxRoomCard"
+      onClick={onSeeMore}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onSeeMore();
+        }
+      }}
+      tabIndex="0"
+      role="button"
+      aria-label={`View details for ${room.name}`}
+    >
+      <div className="cardImgWrap">
+        <img src={room.images[0]} alt={room.name} />
+      </div>
+
+      <div className="cardInfo">
+        <h3>{room.name}</h3>
+        <p>{room.details}</p>
+        <span className="viewDetails">View Details ↗</span>
+      </div>
+    </article>
+  );
+}
+
+function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+
+    const timer = setInterval(() => {
+      setActive((current) => (current + 1) % room.images.length);
+    }, 5000);
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      clearInterval(timer);
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [room.images.length, onClose]);
+
+  const nextSlide = () => {
+    setActive((current) => (current + 1) % room.images.length);
+  };
+
+  const prevSlide = () => {
+    setActive(
+      (current) => (current - 1 + room.images.length) % room.images.length
+    );
+  };
+
+  return (
+    <div className="modalOverlay" onClick={onClose}>
+      <div
+        className="roomModal"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${room.name} details`}
+      >
+        <button
+          type="button"
+          className="modalClose"
+          onClick={onClose}
+          aria-label="Close room details"
+        >
+          ×
+        </button>
+
+        <div className="modalHeaderImg">
+          {room.images.map((image, index) => (
+            <img
+              key={`${room.name}-${index}`}
+              src={image}
+              alt={room.name}
+              className={index === active ? "active" : ""}
+            />
+          ))}
+
+          <button
+            type="button"
+            className="modalArrow modalArrowLeft"
+            onClick={prevSlide}
+            aria-label="Previous room image"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            className="modalArrow modalArrowRight"
+            onClick={nextSlide}
+            aria-label="Next room image"
+          >
+            ›
+          </button>
+
+          <div className="imageCounter">
+            {active + 1}/{room.images.length}
           </div>
         </div>
-      )}
-    </main>
+
+        <div className="modalBody">
+          <h2>{room.name}</h2>
+          <p>{room.details}</p>
+
+          <div className="modalGrid">
+            <div className="modalFeature">
+              <h4>Room Amenities</h4>
+
+              <ul className="modalList">
+                {room.amenities.map((item) => (
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="modalFeature">
+              <h4>Room Policies</h4>
+
+              <ul className="modalList">
+                {room.policies.map((item) => (
+                  <li key={item.text}>
+                    <span>{item.icon}</span>
+                    {item.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            className="modalBookBtn"
+            onClick={onCheckAvailability}
+          >
+            Check Availability
+          </button>
+        </div>
+      </div>
+    </div>
   );
+}
+
+function getTodayRate(room, ota = false) {
+  if (!room) return 0;
+  const today = new Date();
+  const isWeekend = today.getDay() === 5 || today.getDay() === 6;
+
+  if (ota) return isWeekend ? room.otaWeekend : room.otaWeekday;
+  return isWeekend ? room.weekend : room.weekday;
+}
+
+function formatPrice(value) {
+  return `$${Number(value || 0).toFixed(2)}`;
+}
+
+function formatDate(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0"
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+function parseDate(dateString) {
+  return new Date(`${dateString}T00:00:00`);
+}
+
+function formatDisplayDate(dateString) {
+  if (!dateString) return "Select date";
+
+  return parseDate(dateString).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function formatAsiDate(dateString) {
+  if (!dateString) return "";
+
+  const date = parseDate(dateString);
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const year = date.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
+function calculateStay(room, checkIn, checkOut) {
+  if (!room || !checkIn || !checkOut) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  const start = parseDate(checkIn);
+  const end = parseDate(checkOut);
+
+  if (
+    Number.isNaN(start.getTime()) ||
+    Number.isNaN(end.getTime()) ||
+    end <= start
+  ) {
+    return { nights: 0, subtotal: 0, taxes: 0, total: 0, averageRate: 0 };
+  }
+
+  let nights = 0;
+  let subtotal = 0;
+  const current = new Date(start);
+
+  while (current < end) {
+    const day = current.getDay();
+    subtotal += day === 5 || day === 6 ? room.weekend : room.weekday;
+    nights += 1;
+    current.setDate(current.getDate() + 1);
+  }
+
+  const taxes = subtotal * TAX_RATE;
+  const total = subtotal + taxes;
+
+  return {
+    nights,
+    subtotal,
+    taxes,
+    total,
+    averageRate: nights ? subtotal / nights : 0,
+  };
+}
+
+function buildCalendarDays(viewDate) {
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const days = [];
+
+  for (let i = 0; i < firstDayIndex; i += 1) {
+    days.push(null);
+  }
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    days.push(new Date(year, month, day));
+  }
+
+  while (days.length < 42) {
+    days.push(null);
+  }
+
+  return days;
+}
+
+function isSameDate(a, b) {
+  if (!a || !b) return false;
+  return formatDate(a) === formatDate(b);
+}
+
+function isBetween(date, start, end) {
+  if (!date || !start || !end) return false;
+
+  const current = new Date(date);
+  current.setHours(0, 0, 0, 0);
+
+  return current > parseDate(start) && current < parseDate(end);
 }
 
 export default App;
