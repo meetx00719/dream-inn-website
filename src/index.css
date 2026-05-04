@@ -2536,3 +2536,82 @@ iframe {
     padding-bottom: 4px !important;
   }
 }
+/* FINAL CALENDAR CROP FIX */
+.rangeCalendar {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(760px, calc(100vw - 32px)) !important;
+  max-width: calc(100vw - 32px) !important;
+  max-height: 84vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: 22px !important;
+  border-radius: 28px !important;
+  z-index: 999999 !important;
+}
+
+.twoMonthCalendar,
+.singleMonth,
+.rangeCalendarWeek,
+.rangeCalendarGrid {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.rangeCalendarGrid {
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+}
+
+.rangeCalendarGrid button,
+.rangeCalendarGrid span {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 760px) {
+  .rangeCalendar {
+    width: calc(100vw - 22px) !important;
+    max-width: calc(100vw - 22px) !important;
+    padding: 16px !important;
+  }
+
+  .twoMonthCalendar {
+    grid-template-columns: 1fr !important;
+  }
+
+  .rangeCalendarGrid {
+    gap: 5px !important;
+  }
+
+  .rangeCalendarGrid button,
+  .rangeCalendarGrid span {
+    height: 36px !important;
+    font-size: 13px !important;
+  }
+}
+/* FINAL ESTIMATE PRICE TEXT COLOR FIX */
+
+.bookingEstimateBox {
+  background: linear-gradient(135deg, #111116, #2a2118) !important;
+  color: #ffffff !important;
+}
+
+.bookingEstimateBox small,
+.bookingEstimateBox strong,
+.bookingEstimateBox span {
+  color: #ffffff !important;
+}
+
+.bookingEstimateBox strong {
+  font-size: 23px !important;
+  font-weight: 900 !important;
+  line-height: 1.05 !important;
+}
+
+.bookingEstimateBox span {
+  color: rgba(255, 255, 255, 0.86) !important;
+}
