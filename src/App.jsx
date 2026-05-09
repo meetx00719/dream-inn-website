@@ -692,7 +692,7 @@ function App() {
 
           <div className="bookingTrustStrip">
             <span>🔥 Only a few rooms left tonight</span>
-            <span>✅ Book direct & save</span>
+            <span>✅ Book Now , Pay Later</span>
             <span>⭐ 1000+ Happy Guests</span>
           </div>
         </section>
