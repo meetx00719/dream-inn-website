@@ -676,9 +676,9 @@ function App() {
               <span>Book Direct</span>
               <h3>Best Value</h3>
               <p>
-                <del>OTA Price $149</del>
+                <del>OTA Price $159</del>
               </p>
-              <p className="savePrice">Website Price from $119</p>
+              <p className="savePrice">20%OFF on DIrect Booking</p>
               <p>No extra commission. No hidden charges.</p>
             </article>
 
