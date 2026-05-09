@@ -691,7 +691,7 @@ function App() {
           </div>
 
           <div className="bookingTrustStrip">
-            <span> Experience the energy of FIFA </span>
+            <span>⚽️ Experience the energy of FIFA </span>
             <span>✅ Book Now , Pay Later</span>
             <span>⭐ 1000+ Happy Guests</span>
           </div>
