@@ -1068,6 +1068,8 @@ iframe {
 
 /* AMENITIES */
 
+/* AMENITIES */
+
 .amenitiesLuxury {
   background: #fff;
 }
@@ -1107,66 +1109,76 @@ iframe {
   width: 42px;
   height: 42px;
   min-width: 42px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 14px;
   background: linear-gradient(135deg, #fbf7ef, #fff);
   border: 1px solid rgba(182, 135, 79, 0.12);
-  font-size: 21px;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon::before {
+  font-size: 22px;
   line-height: 1;
-  font-style: normal;
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
 }
 
 .icon.wifi::before {
-  content: "ðŸ“¶";
+  content: "📶";
 }
 
 .icon.tv::before {
-  content: "ðŸ“º";
+  content: "📺";
 }
 
 .icon.parking::before {
-  content: "ðŸ…¿ï¸";
+  content: "🚘";
 }
 
 .icon.iron::before {
-  content: "ðŸ§º";
+  content: "🧺";
 }
 
 .icon.nosmoke::before {
-  content: "ðŸš­";
+  content: "🚭";
 }
 
 .icon.direct::before {
-  content: "âœ…";
+  content: "💎";
 }
 
 .icon.desk::before {
-  content: "ðŸ¨";
+  content: "🛎️";
 }
 
 .icon.clean::before {
-  content: "ðŸ§¹";
+  content: "🧹";
 }
 
 .icon.ac::before {
-  content: "â„ï¸";
+  content: "❄️";
 }
 
 .icon.heater::before {
-  content: "ðŸ”¥";
+  content: "🔥";
 }
 
 .icon.atm::before {
-  content: "ðŸ§";
+  content: "🏧";
 }
 
 .icon.ice::before {
-  content: "ðŸ§Š";
+  content: "🧊";
 }
 
 .icon.vending::before {
-  content: "ðŸ¥¤";
+  content: "🥤";
 }
 
 @media (max-width: 980px) {
@@ -1191,10 +1203,12 @@ iframe {
     width: 40px;
     height: 40px;
     min-width: 40px;
+  }
+
+  .icon::before {
     font-size: 20px;
   }
 }
-
 /* REVIEWS */
 
 .reviewsLuxury {
