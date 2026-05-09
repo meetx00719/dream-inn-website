@@ -268,7 +268,6 @@ function App() {
   const occupancyRef = useRef(null);
 
   const today = useMemo(() => formatDate(new Date()), []);
-  const totalGuests = booking.adults + booking.children;
 
   const visibleRooms = useMemo(() => {
     const adults = Number(booking.adults);
@@ -642,8 +641,6 @@ function App() {
             today={today}
             visibleRooms={visibleRooms}
             previewRoom={previewRoom}
-            livePreview={livePreview}
-            totalGuests={totalGuests}
             calendarOpen={calendarOpen}
             setCalendarOpen={setCalendarOpen}
             occupancyOpen={occupancyOpen}
@@ -919,8 +916,6 @@ function HeroBookingPanel({
   today,
   visibleRooms,
   previewRoom,
-  livePreview,
-  totalGuests,
   calendarOpen,
   setCalendarOpen,
   occupancyOpen,
@@ -928,10 +923,6 @@ function HeroBookingPanel({
   handleCalendarDateSelect,
   openBookingEngine,
 }) {
-  const directRate = getTodayRate(previewRoom, false);
-  const otaRate = getTodayRate(previewRoom, true);
-  const savings = Math.max(0, otaRate - directRate);
-
   const selectedRoomLabel =
     visibleRooms.find((room) => room.id === booking.selectedRoomId)?.name ||
     "Select room type";
@@ -1072,40 +1063,6 @@ function HeroBookingPanel({
               </option>
             ))}
           </select>
-        </div>
-
-        <div className="priceCompareBox">
-          <div>
-            <small>OTA Price</small>
-            <del>{formatPrice(otaRate)}</del>
-          </div>
-
-          <div>
-            <small>Website Price</small>
-            <strong>{formatPrice(directRate)}</strong>
-          </div>
-
-          <span>Save up to {formatPrice(savings)} direct</span>
-        </div>
-
-        <div className="bookingFieldBox bookingEstimateBox">
-          <small>Live Estimate</small>
-
-          <strong>
-            {booking.checkIn && booking.checkOut
-              ? formatPrice(livePreview.total)
-              : "Live Estimate"}
-          </strong>
-
-          <span>
-            {booking.checkIn && booking.checkOut
-              ? `${livePreview.nights} night${
-                  livePreview.nights === 1 ? "" : "s"
-                } · ${totalGuests} guest${
-                  totalGuests === 1 ? "" : "s"
-                } · Tax included`
-              : "Select dates to see total"}
-          </span>
         </div>
 
         <button type="button" className="checkBtn" onClick={openBookingEngine}>

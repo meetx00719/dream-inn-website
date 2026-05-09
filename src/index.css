@@ -1078,45 +1078,122 @@ iframe {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 20px;
 }
 
 .amenityList li {
+  min-height: 70px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(177, 132, 82, 0.18);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-  font-size: 14.5px;
-  font-weight: 700;
+  gap: 16px;
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(177, 132, 82, 0.22);
+  box-shadow: 0 16px 38px rgba(17, 17, 22, 0.07);
+  color: #111116;
+  font-size: 15.5px;
+  font-weight: 850;
+  transition: 0.25s ease;
+}
+
+.amenityList li:hover {
+  transform: translateY(-3px);
+  border-color: rgba(182, 135, 79, 0.45);
+  box-shadow: 0 22px 48px rgba(17, 17, 22, 0.11);
 }
 
 .icon {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   display: grid;
   place-items: center;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f5eee3, #fff);
-  flex: 0 0 auto;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fbf7ef, #fff);
+  border: 1px solid rgba(182, 135, 79, 0.12);
+  font-size: 21px;
+  line-height: 1;
+  font-style: normal;
 }
 
-.icon.wifi::before { content: "ðŸ“¶"; }
-.icon.tv::before { content: "ðŸ“º"; }
-.icon.parking::before { content: "ðŸ…¿ï¸"; }
-.icon.iron::before { content: "ðŸ§º"; }
-.icon.nosmoke::before { content: "ðŸš­"; }
-.icon.direct::before { content: "âœ”ï¸"; }
-.icon.desk::before { content: "ðŸ¨"; }
-.icon.clean::before { content: "ðŸ§¹"; }
-.icon.ac::before { content: "â„ï¸"; }
-.icon.heater::before { content: "ðŸ”¥"; }
-.icon.atm::before { content: "ðŸ§"; }
-.icon.ice::before { content: "ðŸ§Š"; }
-.icon.vending::before { content: "ðŸ¥¤"; }
+.icon.wifi::before {
+  content: "ðŸ“¶";
+}
+
+.icon.tv::before {
+  content: "ðŸ“º";
+}
+
+.icon.parking::before {
+  content: "ðŸ…¿ï¸";
+}
+
+.icon.iron::before {
+  content: "ðŸ§º";
+}
+
+.icon.nosmoke::before {
+  content: "ðŸš­";
+}
+
+.icon.direct::before {
+  content: "âœ…";
+}
+
+.icon.desk::before {
+  content: "ðŸ¨";
+}
+
+.icon.clean::before {
+  content: "ðŸ§¹";
+}
+
+.icon.ac::before {
+  content: "â„ï¸";
+}
+
+.icon.heater::before {
+  content: "ðŸ”¥";
+}
+
+.icon.atm::before {
+  content: "ðŸ§";
+}
+
+.icon.ice::before {
+  content: "ðŸ§Š";
+}
+
+.icon.vending::before {
+  content: "ðŸ¥¤";
+}
+
+@media (max-width: 980px) {
+  .amenityList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .amenityList {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .amenityList li {
+    min-height: 64px;
+    padding: 16px 18px;
+    font-size: 15px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    font-size: 20px;
+  }
+}
 
 /* REVIEWS */
 
@@ -1913,7 +1990,7 @@ iframe {
 }
 
 /* =========================================================
-   FINAL CLEAN OVERRIDES â€” BOOKING PANEL + CALENDAR + CTAS
+   FINAL CLEAN OVERRIDES Ã¢â‚¬â€ BOOKING PANEL + CALENDAR + CTAS
    Keep this section at the very bottom of index.css.
    ========================================================= */
 
