@@ -620,7 +620,7 @@ function App() {
 
             <div className="heroButtons">
               <button type="button" onClick={scrollToHeroBooking}>
-                Check Availability
+                Book Now
               </button>
 
               <a className="callHeroBtn" href="tel:+13104120912">
@@ -1066,7 +1066,7 @@ function HeroBookingPanel({
         </div>
 
         <button type="button" className="checkBtn" onClick={openBookingEngine}>
-          Check Availability
+          Book Noow
         </button>
 
         <a href="tel:+13104120912" className="bookingCallLink">
@@ -1411,7 +1411,7 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
             className="modalBookBtn"
             onClick={onCheckAvailability}
           >
-            Check Availability
+            Book Now
           </button>
         </div>
       </div>
