@@ -231,6 +231,7 @@ const navLinks = [
   { id: "about", label: "About" },
   { id: "rooms", label: "Rooms" },
   { id: "amenities", label: "Amenities" },
+  { id: "gallery", label: "Gallery", path: "/gallery" },
   { id: "reviews", label: "Reviews" },
   { id: "location", label: "Contact us" },
 ];
@@ -574,15 +575,21 @@ function App() {
         </a>
 
         <nav className="desktopNav" aria-label="Main navigation">
-          {navLinks.map((link) => (
-            <a
-              key={link.id}
-              href={`#${link.id}`}
-              onClick={(event) => scrollToSection(event, link.id)}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) =>
+            link.path ? (
+              <a key={link.id} href={link.path}>
+                {link.label}
+              </a>
+            ) : (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(event) => scrollToSection(event, link.id)}
+              >
+                {link.label}
+              </a>
+            )
+          )}
         </nav>
       </header>
 
@@ -678,7 +685,7 @@ function App() {
               <p>
                 <del>OTA Price $159</del>
               </p>
-              <p className="savePrice">20%OFF on DIrect Booking</p>
+              <p className="savePrice">20% OFF on Direct Booking</p>
               <p>No extra commission. No hidden charges.</p>
             </article>
 
@@ -691,8 +698,8 @@ function App() {
           </div>
 
           <div className="bookingTrustStrip">
-            <span>⚽️ Experience the energy of FIFA </span>
-            <span>✅ Book Now , Pay Later</span>
+            <span>⚽️ Experience the energy of FIFA</span>
+            <span>✅ Book Now, Pay Later</span>
             <span>📞 Call For Weekly Rates</span>
           </div>
         </section>
@@ -1066,7 +1073,7 @@ function HeroBookingPanel({
         </div>
 
         <button type="button" className="checkBtn" onClick={openBookingEngine}>
-          Book Noow
+          Book Now
         </button>
 
         <a href="tel:+13104120912" className="bookingCallLink">
@@ -1417,15 +1424,6 @@ function RoomDetailsModal({ room, onClose, onCheckAvailability }) {
       </div>
     </div>
   );
-}
-
-function getTodayRate(room, ota = false) {
-  if (!room) return 0;
-  const today = new Date();
-  const isWeekend = today.getDay() === 5 || today.getDay() === 6;
-
-  if (ota) return isWeekend ? room.otaWeekend : room.otaWeekday;
-  return isWeekend ? room.weekend : room.weekday;
 }
 
 function formatPrice(value) {
