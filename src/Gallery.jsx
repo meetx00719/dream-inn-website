@@ -1,73 +1,110 @@
-import "./index.css";
+/* =========================
+   GALLERY LIGHTBOX
+========================= */
 
-import hero1 from "./assets/hero1.jpg";
-import hero2 from "./assets/hero2.jpg";
-import about1 from "./assets/about1.jpg";
-import about2 from "./assets/about2.jpg";
-import singleRoom from "./assets/single.jpg";
-import singleTwo from "./assets/singleTwo.jpg";
-import single3 from "./assets/single3.jpg";
-import double1 from "./assets/double1.jpg";
-import double2 from "./assets/double2.jpg";
-import double3 from "./assets/double3.jpg";
-import jacuzziRoom from "./assets/jacuzzi.jpg";
-import jacuzzi2 from "./assets/jacuzzi2.jpg";
-import jacuzzi3 from "./assets/jacuzzi3.jpg";
-import dream1 from "./assets/dream1.jpg";
+.galleryLightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
 
-const galleryImages = [
-  { image: hero1, title: "Dream Inn Exterior" },
-  { image: hero2, title: "Hotel Front View" },
-  { image: about1, title: "Property View" },
-  { image: about2, title: "Comfort Interior" },
-  { image: singleRoom, title: "Single Bed Room" },
-  { image: singleTwo, title: "Single Room Detail" },
-  { image: single3, title: "Single Room Comfort" },
-  { image: dream1, title: "Dream King Room" },
-  { image: double1, title: "Double Bed Room" },
-  { image: double2, title: "Double Room View" },
-  { image: double3, title: "Double Room Detail" },
-  { image: jacuzziRoom, title: "Jacuzzi Room" },
-  { image: jacuzzi2, title: "Jacuzzi Tub" },
-  { image: jacuzzi3, title: "Jacuzzi Room Detail" },
-];
+.galleryLightboxImage {
+  width: auto;
+  max-width: min(1200px, 92vw);
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 24px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
+}
 
-export default function Gallery() {
-  return (
-    <div className="galleryPage">
-      <header className="galleryHeader">
-        <a href="/" className="luxLogo galleryLogo">
-          Dream<span>Inn</span>
-        </a>
+.galleryClose {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  font-size: 36px;
+  cursor: pointer;
+  z-index: 10;
+  backdrop-filter: blur(12px);
+}
 
-        <a href="/" className="galleryBackBtn">
-          ← Back to Home
-        </a>
-      </header>
+.galleryArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-size: 42px;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
 
-      <main className="galleryPageMain">
-        <section className="galleryHero">
-          <span className="sectionKicker">Gallery</span>
-          <h1>Explore Dream Inn</h1>
-          <p>
-            View our rooms, exterior, and comfortable spaces before your stay.
-          </p>
-        </section>
+.galleryArrowLeft {
+  left: 28px;
+}
 
-        <section className="galleryLuxury galleryPageSection">
-          <div className="galleryGrid">
-            {galleryImages.map((item, index) => (
-              <article
-                className={`galleryCard galleryCard${index + 1}`}
-                key={item.title}
-              >
-                <img src={item.image} alt={item.title} />
-                <span>{item.title}</span>
-              </article>
-            ))}
-          </div>
-        </section>
-      </main>
-    </div>
-  );
+.galleryArrowRight {
+  right: 28px;
+}
+
+.galleryCaption {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-family: "Playfair Display", serif;
+  font-size: 20px;
+  font-weight: 700;
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 760px) {
+  .galleryArrow {
+    width: 46px;
+    height: 46px;
+    font-size: 34px;
+  }
+
+  .galleryArrowLeft {
+    left: 10px;
+  }
+
+  .galleryArrowRight {
+    right: 10px;
+  }
+
+  .galleryClose {
+    width: 46px;
+    height: 46px;
+    top: 14px;
+    right: 14px;
+    font-size: 30px;
+  }
+
+  .galleryCaption {
+    width: calc(100% - 24px);
+    text-align: center;
+    font-size: 17px;
+    padding: 12px 18px;
+  }
 }
