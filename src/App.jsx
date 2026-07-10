@@ -50,7 +50,7 @@ const amenities = [
 
 const rooms = [
   {
-    name: "Single Bed Room",
+    name: "King Bed Room",
     roomId: "-1",
     maxGuests: 2,
     images: [singleRoom, singleTwo, single3],
@@ -97,7 +97,7 @@ const rooms = [
     ],
   },
   {
-    name: "Double Bed Room",
+    name: "Two Queen Bed Room",
     roomId: "-1",
     maxGuests: 4,
     images: [double1, double2, double3],
@@ -144,86 +144,12 @@ const rooms = [
       { icon: "⚠️", text: "Jacuzzi room: no children allowed" },
     ],
   },
-  {
-    name: "Smoking King Room",
-    roomId: "-1",
-    maxGuests: 2,
-    images: [singleRoom, singleTwo, single3],
-    details:
-      "A comfortable smoking king room designed for guests who prefer smoking accommodations with modern amenities.",
-    amenities: [
-      { icon: "👤", text: "2 Guests" },
-      { icon: "🛏", text: "California King Bed" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "🚬", text: "Smoking Room" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚬", text: "Smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-    ],
-  },
-  {
-    name: "Smoking Double Queen Bed",
-    roomId: "-1",
-    maxGuests: 4,
-    images: [double1, double2, double3],
-    details:
-      "A spacious smoking room with two queen beds, ideal for families and groups needing extra comfort.",
-    amenities: [
-      { icon: "👤", text: "4 Guests" },
-      { icon: "🛏", text: "Two Queen Size Beds" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "🚬", text: "Smoking Room" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚬", text: "Smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-    ],
-  },
-  {
-    name: "Jacuzzi Smoking",
-    roomId: "-1",
-    maxGuests: 2,
-    images: [jacuzziRoom, jacuzzi2, jacuzzi3],
-    details:
-      "A relaxing smoking Jacuzzi suite featuring a king bed and private Jacuzzi tub for a premium stay.",
-    amenities: [
-      { icon: "👤", text: "2 Guests" },
-      { icon: "🛏", text: "King Size Bed" },
-      { icon: "🛁", text: "Private bathroom" },
-      { icon: "🚬", text: "Smoking Room" },
-      { icon: "📶", text: "Free Wi-Fi" },
-      { icon: "📺", text: "Cable TV" },
-      { icon: "🍽", text: "Microwave" },
-      { icon: "🧊", text: "Refrigerator" },
-      { icon: "🛁", text: "Jacuzzi Tub" },
-    ],
-    policies: [
-      { icon: "🪪", text: "Valid ID required at check-in" },
-      { icon: "💳", text: "$100 security deposit required" },
-      { icon: "🚬", text: "Smoking room" },
-      { icon: "🚗", text: parkingPolicy },
-      { icon: "⚠️", text: "Jacuzzi room: no children allowed" },
-    ],
-  },
 ];
 
 const LOCAL_ROOMS = [
   {
     id: "single",
-    name: "Single Bed Room",
+    name: "King Bed Room",
     roomId: "-1",
     maxAdults: 2,
     maxChildren: 1,
@@ -245,7 +171,7 @@ const LOCAL_ROOMS = [
   },
   {
     id: "double",
-    name: "Double Bed Room",
+    name: "Two Queen Bed Room",
     roomId: "-1",
     maxAdults: 4,
     maxChildren: 5,
@@ -264,39 +190,6 @@ const LOCAL_ROOMS = [
     weekend: 179,
     otaWeekday: 169,
     otaWeekend: 209,
-  },
-  {
-    id: "smoking-king",
-    name: "Smoking King Room",
-    roomId: "-1",
-    maxAdults: 2,
-    maxChildren: 1,
-    weekday: 95,
-    weekend: 125,
-    otaWeekday: 119,
-    otaWeekend: 149,
-  },
-  {
-    id: "smoking-double",
-    name: "Smoking Double Queen Bed",
-    roomId: "-1",
-    maxAdults: 4,
-    maxChildren: 5,
-    weekday: 115,
-    weekend: 155,
-    otaWeekday: 145,
-    otaWeekend: 185,
-  },
-  {
-    id: "jacuzzi-smoking",
-    name: "Jacuzzi Smoking",
-    roomId: "-1",
-    maxAdults: 2,
-    maxChildren: 0,
-    weekday: 149,
-    weekend: 189,
-    otaWeekday: 179,
-    otaWeekend: 219,
   },
 ];
 
